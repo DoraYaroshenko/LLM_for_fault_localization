@@ -81,11 +81,24 @@ th {
     font-size: 0.9em;
 }
 
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ccc;
+    overflow-x: auto;
+    font-size: 0.9em;
+}
+
 code {
     background-color: #f4f4f4;
     padding: 2px 4px;
     font-family: "Courier New", Courier, monospace;
     font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
 }
 
 footer {

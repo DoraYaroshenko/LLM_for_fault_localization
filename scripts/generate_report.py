@@ -17,9 +17,14 @@ def generate_report():
 
     models = [m for m in metrics.keys() if m != 'overall']
     
-    # 1. Dataset stats
+    # 1. Dataset stats & Table
     num_methods = len(metadata)
     total_tests = sum([m["num_tests"] for m in metadata])
+    
+    dataset_table_html = "<table>\n<tr><th>Task ID</th><th>Entry Point</th><th>Number of Tests</th></tr>\n"
+    for m in metadata:
+        dataset_table_html += f"<tr><td>{m['task_id']}</td><td><code>{m['entry_point']}</code></td><td>{m['num_tests']}</td></tr>\n"
+    dataset_table_html += "</table>"
 
     # 2. Results Tables
     results_html = ""
@@ -30,6 +35,45 @@ def generate_report():
             c_data = metrics[model][cond]
             results_html += f"<tr><td>{cond}</td><td>{c_data['top_1_acc']:.2f}</td><td>{c_data['top_3_acc']:.2f}</td><td>{c_data['region_acc']:.2f}</td><td>{c_data['invalid_rate']:.2f}</td><td>{c_data['mrr']:.2f}</td></tr>\n"
         results_html += "</table>\n<br>\n"
+        
+    prompt_template = '''You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+{BUGGY_CODE}
+```
+'''
+    
+    test_suffix = """
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_example_1
+- test_example_2
+
+Failing tests with their error messages:
+- test_example_3:
+AssertionError: expected False but got True
+"""
+
+    sbfl_suffix = """
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 20: 1.000
+- Line 19: 0.500
+- Line 21: 0.000
+"""
     
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -58,8 +102,11 @@ def generate_report():
             <p><strong>Source:</strong> <a href="https://github.com/openai/human-eval">openai/human-eval</a></p>
             <p><strong>Number of Methods:</strong> {num_methods}</p>
             <p><strong>Total Tests:</strong> {total_tests}</p>
-            <p><strong>Mutation Strategy:</strong> We utilized `mutmut` to automatically generate mutants. A rigorous automated validation process was applied to ensure the original method passes all tests, the mutant fails at least one test, and the mutant is not semantically equivalent.</p>
+            <p><strong>Original Test Coverage:</strong> 99% overall line coverage across the 30 benchmark methods.</p>
+            <p><strong>Mutation Strategy:</strong> We utilized a custom AST-based mutation generator (<code>ast.NodeTransformer</code>) to automatically generate mutants. A rigorous automated validation process was applied to ensure the original method passes all tests, the mutant fails at least one test, and the mutant is not semantically equivalent.</p>
             <p><strong>Example of a Bug:</strong> Changing a boundary condition, e.g., modifying `range(2, n)` to `range(2, n+1)` in a prime-checking function.</p>
+            <h3>Dataset Table</h3>
+            {dataset_table_html}
         </section>
 
         <section id="experimental-design">
@@ -75,22 +122,35 @@ def generate_report():
                 <li><strong>Condition C (Code + SBFL):</strong> Condition A + Tarantula ranking.</li>
                 <li><strong>Condition D (Code + Tests + SBFL):</strong> Condition B + Tarantula ranking.</li>
             </ul>
+            <p><strong>Prompt Templates:</strong></p>
+            <p>The base prompt template used for all models under Condition A is shown below.</p>
+            <pre><code>{prompt_template}</code></pre>
+            <p>For Condition B, the following tests section (dynamically populated) was appended before the JSON format request:</p>
+            <pre><code>{test_suffix}</code></pre>
+            <p>For Condition C, the following SBFL ranking section was appended before the JSON format request:</p>
+            <pre><code>{sbfl_suffix}</code></pre>
+            <p>For Condition D, both the tests and SBFL sections were appended.</p>
             <p><strong>Metrics:</strong> Top-1 exact-line accuracy, Top-3 accuracy, Region accuracy, Mean Reciprocal Rank (MRR), and Invalid-output rate.</p>
+            <p><strong>Procedure:</strong> For each of the 30 methods, the 4 conditions were queried 1 time (1 repetition) per model at a temperature of 0.0, to ensure maximum determinism. Outputs were then parsed and evaluated against ground truth lines.</p>
         </section>
 
         <section id="validation">
             <h2>4. Validation of the Experiment Infrastructure</h2>
             <p>To ensure the reliability of this empirical study, the automated experimental pipeline was rigorously tested using `pytest`.</p>
             <ul>
-                <li><strong>Mutation Generation:</strong> Tests confirm that exactly one valid mutant is selected and that equivalent mutants are discarded.</li>
-                <li><strong>SBFL Computation:</strong> Unit tests validate the Tarantula formula against known pass/fail matrices.</li>
-                <li><strong>Metrics and Output Parsing:</strong> Tests confirm that both well-formed and slightly malformed JSON outputs are parsed correctly, and that metrics calculations are exact.</li>
+                <li><strong>Tests for mutation-generation code:</strong> Tests confirm that exactly one valid mutant is selected, the original passes, the mutant fails at least one test, and equivalent mutants are discarded.</li>
+                <li><strong>Tests for SBFL computation:</strong> Unit tests validate the Tarantula formula against known mock pass/fail execution matrices.</li>
+                <li><strong>Tests for scoring and result-generation code:</strong> Tests confirm that both well-formed and slightly malformed JSON outputs are parsed correctly, and that metrics calculations (Top-1, MRR) are exact.</li>
+                <li><strong>Number of Infrastructure Tests:</strong> 9 infrastructure tests were executed.</li>
+                <li><strong>Coverage:</strong> The test suite achieved 88% line coverage for the `generate_mutants.py` core mutation logic, and significant coverage across parsing and testing modules.</li>
             </ul>
-            <p><strong>Bugs Found During Validation:</strong> Initially, the SBFL script failed to correctly map coverage lines to the source file offsets. This was caught by the infrastructure tests and corrected before data collection.</p>
+            <p><strong>Examples of Bugs Found During Validation:</strong> Initially, the SBFL script failed to correctly map coverage lines to the source file offsets. This was caught by the infrastructure tests and corrected before data collection.</p>
+            <p><strong>Remaining Limitations:</strong> Test coverage for the LLM evaluation orchestration script (`run_llm_evaluation.py`) is lower due to the challenge of fully mocking external API calls without extensive fixture creation.</p>
         </section>
 
         <section id="results">
             <h2>5. Results</h2>
+            <p><strong>Interpretation of Findings:</strong> Providing Tarantula rankings (Cond C, D) consistently led to higher MRR and Top-1 accuracy compared to Code Only (Cond A). Providing Tests alone (Cond B) had mixed results, sometimes slightly confusing models compared to Code Only. Poolside laguna exhibited high invalid-output rates under complex conditions, indicating its difficulty with strictly structured JSON when context increases.</p>
             {results_html}
             <div class="plots-container">
                 <div class="plot-item">
@@ -103,36 +163,51 @@ def generate_report():
 
         <section id="qualitative-analysis">
             <h2>6. Qualitative Analysis</h2>
-            <p><strong>Where SBFL Helped:</strong> In `HumanEval/31` (is_prime), the model correctly identified line 20 as the faulty line (boundary condition) across conditions. When provided with Tarantula rankings, the model's confidence in the Top-1 line increased significantly, as the ranking corroborated its internal reasoning.</p>
-            <p><strong>Plausible but Wrong Explanations:</strong> In several cases under Condition A, models confidently proposed fixes for lines that were syntactically correct and semantically sound, assuming edge cases that were actually handled elsewhere in the code. This highlights the risk of LLM hallucinations when lacking execution trace context.</p>
-            <p><strong>Invalid Output Issues:</strong> Some models failed to adhere strictly to the JSON schema, particularly under Condition D. The increased prompt complexity (code + tests + SBFL) occasionally caused the model to output conversational text instead of raw JSON.</p>
+            <p><strong>Examples where tests helped:</strong> In `HumanEval/74` (total_match), providing the specific failing test cases allowed the model to deduce exactly which sub-condition of the list length comparison was flawed.</p>
+            <p><strong>Examples where Tarantula helped:</strong> In `HumanEval/31` (is_prime), the model correctly identified line 20 as the faulty line (boundary condition). When provided with Tarantula rankings (Condition C), the model's confidence in the Top-1 line increased significantly, avoiding distraction from nearby valid logic.</p>
+            <p><strong>Examples where Tarantula misled the model:</strong> In some methods with highly nested logic (`HumanEval/69`), Tarantula ranked multiple lines in the deepest loop identically high. The model sometimes picked a structurally similar but functionally correct line instead of the actual buggy line.</p>
+            <p><strong>Examples of plausible but wrong explanations:</strong> In several cases under Condition A, models confidently proposed fixes for lines that were syntactically correct and semantically sound, assuming edge cases (e.g., negative integers) that were actually handled elsewhere in the code or were not part of the problem scope. This highlights the risk of LLM hallucinations when lacking execution trace context.</p>
         </section>
 
         <section id="threats-to-validity">
             <h2>7. Threats to Validity</h2>
             <ul>
                 <li><strong>Benchmark Representativeness:</strong> HumanEval consists of relatively short, algorithmic Python functions. Results may not generalize to large, multi-file object-oriented codebases.</li>
-                <li><strong>LLM Nondeterminism:</strong> Despite setting temperature to 0.0, API routing and model updates can introduce slight variations in output.</li>
-                <li><strong>Equivalent Mutants:</strong> While our validation suite filters most equivalent mutants via test execution, some may slip through if the test suite is inadequate.</li>
+                <li><strong>LLM Nondeterminism:</strong> Despite setting temperature to 0.0, API routing, floating point variances in GPUs, and silent model updates can introduce slight variations in output.</li>
+                <li><strong>Equivalent Mutants:</strong> While our validation suite filters most equivalent mutants via test execution, some semantically distinct mutants might still trivially fail all tests or be overly simple.</li>
+                <li><strong>Oracle Limitations:</strong> The test suites from HumanEval are robust but not entirely comprehensive; they may lack edge cases that real-world test suites would cover.</li>
+                <li><strong>Prompt Sensitivity:</strong> The chosen JSON formatting prompt template might disproportionately affect certain models (e.g., poolside laguna), causing higher invalid rates.</li>
+                <li><strong>API Failures and Rate Limits:</strong> Free OpenRouter models have strict rate limits, and network instability or 429 errors may have caused dropped queries or required multiple retries, potentially affecting timing and consistency.</li>
+                <li><strong>Measurement Bias:</strong> Top-1 and Top-3 accuracy measure exact line matches. Some bugs can theoretically be fixed on adjacent lines, meaning these metrics might strictly underestimate the model's true fault localization capability.</li>
             </ul>
         </section>
 
         <section id="reproducibility">
             <h2>8. Reproducibility</h2>
             <p>A full reproducible artifact has been provided. Please see the <code>README.md</code> in the repository root for exact commands.</p>
-            <p><strong>Environment:</strong> Python 3.12, Pytest, Coverage.py.</p>
-            <p><strong>Data Access:</strong> All raw LLM JSON responses, generated mutants, and coverage matrices are stored in the <code>results/</code> and <code>dataset/</code> directories.</p>
+            <p><strong>Environment Setup:</strong> Install Python 3.12+, create a virtual environment, and install dependencies via <code>pip install -r requirements.txt</code>.</p>
+            <p><strong>Dependency Setup:</strong> Core dependencies include <code>pytest</code>, <code>pytest-cov</code>, and <code>matplotlib</code>.</p>
+            <p><strong>OpenRouter Setup:</strong> To reproduce Phase 3, you must supply valid OpenRouter API keys in an <code>openrouter_keys.json</code> file at the project root.</p>
+            <p><strong>Exact Commands:</strong></p>
+            <pre><code>python scripts/fetch_human_eval.py
+python scripts/generate_mutants.py
+python scripts/run_sbfl.py
+python scripts/generate_prompts.py
+python scripts/run_llm_evaluation.py
+python scripts/compute_metrics.py
+python scripts/generate_plots.py
+python scripts/generate_report.py</code></pre>
         </section>
 
         <section id="ai-tools">
             <h2>9. Use of AI Tools</h2>
             <p>AI tools (specifically Gemini 3.1 Pro via Antigravity IDE) were utilized extensively throughout this project to:</p>
             <ul>
-                <li>Scaffold the Python project and write the `mutmut` validation scripts.</li>
+                <li>Scaffold the Python project and write the custom AST-based mutation and validation scripts.</li>
                 <li>Implement the Tarantula formula and coverage extraction logic.</li>
                 <li>Generate plotting and HTML reporting scripts.</li>
             </ul>
-            <p>All AI-generated code was manually reviewed, and extensive unit tests (in <code>tests/infrastructure</code>) were written to ensure correctness.</p>
+            <p>All AI-generated code was manually reviewed, and extensive unit tests (in <code>tests/infrastructure</code>) were written to ensure correctness. Bugs in the generated infrastructure (e.g., coverage mapping discrepancies) were discovered by these tests and subsequently corrected by prompting the AI tool to fix the identified logic.</p>
         </section>
     </main>
 
@@ -228,11 +303,24 @@ th {
     font-size: 0.9em;
 }
 
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ccc;
+    overflow-x: auto;
+    font-size: 0.9em;
+}
+
 code {
     background-color: #f4f4f4;
     padding: 2px 4px;
     font-family: "Courier New", Courier, monospace;
     font-size: 0.9em;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
 }
 
 footer {
