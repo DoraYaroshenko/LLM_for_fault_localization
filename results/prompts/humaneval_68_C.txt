@@ -1,0 +1,65 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def pluck(arr):
+ 2:     """
+ 3:     "Given an array representing a branch of a tree that has non-negative integer nodes
+ 4:     your task is to pluck one of the nodes and return it.
+ 5:     The plucked node should be the node with the smallest even value.
+ 6:     If multiple nodes with the same smallest even value are found return the node that has smallest index.
+ 7: 
+ 8:     The plucked node should be returned in a list, [ smalest_value, its index ],
+ 9:     If there are no even values or the given array is empty, return [].
+10: 
+11:     Example 1:
+12:         Input: [4,2,3]
+13:         Output: [2, 1]
+14:         Explanation: 2 has the smallest even value, and 2 has the smallest index.
+15: 
+16:     Example 2:
+17:         Input: [1,2,3]
+18:         Output: [2, 1]
+19:         Explanation: 2 has the smallest even value, and 2 has the smallest index. 
+20: 
+21:     Example 3:
+22:         Input: []
+23:         Output: []
+24:     
+25:     Example 4:
+26:         Input: [5, 0, 3, 0, 4, 2]
+27:         Output: [0, 1]
+28:         Explanation: 0 is the smallest value, but  there are two zeros,
+29:                      so we will choose the first zero, which has the smallest index.
+30: 
+31:     Constraints:
+32:         * 1 <= nodes.length <= 10000
+33:         * 0 <= node.value
+34:     """
+35:     if len(arr) != 0:
+36:         return []
+37:     evens = list(filter(lambda x: x % 2 == 0, arr))
+38:     if evens == []:
+39:         return []
+40:     return [min(evens), arr.index(min(evens))]```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 36: 0.800
+- Line 35: 0.667
+- Line 1: 0.000
+- Line 37: 0.000
+- Line 38: 0.000
+- Line 39: 0.000
+
+Provide your JSON response below.

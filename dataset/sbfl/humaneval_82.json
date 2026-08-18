@@ -1,0 +1,23 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "13": 1.0,
+    "16": 1.0,
+    "10": 0.5,
+    "11": 0.5,
+    "12": 0.47619047619047616
+  },
+  "failing_tests": {
+    "test_prime_length_0": "tests\\test_humaneval_82.py:5: in test_prime_length_0\n    assert prime_length('Hello') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('Hello')",
+    "test_prime_length_1": "tests\\test_humaneval_82.py:7: in test_prime_length_1\n    assert prime_length('abcdcba') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('abcdcba')",
+    "test_prime_length_2": "tests\\test_humaneval_82.py:9: in test_prime_length_2\n    assert prime_length('kittens') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('kittens')",
+    "test_prime_length_4": "tests\\test_humaneval_82.py:13: in test_prime_length_4\n    assert prime_length('wow') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('wow')",
+    "test_prime_length_5": "tests\\test_humaneval_82.py:15: in test_prime_length_5\n    assert prime_length('world') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('world')",
+    "test_prime_length_6": "tests\\test_humaneval_82.py:17: in test_prime_length_6\n    assert prime_length('MadaM') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('MadaM')",
+    "test_prime_length_7": "tests\\test_humaneval_82.py:19: in test_prime_length_7\n    assert prime_length('Wow') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('Wow')",
+    "test_prime_length_8": "tests\\test_humaneval_82.py:21: in test_prime_length_8\n    assert prime_length('') == False\nE   AssertionError: assert True == False\nE    +  where True = prime_length('')",
+    "test_prime_length_9": "tests\\test_humaneval_82.py:23: in test_prime_length_9\n    assert prime_length('HI') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('HI')",
+    "test_prime_length_10": "tests\\test_humaneval_82.py:25: in test_prime_length_10\n    assert prime_length('go') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('go')",
+    "test_prime_length_13": "tests\\test_humaneval_82.py:31: in test_prime_length_13\n    assert prime_length('Madam') == True\nE   AssertionError: assert False == True\nE    +  where False = prime_length('Madam')"
+  }
+}

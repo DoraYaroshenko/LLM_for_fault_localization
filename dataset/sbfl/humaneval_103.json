@@ -1,0 +1,14 @@
+{
+  "tarantula": {
+    "13": 0.8461538461538461,
+    "12": 0.5,
+    "1": 0.0,
+    "14": 0.0,
+    "15": 0.0,
+    "16": 0.0,
+    "17": 0.0
+  },
+  "failing_tests": {
+    "test_rounded_avg_11": "tests\\test_humaneval_103.py:27: in test_rounded_avg_11\n    assert rounded_avg(5, 5) == '0b101'\nE   AssertionError: assert -1 == '0b101'\nE    +  where -1 = rounded_avg(5, 5)"
+  }
+}

@@ -1,0 +1,39 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def get_closest_vowel(word):
+ 2:     """You are given a word. Your task is to find the closest vowel that stands between 
+ 3:     two consonants from the right side of the word (case sensitive).
+ 4:     
+ 5:     Vowels in the beginning and ending doesn't count. Return empty string if you didn't
+ 6:     find any vowel met the above condition. 
+ 7: 
+ 8:     You may assume that the given string contains English letter only.
+ 9: 
+10:     Example:
+11:     get_closest_vowel("yogurt") ==> "u"
+12:     get_closest_vowel("FULL") ==> "U"
+13:     get_closest_vowel("quick") ==> ""
+14:     get_closest_vowel("ab") ==> ""
+15:     """
+16:     if len(word) <= 3:
+17:         return ''
+18:     vowels = {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'O', 'U', 'I'}
+19:     for i in range(len(word) - 2, 0, -1):
+20:         if word[i] in vowels:
+21:             if word[i + 1] not in vowels and word[i - 1] not in vowels:
+22:                 return word[i]
+23:     return ''```
+
+Provide your JSON response below.

@@ -1,0 +1,35 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def minSubArraySum(nums):
+ 2:     """
+ 3:     Given an array of integers nums, find the minimum sum of any non-empty sub-array
+ 4:     of nums.
+ 5:     Example
+ 6:     minSubArraySum([2, 3, 4, 1, 2, 4]) == 1
+ 7:     minSubArraySum([-1, -2, -3]) == -6
+ 8:     """
+ 9:     max_sum = 0
+10:     s = 0
+11:     for num in nums:
+12:         s += -num
+13:         if s <= 0:
+14:             s = 0
+15:         max_sum = max(s, max_sum)
+16:     if max_sum != 0:
+17:         max_sum = max((-i for i in nums))
+18:     min_sum = -max_sum
+19:     return min_sum```
+
+Provide your JSON response below.

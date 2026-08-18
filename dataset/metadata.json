@@ -1,0 +1,218 @@
+[
+  {
+    "task_id": "HumanEval/31",
+    "safe_id": "humaneval_31",
+    "entry_point": "is_prime",
+    "num_tests": 13
+  },
+  {
+    "task_id": "HumanEval/39",
+    "safe_id": "humaneval_39",
+    "entry_point": "prime_fib",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/56",
+    "safe_id": "humaneval_56",
+    "entry_point": "correct_bracketing",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/61",
+    "safe_id": "humaneval_61",
+    "entry_point": "correct_bracketing",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/66",
+    "safe_id": "humaneval_66",
+    "entry_point": "digitSum",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/68",
+    "safe_id": "humaneval_68",
+    "entry_point": "pluck",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/69",
+    "safe_id": "humaneval_69",
+    "entry_point": "search",
+    "num_tests": 25
+  },
+  {
+    "task_id": "HumanEval/70",
+    "safe_id": "humaneval_70",
+    "entry_point": "strange_sort_list",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/74",
+    "safe_id": "humaneval_74",
+    "entry_point": "total_match",
+    "num_tests": 11
+  },
+  {
+    "task_id": "HumanEval/75",
+    "safe_id": "humaneval_75",
+    "entry_point": "is_multiply_prime",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/76",
+    "safe_id": "humaneval_76",
+    "entry_point": "is_simple_power",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/82",
+    "safe_id": "humaneval_82",
+    "entry_point": "prime_length",
+    "num_tests": 16
+  },
+  {
+    "task_id": "HumanEval/92",
+    "safe_id": "humaneval_92",
+    "entry_point": "any_int",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/96",
+    "safe_id": "humaneval_96",
+    "entry_point": "count_up_to",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/103",
+    "safe_id": "humaneval_103",
+    "entry_point": "rounded_avg",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/114",
+    "safe_id": "humaneval_114",
+    "entry_point": "minSubArraySum",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/116",
+    "safe_id": "humaneval_116",
+    "entry_point": "sort_array",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/118",
+    "safe_id": "humaneval_118",
+    "entry_point": "get_closest_vowel",
+    "num_tests": 14
+  },
+  {
+    "task_id": "HumanEval/119",
+    "safe_id": "humaneval_119",
+    "entry_point": "match_parens",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/120",
+    "safe_id": "humaneval_120",
+    "entry_point": "maximum",
+    "num_tests": 11
+  },
+  {
+    "task_id": "HumanEval/124",
+    "safe_id": "humaneval_124",
+    "entry_point": "valid_date",
+    "num_tests": 16
+  },
+  {
+    "task_id": "HumanEval/126",
+    "safe_id": "humaneval_126",
+    "entry_point": "is_sorted",
+    "num_tests": 13
+  },
+  {
+    "task_id": "HumanEval/128",
+    "safe_id": "humaneval_128",
+    "entry_point": "prod_signs",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/129",
+    "safe_id": "humaneval_129",
+    "entry_point": "minPath",
+    "num_tests": 11
+  },
+  {
+    "task_id": "HumanEval/130",
+    "safe_id": "humaneval_130",
+    "entry_point": "tri",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/132",
+    "safe_id": "humaneval_132",
+    "entry_point": "is_nested",
+    "num_tests": 14
+  },
+  {
+    "task_id": "HumanEval/133",
+    "safe_id": "humaneval_133",
+    "entry_point": "sum_squares",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/134",
+    "safe_id": "humaneval_134",
+    "entry_point": "check_if_last_char_is_a_letter",
+    "num_tests": 11
+  },
+  {
+    "task_id": "HumanEval/136",
+    "safe_id": "humaneval_136",
+    "entry_point": "largest_smallest_integers",
+    "num_tests": 12
+  },
+  {
+    "task_id": "HumanEval/141",
+    "safe_id": "humaneval_141",
+    "entry_point": "file_name_check",
+    "num_tests": 26
+  },
+  {
+    "task_id": "HumanEval/142",
+    "safe_id": "humaneval_142",
+    "entry_point": "sum_squares",
+    "num_tests": 11
+  },
+  {
+    "task_id": "HumanEval/144",
+    "safe_id": "humaneval_144",
+    "entry_point": "simplify",
+    "num_tests": 13
+  },
+  {
+    "task_id": "HumanEval/150",
+    "safe_id": "humaneval_150",
+    "entry_point": "x_or_y",
+    "num_tests": 10
+  },
+  {
+    "task_id": "HumanEval/156",
+    "safe_id": "humaneval_156",
+    "entry_point": "int_to_mini_roman",
+    "num_tests": 15
+  },
+  {
+    "task_id": "HumanEval/157",
+    "safe_id": "humaneval_157",
+    "entry_point": "right_angle_triangle",
+    "num_tests": 11
+  },
+  {
+    "task_id": "HumanEval/158",
+    "safe_id": "humaneval_158",
+    "entry_point": "find_max",
+    "num_tests": 10
+  }
+]

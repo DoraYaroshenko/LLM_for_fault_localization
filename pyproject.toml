@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-fault-localization"
+version = "0.1.0"
+description = "Assignment 2: LLMs for Fault Localization"
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "mutmut",
+    "requests",
+    "python-dotenv",
+    "openai",
+    "matplotlib",
+    "seaborn",
+    "human-eval"
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=src"
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.mutmut]
+paths_to_mutate="src/"
+backup=false
+runner="python -m pytest"
+tests_dir="tests/"

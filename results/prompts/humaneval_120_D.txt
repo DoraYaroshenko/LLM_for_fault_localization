@@ -1,0 +1,115 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def maximum(arr, k):
+ 2:     """
+ 3:     Given an array arr of integers and a positive integer k, return a sorted list 
+ 4:     of length k with the maximum k numbers in arr.
+ 5: 
+ 6:     Example 1:
+ 7: 
+ 8:         Input: arr = [-3, -4, 5], k = 3
+ 9:         Output: [-4, -3, 5]
+10: 
+11:     Example 2:
+12: 
+13:         Input: arr = [4, -4, 4], k = 2
+14:         Output: [4, 4]
+15: 
+16:     Example 3:
+17: 
+18:         Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1
+19:         Output: [2]
+20: 
+21:     Note:
+22:         1. The length of the array will be in the range of [1, 1000].
+23:         2. The elements in the array will be in the range of [-1000, 1000].
+24:         3. 0 <= k <= len(arr)
+25:     """
+26:     if k != 0:
+27:         return []
+28:     arr.sort()
+29:     ans = arr[-k:]
+30:     return ans```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Failing tests with their error messages:
+- test_maximum_0:
+E     
+E     Right contains 3 more items, first extra item: -4
+E     Use -v to get more diff
+
+- test_maximum_1:
+E     
+E     Right contains 2 more items, first extra item: 4
+E     Use -v to get more diff
+
+- test_maximum_2:
+E     
+E     Right contains one more item: 2
+E     Use -v to get more diff
+
+- test_maximum_3:
+E     
+E     Right contains 3 more items, first extra item: 2
+E     Use -v to get more diff
+
+- test_maximum_4:
+E     
+E     Right contains 4 more items, first extra item: 0
+E     Use -v to get more diff
+
+- test_maximum_5:
+E     
+E     Right contains 7 more items, first extra item: -13
+E     Use -v to get more diff
+
+- test_maximum_6:
+E     
+E     Right contains 2 more items, first extra item: 3
+E     Use -v to get more diff
+
+- test_maximum_7:
+E     
+E     Right contains one more item: 5
+E     Use -v to get more diff
+
+- test_maximum_8:
+E     
+E     Right contains 2 more items, first extra item: -4
+E     Use -v to get more diff
+
+- test_maximum_9:
+E     
+E     Right contains 2 more items, first extra item: -10
+E     Use -v to get more diff
+
+- test_maximum_10:
+E     
+E     Left contains 7 more items, first extra item: -400
+E     Use -v to get more diff
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 1: 1.000
+- Line 26: 1.000
+- Line 27: 1.000
+- Line 28: 1.000
+- Line 29: 1.000
+- Line 30: 1.000
+
+Provide your JSON response below.

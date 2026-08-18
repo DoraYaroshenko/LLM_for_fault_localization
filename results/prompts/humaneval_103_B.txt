@@ -1,0 +1,56 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def rounded_avg(n, m):
+ 2:     """You are given two positive integers n and m, and your task is to compute the
+ 3:     average of the integers from n through m (including n and m). 
+ 4:     Round the answer to the nearest integer and convert that to binary.
+ 5:     If n is greater than m, return -1.
+ 6:     Example:
+ 7:     rounded_avg(1, 5) => "0b11"
+ 8:     rounded_avg(7, 5) => -1
+ 9:     rounded_avg(10, 20) => "0b1111"
+10:     rounded_avg(20, 33) => "0b11010"
+11:     """
+12:     if m <= n:
+13:         return -1
+14:     summation = 0
+15:     for i in range(n, m + 1):
+16:         summation += i
+17:     return bin(round(summation / (m - n + 1)))```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_rounded_avg_0
+- test_rounded_avg_1
+- test_rounded_avg_2
+- test_rounded_avg_3
+- test_rounded_avg_4
+- test_rounded_avg_5
+- test_rounded_avg_6
+- test_rounded_avg_7
+- test_rounded_avg_8
+- test_rounded_avg_9
+- test_rounded_avg_10
+
+Failing tests with their error messages:
+- test_rounded_avg_11:
+    assert rounded_avg(5, 5) == '0b101'
+E   AssertionError: assert -1 == '0b101'
+E    +  where -1 = rounded_avg(5, 5)
+
+
+Provide your JSON response below.

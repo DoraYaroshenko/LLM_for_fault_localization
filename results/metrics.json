@@ -1,0 +1,136 @@
+{
+  "cohere_north-mini-code_free": {
+    "A": {
+      "total": 30,
+      "top_1": 4,
+      "top_3": 16,
+      "region": 22,
+      "mrr_sum": 9.166666666666666,
+      "invalid": 3,
+      "top_1_acc": 0.13333333333333333,
+      "top_3_acc": 0.5333333333333333,
+      "region_acc": 0.7333333333333333,
+      "invalid_rate": 0.1,
+      "mrr": 0.3055555555555555
+    },
+    "B": {
+      "total": 30,
+      "top_1": 3,
+      "top_3": 15,
+      "region": 22,
+      "mrr_sum": 8.5,
+      "invalid": 6,
+      "top_1_acc": 0.1,
+      "top_3_acc": 0.5,
+      "region_acc": 0.7333333333333333,
+      "invalid_rate": 0.2,
+      "mrr": 0.2833333333333333
+    },
+    "C": {
+      "total": 30,
+      "top_1": 9,
+      "top_3": 17,
+      "region": 18,
+      "mrr_sum": 12.666666666666666,
+      "invalid": 3,
+      "top_1_acc": 0.3,
+      "top_3_acc": 0.5666666666666667,
+      "region_acc": 0.6,
+      "invalid_rate": 0.1,
+      "mrr": 0.4222222222222222
+    },
+    "D": {
+      "total": 30,
+      "top_1": 9,
+      "top_3": 21,
+      "region": 21,
+      "mrr_sum": 14.500000000000002,
+      "invalid": 1,
+      "top_1_acc": 0.3,
+      "top_3_acc": 0.7,
+      "region_acc": 0.7,
+      "invalid_rate": 0.03333333333333333,
+      "mrr": 0.4833333333333334
+    },
+    "overall": {
+      "total": 120,
+      "top_1": 25,
+      "top_3": 69,
+      "region": 83,
+      "mrr_sum": 44.833333333333336,
+      "invalid": 13,
+      "top_1_acc": 0.20833333333333334,
+      "top_3_acc": 0.575,
+      "region_acc": 0.6916666666666667,
+      "invalid_rate": 0.10833333333333334,
+      "mrr": 0.3736111111111111
+    }
+  },
+  "poolside_laguna-s-2.1_free": {
+    "A": {
+      "total": 30,
+      "top_1": 1,
+      "top_3": 8,
+      "region": 21,
+      "mrr_sum": 4.0,
+      "invalid": 7,
+      "top_1_acc": 0.03333333333333333,
+      "top_3_acc": 0.26666666666666666,
+      "region_acc": 0.7,
+      "invalid_rate": 0.23333333333333334,
+      "mrr": 0.13333333333333333
+    },
+    "B": {
+      "total": 30,
+      "top_1": 4,
+      "top_3": 12,
+      "region": 22,
+      "mrr_sum": 7.666666666666666,
+      "invalid": 7,
+      "top_1_acc": 0.13333333333333333,
+      "top_3_acc": 0.4,
+      "region_acc": 0.7333333333333333,
+      "invalid_rate": 0.23333333333333334,
+      "mrr": 0.25555555555555554
+    },
+    "C": {
+      "total": 30,
+      "top_1": 4,
+      "top_3": 13,
+      "region": 16,
+      "mrr_sum": 7.833333333333333,
+      "invalid": 13,
+      "top_1_acc": 0.13333333333333333,
+      "top_3_acc": 0.43333333333333335,
+      "region_acc": 0.5333333333333333,
+      "invalid_rate": 0.43333333333333335,
+      "mrr": 0.2611111111111111
+    },
+    "D": {
+      "total": 30,
+      "top_1": 3,
+      "top_3": 12,
+      "region": 14,
+      "mrr_sum": 6.833333333333333,
+      "invalid": 15,
+      "top_1_acc": 0.1,
+      "top_3_acc": 0.4,
+      "region_acc": 0.4666666666666667,
+      "invalid_rate": 0.5,
+      "mrr": 0.22777777777777777
+    },
+    "overall": {
+      "total": 120,
+      "top_1": 12,
+      "top_3": 45,
+      "region": 73,
+      "mrr_sum": 26.33333333333333,
+      "invalid": 42,
+      "top_1_acc": 0.1,
+      "top_3_acc": 0.375,
+      "region_acc": 0.6083333333333333,
+      "invalid_rate": 0.35,
+      "mrr": 0.21944444444444441
+    }
+  }
+}

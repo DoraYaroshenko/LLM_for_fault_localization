@@ -1,0 +1,14 @@
+{
+  "tarantula": {
+    "21": 0.6153846153846154,
+    "20": 0.5333333333333333,
+    "19": 0.5,
+    "1": 0.0,
+    "22": 0.0,
+    "23": 0.0
+  },
+  "failing_tests": {
+    "test_any_int_2": "tests\\test_humaneval_92.py:9: in test_any_int_2\n    assert any_int(1.5, 5, 3.5) == False, 'This prints if this assert fails 3 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 3 (good for debugging!)\nE   assert True == False\nE    +  where True = any_int(1.5, 5, 3.5)",
+    "test_any_int_9": "tests\\test_humaneval_92.py:23: in test_any_int_9\n    assert any_int(3.0, 4, 7) == False, 'This prints if this assert fails 10 (also good for debugging!)'\nE   AssertionError: This prints if this assert fails 10 (also good for debugging!)\nE   assert True == False\nE    +  where True = any_int(3.0, 4, 7)"
+  }
+}

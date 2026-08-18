@@ -1,0 +1,38 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def correct_bracketing(brackets: str):
+ 2:     """ brackets is a string of "(" and ")".
+ 3:     return True if every opening bracket has a corresponding closing bracket.
+ 4: 
+ 5:     >>> correct_bracketing("(")
+ 6:     False
+ 7:     >>> correct_bracketing("()")
+ 8:     True
+ 9:     >>> correct_bracketing("(()())")
+10:     True
+11:     >>> correct_bracketing(")(()")
+12:     False
+13:     """
+14:     depth = 0
+15:     for b in brackets:
+16:         if b != '(':
+17:             depth += 1
+18:         else:
+19:             depth -= 1
+20:         if depth < 0:
+21:             return False
+22:     return depth == 0```
+
+Provide your JSON response below.

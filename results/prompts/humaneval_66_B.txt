@@ -1,0 +1,77 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def digitSum(s):
+ 2:     """Task
+ 3:     Write a function that takes a string as input and returns the sum of the upper characters only'
+ 4:     ASCII codes.
+ 5: 
+ 6:     Examples:
+ 7:         digitSum("") => 0
+ 8:         digitSum("abAB") => 131
+ 9:         digitSum("abcCd") => 67
+10:         digitSum("helloE") => 69
+11:         digitSum("woArBld") => 131
+12:         digitSum("aAaaaXa") => 153
+13:     """
+14:     if s != '':
+15:         return 0
+16:     return sum((ord(char) if char.isupper() else 0 for char in s))```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_digitSum_0
+- test_digitSum_1
+- test_digitSum_7
+
+Failing tests with their error messages:
+- test_digitSum_2:
+E   AssertionError: Error
+E   assert 0 == 131
+E    +  where 0 = digitSum('abAB')
+
+- test_digitSum_3:
+E   AssertionError: Error
+E   assert 0 == 67
+E    +  where 0 = digitSum('abcCd')
+
+- test_digitSum_4:
+E   AssertionError: Error
+E   assert 0 == 69
+E    +  where 0 = digitSum('helloE')
+
+- test_digitSum_5:
+E   AssertionError: Error
+E   assert 0 == 131
+E    +  where 0 = digitSum('woArBld')
+
+- test_digitSum_6:
+E   AssertionError: Error
+E   assert 0 == 153
+E    +  where 0 = digitSum('aAaaaXa')
+
+- test_digitSum_8:
+E   AssertionError: Error
+E   assert 0 == 151
+E    +  where 0 = digitSum(' How are yOu?')
+
+- test_digitSum_9:
+E   AssertionError: Error
+E   assert 0 == 327
+E    +  where 0 = digitSum('You arE Very Smart')
+
+
+Provide your JSON response below.

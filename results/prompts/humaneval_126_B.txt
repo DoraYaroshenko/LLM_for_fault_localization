@@ -1,0 +1,65 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def is_sorted(lst):
+ 2:     """
+ 3:     Given a list of numbers, return whether or not they are sorted
+ 4:     in ascending order. If list has more than 1 duplicate of the same
+ 5:     number, return False. Assume no negative numbers and only integers.
+ 6: 
+ 7:     Examples
+ 8:     is_sorted([5]) ➞ True
+ 9:     is_sorted([1, 2, 3, 4, 5]) ➞ True
+10:     is_sorted([1, 3, 2, 4, 5]) ➞ False
+11:     is_sorted([1, 2, 3, 4, 5, 6]) ➞ True
+12:     is_sorted([1, 2, 3, 4, 5, 6, 7]) ➞ True
+13:     is_sorted([1, 3, 2, 4, 5, 6, 7]) ➞ False
+14:     is_sorted([1, 2, 2, 3, 3, 4]) ➞ True
+15:     is_sorted([1, 2, 2, 2, 3, 4]) ➞ False
+16:     """
+17:     count_digit = dict([(i, 0) for i in lst])
+18:     for i in lst:
+19:         count_digit[i] += 1
+20:     if any((count_digit[i] >= 2 for i in lst)):
+21:         return False
+22:     if all((lst[i - 1] <= lst[i] for i in range(1, len(lst)))):
+23:         return True
+24:     else:
+25:         return False```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_is_sorted_0
+- test_is_sorted_1
+- test_is_sorted_2
+- test_is_sorted_3
+- test_is_sorted_4
+- test_is_sorted_5
+- test_is_sorted_6
+- test_is_sorted_7
+- test_is_sorted_8
+- test_is_sorted_9
+- test_is_sorted_10
+- test_is_sorted_12
+
+Failing tests with their error messages:
+- test_is_sorted_11:
+E   AssertionError: This prints if this assert fails 7 (good for debugging!)
+E   assert False == True
+E    +  where False = is_sorted([1, 2, 2, 3, 3, 4])
+
+
+Provide your JSON response below.

@@ -1,0 +1,16 @@
+{
+  "tarantula": {
+    "17": 0.8125,
+    "16": 0.52,
+    "1": 0.0,
+    "18": 0.0,
+    "19": 0.0,
+    "20": 0.0,
+    "21": 0.0,
+    "22": 0.0,
+    "23": 0.0
+  },
+  "failing_tests": {
+    "test_get_closest_vowel_5": "tests\\test_humaneval_118.py:15: in test_get_closest_vowel_5\n    assert get_closest_vowel('bad') == 'a'\nE   AssertionError: assert '' == 'a'\nE     \nE     - a"
+  }
+}

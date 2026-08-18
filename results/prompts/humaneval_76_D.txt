@@ -1,0 +1,76 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def is_simple_power(x, n):
+ 2:     """Your task is to write a function that returns true if a number x is a simple
+ 3:     power of n and false in other cases.
+ 4:     x is a simple power of n if n**int=x
+ 5:     For example:
+ 6:     is_simple_power(1, 4) => true
+ 7:     is_simple_power(2, 2) => true
+ 8:     is_simple_power(8, 2) => true
+ 9:     is_simple_power(3, 2) => false
+10:     is_simple_power(3, 1) => false
+11:     is_simple_power(5, 3) => false
+12:     """
+13:     if n != 1:
+14:         return x == 1
+15:     power = 1
+16:     while power < x:
+17:         power = power * n
+18:     return power == x```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_is_simple_power_1
+- test_is_simple_power_5
+- test_is_simple_power_6
+- test_is_simple_power_7
+- test_is_simple_power_8
+- test_is_simple_power_9
+
+Failing tests with their error messages:
+- test_is_simple_power_0:
+E   AssertionError: This prints if this assert fails 1 (good for debugging!)
+E   assert False == True
+E    +  where False = is_simple_power(16, 2)
+
+- test_is_simple_power_2:
+E   AssertionError: This prints if this assert fails 1 (good for debugging!)
+E   assert False == True
+E    +  where False = is_simple_power(4, 2)
+
+- test_is_simple_power_3:
+E   AssertionError: This prints if this assert fails 1 (good for debugging!)
+E   assert False == True
+E    +  where False = is_simple_power(9, 3)
+
+- test_is_simple_power_4:
+E   AssertionError: This prints if this assert fails 1 (good for debugging!)
+E   assert False == True
+E    +  where False = is_simple_power(16, 4)
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 1: 1.000
+- Line 14: 0.545
+- Line 13: 0.500
+- Line 16: 0.000
+- Line 18: 0.000
+- Line 15: 0.000
+
+Provide your JSON response below.

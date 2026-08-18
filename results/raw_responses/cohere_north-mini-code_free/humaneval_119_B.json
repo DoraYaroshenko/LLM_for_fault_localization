@@ -1,0 +1,12 @@
+{
+  "model_id": "cohere/north-mini-code:free",
+  "execution_time": "2026-08-17T18:35:58.302265+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "repetitions": 1,
+  "errors": [
+    "HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out."
+  ],
+  "raw_response": "HTTPSConnectionPool(host='openrouter.ai', port=443): Read timed out."
+}

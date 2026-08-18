@@ -1,0 +1,19 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "19": 0.5333333333333333,
+    "21": 0.5333333333333333,
+    "14": 0.5,
+    "15": 0.5,
+    "16": 0.5,
+    "20": 0.5,
+    "17": 0.0,
+    "22": 0.0
+  },
+  "failing_tests": {
+    "test_correct_bracketing_0": "tests\\test_humaneval_56.py:5: in test_correct_bracketing_0\n    assert correct_bracketing('<>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<>')",
+    "test_correct_bracketing_1": "tests\\test_humaneval_56.py:7: in test_correct_bracketing_1\n    assert correct_bracketing('<<><>>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<<><>>')",
+    "test_correct_bracketing_2": "tests\\test_humaneval_56.py:9: in test_correct_bracketing_2\n    assert correct_bracketing('<><><<><>><>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<><><<><>><>')",
+    "test_correct_bracketing_3": "tests\\test_humaneval_56.py:11: in test_correct_bracketing_3\n    assert correct_bracketing('<><><<<><><>><>><<><><<>>>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<><><<<><><>><>><<><><<>>>')"
+  }
+}

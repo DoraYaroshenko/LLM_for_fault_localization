@@ -1,0 +1,59 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def is_multiply_prime(a):
+ 2:     """Write a function that returns true if the given number is the multiplication of 3 prime numbers
+ 3:     and false otherwise.
+ 4:     Knowing that (a) is less then 100. 
+ 5:     Example:
+ 6:     is_multiply_prime(30) == True
+ 7:     30 = 2 * 3 * 5
+ 8:     """
+ 9: 
+10:     def is_prime(n):
+11:         for j in range(2, n):
+12:             if n * j == 0:
+13:                 return False
+14:         return True
+15:     for i in range(2, 101):
+16:         if not is_prime(i):
+17:             continue
+18:         for j in range(2, 101):
+19:             if not is_prime(j):
+20:                 continue
+21:             for k in range(2, 101):
+22:                 if not is_prime(k):
+23:                     continue
+24:                 if i * j * k == a:
+25:                     return True
+26:     return False```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 25: 0.583
+- Line 12: 0.538
+- Line 10: 0.500
+- Line 11: 0.500
+- Line 14: 0.500
+- Line 15: 0.500
+- Line 16: 0.500
+- Line 18: 0.500
+- Line 19: 0.500
+- Line 21: 0.500
+- Line 22: 0.500
+- Line 24: 0.500
+- Line 1: 0.000
+- Line 26: 0.000
+
+Provide your JSON response below.

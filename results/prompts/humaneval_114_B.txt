@@ -1,0 +1,82 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def minSubArraySum(nums):
+ 2:     """
+ 3:     Given an array of integers nums, find the minimum sum of any non-empty sub-array
+ 4:     of nums.
+ 5:     Example
+ 6:     minSubArraySum([2, 3, 4, 1, 2, 4]) == 1
+ 7:     minSubArraySum([-1, -2, -3]) == -6
+ 8:     """
+ 9:     max_sum = 0
+10:     s = 0
+11:     for num in nums:
+12:         s += -num
+13:         if s <= 0:
+14:             s = 0
+15:         max_sum = max(s, max_sum)
+16:     if max_sum != 0:
+17:         max_sum = max((-i for i in nums))
+18:     min_sum = -max_sum
+19:     return min_sum```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_minSubArraySum_3
+- test_minSubArraySum_4
+- test_minSubArraySum_8
+- test_minSubArraySum_9
+- test_minSubArraySum_11
+
+Failing tests with their error messages:
+- test_minSubArraySum_0:
+E   AssertionError: This prints if this assert fails 1 (good for debugging!)
+E   assert 0 == 1
+E    +  where 0 = minSubArraySum([2, 3, 4, 1, 2, 4])
+
+- test_minSubArraySum_1:
+    assert minSubArraySum([-1, -2, -3]) == -6
+E   assert -3 == -6
+E    +  where -3 = minSubArraySum([-1, -2, -3])
+
+- test_minSubArraySum_2:
+    assert minSubArraySum([-1, -2, -3, 2, -10]) == -14
+E   assert -10 == -14
+E    +  where -10 = minSubArraySum([-1, -2, -3, 2, -10])
+
+- test_minSubArraySum_5:
+    assert minSubArraySum([-1, -2, -3, 10, -5]) == -6
+E   assert -5 == -6
+E    +  where -5 = minSubArraySum([-1, -2, -3, 10, -5])
+
+- test_minSubArraySum_6:
+    assert minSubArraySum([100, -1, -2, -3, 10, -5]) == -6
+E   assert -5 == -6
+E    +  where -5 = minSubArraySum([100, -1, -2, -3, 10, -5])
+
+- test_minSubArraySum_7:
+    assert minSubArraySum([10, 11, 13, 8, 3, 4]) == 3
+E   assert 0 == 3
+E    +  where 0 = minSubArraySum([10, 11, 13, 8, 3, 4])
+
+- test_minSubArraySum_10:
+    assert minSubArraySum([7]) == 7
+E   assert 0 == 7
+E    +  where 0 = minSubArraySum([7])
+
+
+Provide your JSON response below.

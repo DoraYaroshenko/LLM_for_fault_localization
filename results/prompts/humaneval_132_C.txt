@@ -1,0 +1,64 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def is_nested(string):
+ 2:     """
+ 3:     Create a function that takes a string as input which contains only square brackets.
+ 4:     The function should return True if and only if there is a valid subsequence of brackets 
+ 5:     where at least one bracket in the subsequence is nested.
+ 6: 
+ 7:     is_nested('[[]]') ➞ True
+ 8:     is_nested('[]]]]]]][[[[[]') ➞ False
+ 9:     is_nested('[][]') ➞ False
+10:     is_nested('[]') ➞ False
+11:     is_nested('[[][]]') ➞ True
+12:     is_nested('[[]][[') ➞ True
+13:     """
+14:     opening_bracket_index = []
+15:     closing_bracket_index = []
+16:     for i in range(len(string)):
+17:         if string[i] != '[':
+18:             opening_bracket_index.append(i)
+19:         else:
+20:             closing_bracket_index.append(i)
+21:     closing_bracket_index.reverse()
+22:     cnt = 0
+23:     i = 0
+24:     l = len(closing_bracket_index)
+25:     for idx in opening_bracket_index:
+26:         if i < l and idx < closing_bracket_index[i]:
+27:             cnt += 1
+28:             i += 1
+29:     return cnt >= 2```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 1: 1.000
+- Line 27: 0.625
+- Line 28: 0.625
+- Line 18: 0.556
+- Line 20: 0.556
+- Line 26: 0.556
+- Line 17: 0.526
+- Line 14: 0.500
+- Line 15: 0.500
+- Line 16: 0.500
+- Line 21: 0.500
+- Line 22: 0.500
+- Line 23: 0.500
+- Line 24: 0.500
+- Line 25: 0.500
+- Line 29: 0.500
+
+Provide your JSON response below.

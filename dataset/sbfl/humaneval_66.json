@@ -1,0 +1,17 @@
+{
+  "tarantula": {
+    "15": 1.0,
+    "14": 0.75,
+    "16": 0.0,
+    "1": 0.0
+  },
+  "failing_tests": {
+    "test_digitSum_2": "tests\\test_humaneval_66.py:9: in test_digitSum_2\n    assert digitSum('abAB') == 131, 'Error'\nE   AssertionError: Error\nE   assert 0 == 131\nE    +  where 0 = digitSum('abAB')",
+    "test_digitSum_3": "tests\\test_humaneval_66.py:11: in test_digitSum_3\n    assert digitSum('abcCd') == 67, 'Error'\nE   AssertionError: Error\nE   assert 0 == 67\nE    +  where 0 = digitSum('abcCd')",
+    "test_digitSum_4": "tests\\test_humaneval_66.py:13: in test_digitSum_4\n    assert digitSum('helloE') == 69, 'Error'\nE   AssertionError: Error\nE   assert 0 == 69\nE    +  where 0 = digitSum('helloE')",
+    "test_digitSum_5": "tests\\test_humaneval_66.py:15: in test_digitSum_5\n    assert digitSum('woArBld') == 131, 'Error'\nE   AssertionError: Error\nE   assert 0 == 131\nE    +  where 0 = digitSum('woArBld')",
+    "test_digitSum_6": "tests\\test_humaneval_66.py:17: in test_digitSum_6\n    assert digitSum('aAaaaXa') == 153, 'Error'\nE   AssertionError: Error\nE   assert 0 == 153\nE    +  where 0 = digitSum('aAaaaXa')",
+    "test_digitSum_8": "tests\\test_humaneval_66.py:21: in test_digitSum_8\n    assert digitSum(' How are yOu?') == 151, 'Error'\nE   AssertionError: Error\nE   assert 0 == 151\nE    +  where 0 = digitSum(' How are yOu?')",
+    "test_digitSum_9": "tests\\test_humaneval_66.py:23: in test_digitSum_9\n    assert digitSum('You arE Very Smart') == 327, 'Error'\nE   AssertionError: Error\nE   assert 0 == 327\nE    +  where 0 = digitSum('You arE Very Smart')"
+  }
+}

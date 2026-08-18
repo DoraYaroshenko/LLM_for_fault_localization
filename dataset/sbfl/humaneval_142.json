@@ -1,0 +1,19 @@
+{
+  "tarantula": {
+    "17": 0.7,
+    "16": 0.5833333333333333,
+    "19": 0.5833333333333333,
+    "14": 0.5384615384615384,
+    "15": 0.5384615384615384,
+    "12": 0.5,
+    "13": 0.5,
+    "20": 0.5,
+    "1": 0.0
+  },
+  "failing_tests": {
+    "test_sum_squares_4": "tests\\test_humaneval_142.py:13: in test_sum_squares_4\n    assert sum_squares([-1, -1, -1, -1, -1, -1, -1, -1, -1]) == -3\nE   assert -7 == -3\nE    +  where -7 = sum_squares([-1, -1, -1, -1, -1, -1, ...])",
+    "test_sum_squares_6": "tests\\test_humaneval_142.py:17: in test_sum_squares_6\n    assert sum_squares([-1, -5, 2, -1, -5]) == -126\nE   assert -128 == -126\nE    +  where -128 = sum_squares([-1, -5, 2, -1, -5])",
+    "test_sum_squares_9": "tests\\test_humaneval_142.py:23: in test_sum_squares_9\n    assert sum_squares([-16, -9, -2, 36, 36, 26, -20, 25, -40, 20, -4, 12, -26, 35, 37]) == -14196\nE   assert -16958 == -14196\nE    +  where -16958 = sum_squares([-16, -9, -2, 36, 36, 26, ...])",
+    "test_sum_squares_10": "tests\\test_humaneval_142.py:25: in test_sum_squares_10\n    assert sum_squares([-1, -3, 17, -1, -15, 13, -1, 14, -14, -12, -5, 14, -14, 6, 13, 11, 16, 16, 4, 10]) == -1448\nE   assert -1940 == -1448\nE    +  where -1940 = sum_squares([-1, -3, 17, -1, -15, 13, ...])"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "model_id": "poolside/laguna-s-2.1:free",
+  "execution_time": "2026-08-18T04:16:01.435088+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "repetitions": 1,
+  "errors": [],
+  "raw_response": {
+    "error": {
+      "message": "Error making prediction",
+      "code": 503
+    }
+  }
+}

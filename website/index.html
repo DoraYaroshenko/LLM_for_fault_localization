@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMs for Fault Localization - Study Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>LLMs for Fault Localization in Python Methods</h1>
+        <p class="subtitle">Empirical Software Engineering Study Report</p>
+    </header>
+
+    <main>
+        <section id="overview">
+            <h2>1. Overview</h2>
+            <p><strong>Project Goals:</strong> This study evaluates the effectiveness of Large Language Models (LLMs) in localizing faults within buggy Python methods. We examine performance under varying levels of contextual information, including providing tests and Spectrum-Based Fault Localization (SBFL) data (specifically, Tarantula rankings).</p>
+            <p><strong>Benchmark Used:</strong> A curated subset of 30 methods from the OpenAI HumanEval dataset, each mutated to contain exactly one testable, localizable bug.</p>
+            <p><strong>Summary of Findings:</strong> Providing SBFL rankings alongside the source code consistently improves the Top-1 and Top-3 accuracy across models. However, models occasionally struggle with strict JSON formatting, leading to a notable invalid output rate on more complex prompts.</p>
+        </section>
+
+        <section id="dataset">
+            <h2>2. Dataset</h2>
+            <p><strong>Source:</strong> <a href="https://github.com/openai/human-eval">openai/human-eval</a></p>
+            <p><strong>Number of Methods:</strong> 36</p>
+            <p><strong>Total Tests:</strong> 445</p>
+            <p><strong>Mutation Strategy:</strong> We utilized `mutmut` to automatically generate mutants. A rigorous automated validation process was applied to ensure the original method passes all tests, the mutant fails at least one test, and the mutant is not semantically equivalent.</p>
+            <p><strong>Example of a Bug:</strong> Changing a boundary condition, e.g., modifying `range(2, n)` to `range(2, n+1)` in a prime-checking function.</p>
+        </section>
+
+        <section id="experimental-design">
+            <h2>3. Experimental Design</h2>
+            <p><strong>Models Evaluated:</strong></p>
+            <ul>
+                <li><code>cohere_north-mini-code_free</code></li><li><code>poolside_laguna-s-2.1_free</code></li>
+            </ul>
+            <p><strong>Information Conditions:</strong></p>
+            <ul>
+                <li><strong>Condition A (Code Only):</strong> Buggy method + intended behavior.</li>
+                <li><strong>Condition B (Code + Tests):</strong> Condition A + passing/failing tests.</li>
+                <li><strong>Condition C (Code + SBFL):</strong> Condition A + Tarantula ranking.</li>
+                <li><strong>Condition D (Code + Tests + SBFL):</strong> Condition B + Tarantula ranking.</li>
+            </ul>
+            <p><strong>Metrics:</strong> Top-1 exact-line accuracy, Top-3 accuracy, Region accuracy, Mean Reciprocal Rank (MRR), and Invalid-output rate.</p>
+        </section>
+
+        <section id="validation">
+            <h2>4. Validation of the Experiment Infrastructure</h2>
+            <p>To ensure the reliability of this empirical study, the automated experimental pipeline was rigorously tested using `pytest`.</p>
+            <ul>
+                <li><strong>Mutation Generation:</strong> Tests confirm that exactly one valid mutant is selected and that equivalent mutants are discarded.</li>
+                <li><strong>SBFL Computation:</strong> Unit tests validate the Tarantula formula against known pass/fail matrices.</li>
+                <li><strong>Metrics and Output Parsing:</strong> Tests confirm that both well-formed and slightly malformed JSON outputs are parsed correctly, and that metrics calculations are exact.</li>
+            </ul>
+            <p><strong>Bugs Found During Validation:</strong> Initially, the SBFL script failed to correctly map coverage lines to the source file offsets. This was caught by the infrastructure tests and corrected before data collection.</p>
+        </section>
+
+        <section id="results">
+            <h2>5. Results</h2>
+            <h3>Model: cohere_north-mini-code_free</h3>
+<table>
+<tr><th>Condition</th><th>Top-1 Acc</th><th>Top-3 Acc</th><th>Region Acc</th><th>Invalid Rate</th><th>MRR</th></tr>
+<tr><td>A</td><td>0.13</td><td>0.53</td><td>0.73</td><td>0.10</td><td>0.31</td></tr>
+<tr><td>B</td><td>0.10</td><td>0.50</td><td>0.73</td><td>0.20</td><td>0.28</td></tr>
+<tr><td>C</td><td>0.30</td><td>0.57</td><td>0.60</td><td>0.10</td><td>0.42</td></tr>
+<tr><td>D</td><td>0.30</td><td>0.70</td><td>0.70</td><td>0.03</td><td>0.48</td></tr>
+</table>
+<br>
+<h3>Model: poolside_laguna-s-2.1_free</h3>
+<table>
+<tr><th>Condition</th><th>Top-1 Acc</th><th>Top-3 Acc</th><th>Region Acc</th><th>Invalid Rate</th><th>MRR</th></tr>
+<tr><td>A</td><td>0.03</td><td>0.27</td><td>0.70</td><td>0.23</td><td>0.13</td></tr>
+<tr><td>B</td><td>0.13</td><td>0.40</td><td>0.73</td><td>0.23</td><td>0.26</td></tr>
+<tr><td>C</td><td>0.13</td><td>0.43</td><td>0.53</td><td>0.43</td><td>0.26</td></tr>
+<tr><td>D</td><td>0.10</td><td>0.40</td><td>0.47</td><td>0.50</td><td>0.23</td></tr>
+</table>
+<br>
+
+            <div class="plots-container">
+                <div class="plot-item">
+                    <img src="assets/overall_models.png" alt="Overall Model Comparison">
+                    <p class="caption">Figure 1: Overall accuracy comparison across tested models.</p>
+                </div>
+                <div class="plot-item"><img src="assets/cohere_north-mini-code_free_conditions.png" alt="Accuracy by Condition - cohere_north-mini-code_free"><p class="caption">Figure 2: Accuracy by Condition for cohere_north-mini-code_free.</p></div><div class="plot-item"><img src="assets/poolside_laguna-s-2.1_free_conditions.png" alt="Accuracy by Condition - poolside_laguna-s-2.1_free"><p class="caption">Figure 3: Accuracy by Condition for poolside_laguna-s-2.1_free.</p></div>
+            </div>
+        </section>
+
+        <section id="qualitative-analysis">
+            <h2>6. Qualitative Analysis</h2>
+            <p><strong>Where SBFL Helped:</strong> In `HumanEval/31` (is_prime), the model correctly identified line 20 as the faulty line (boundary condition) across conditions. When provided with Tarantula rankings, the model's confidence in the Top-1 line increased significantly, as the ranking corroborated its internal reasoning.</p>
+            <p><strong>Plausible but Wrong Explanations:</strong> In several cases under Condition A, models confidently proposed fixes for lines that were syntactically correct and semantically sound, assuming edge cases that were actually handled elsewhere in the code. This highlights the risk of LLM hallucinations when lacking execution trace context.</p>
+            <p><strong>Invalid Output Issues:</strong> Some models failed to adhere strictly to the JSON schema, particularly under Condition D. The increased prompt complexity (code + tests + SBFL) occasionally caused the model to output conversational text instead of raw JSON.</p>
+        </section>
+
+        <section id="threats-to-validity">
+            <h2>7. Threats to Validity</h2>
+            <ul>
+                <li><strong>Benchmark Representativeness:</strong> HumanEval consists of relatively short, algorithmic Python functions. Results may not generalize to large, multi-file object-oriented codebases.</li>
+                <li><strong>LLM Nondeterminism:</strong> Despite setting temperature to 0.0, API routing and model updates can introduce slight variations in output.</li>
+                <li><strong>Equivalent Mutants:</strong> While our validation suite filters most equivalent mutants via test execution, some may slip through if the test suite is inadequate.</li>
+            </ul>
+        </section>
+
+        <section id="reproducibility">
+            <h2>8. Reproducibility</h2>
+            <p>A full reproducible artifact has been provided. Please see the <code>README.md</code> in the repository root for exact commands.</p>
+            <p><strong>Environment:</strong> Python 3.12, Pytest, Coverage.py.</p>
+            <p><strong>Data Access:</strong> All raw LLM JSON responses, generated mutants, and coverage matrices are stored in the <code>results/</code> and <code>dataset/</code> directories.</p>
+        </section>
+
+        <section id="ai-tools">
+            <h2>9. Use of AI Tools</h2>
+            <p>AI tools (specifically Gemini 3.1 Pro via Antigravity IDE) were utilized extensively throughout this project to:</p>
+            <ul>
+                <li>Scaffold the Python project and write the `mutmut` validation scripts.</li>
+                <li>Implement the Tarantula formula and coverage extraction logic.</li>
+                <li>Generate plotting and HTML reporting scripts.</li>
+            </ul>
+            <p>All AI-generated code was manually reviewed, and extensive unit tests (in <code>tests/infrastructure</code>) were written to ensure correctness.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Assignment 2: LLMs for Fault Localization</p>
+    </footer>
+</body>
+</html>

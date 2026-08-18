@@ -1,0 +1,13 @@
+{
+  "tarantula": {
+    "13": 0.5294117647058824,
+    "14": 0.5294117647058824,
+    "15": 0.5294117647058824,
+    "1": 0.0
+  },
+  "failing_tests": {
+    "test_largest_smallest_integers_1": "tests\\test_humaneval_136.py:7: in test_largest_smallest_integers_1\n    assert largest_smallest_integers([2, 4, 1, 3, 5, 7, 0]) == (None, 1)\nE   assert (0, 1) == (None, 1)\nE     \nE     At index 0 diff: 0 != None\nE     Use -v to get more diff",
+    "test_largest_smallest_integers_6": "tests\\test_humaneval_136.py:17: in test_largest_smallest_integers_6\n    assert largest_smallest_integers([0]) == (None, None)\nE   assert (0, None) == (None, None)\nE     \nE     At index 0 diff: 0 != None\nE     Use -v to get more diff",
+    "test_largest_smallest_integers_8": "tests\\test_humaneval_136.py:21: in test_largest_smallest_integers_8\n    assert largest_smallest_integers([-1, -3, -5, -6, 0]) == (-1, None)\nE   assert (0, None) == (-1, None)\nE     \nE     At index 0 diff: 0 != -1\nE     Use -v to get more diff"
+  }
+}

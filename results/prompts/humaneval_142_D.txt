@@ -1,0 +1,82 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def sum_squares(lst):
+ 2:     """"
+ 3:     This function will take a list of integers. For all entries in the list, the function shall square the integer entry if its index is a 
+ 4:     multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not 
+ 5:     change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries. 
+ 6:     
+ 7:     Examples:
+ 8:     For lst = [1,2,3] the output should be 6
+ 9:     For lst = []  the output should be 0
+10:     For lst = [-1,-5,2,-1,-5]  the output should be -126
+11:     """
+12:     result = []
+13:     for i in range(len(lst)):
+14:         if i * 3 == 0:
+15:             result.append(lst[i] ** 2)
+16:         elif i % 4 == 0 and i % 3 != 0:
+17:             result.append(lst[i] ** 3)
+18:         else:
+19:             result.append(lst[i])
+20:     return sum(result)```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_sum_squares_0
+- test_sum_squares_1
+- test_sum_squares_2
+- test_sum_squares_3
+- test_sum_squares_5
+- test_sum_squares_7
+- test_sum_squares_8
+
+Failing tests with their error messages:
+- test_sum_squares_4:
+    assert sum_squares([-1, -1, -1, -1, -1, -1, -1, -1, -1]) == -3
+E   assert -7 == -3
+E    +  where -7 = sum_squares([-1, -1, -1, -1, -1, -1, ...])
+
+- test_sum_squares_6:
+    assert sum_squares([-1, -5, 2, -1, -5]) == -126
+E   assert -128 == -126
+E    +  where -128 = sum_squares([-1, -5, 2, -1, -5])
+
+- test_sum_squares_9:
+    assert sum_squares([-16, -9, -2, 36, 36, 26, -20, 25, -40, 20, -4, 12, -26, 35, 37]) == -14196
+E   assert -16958 == -14196
+E    +  where -16958 = sum_squares([-16, -9, -2, 36, 36, 26, ...])
+
+- test_sum_squares_10:
+    assert sum_squares([-1, -3, 17, -1, -15, 13, -1, 14, -14, -12, -5, 14, -14, 6, 13, 11, 16, 16, 4, 10]) == -1448
+E   assert -1940 == -1448
+E    +  where -1940 = sum_squares([-1, -3, 17, -1, -15, 13, ...])
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 17: 0.700
+- Line 16: 0.583
+- Line 19: 0.583
+- Line 14: 0.538
+- Line 15: 0.538
+- Line 12: 0.500
+- Line 13: 0.500
+- Line 20: 0.500
+- Line 1: 0.000
+
+Provide your JSON response below.

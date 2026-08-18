@@ -1,0 +1,152 @@
+{
+  "humaneval_31": {
+    "faulty_line": 22,
+    "entry_point": "is_prime",
+    "task_id": "HumanEval/31"
+  },
+  "humaneval_39": {
+    "faulty_line": 20,
+    "entry_point": "prime_fib",
+    "task_id": "HumanEval/39"
+  },
+  "humaneval_56": {
+    "faulty_line": 18,
+    "entry_point": "correct_bracketing",
+    "task_id": "HumanEval/56"
+  },
+  "humaneval_61": {
+    "faulty_line": 18,
+    "entry_point": "correct_bracketing",
+    "task_id": "HumanEval/61"
+  },
+  "humaneval_66": {
+    "faulty_line": 15,
+    "entry_point": "digitSum",
+    "task_id": "HumanEval/66"
+  },
+  "humaneval_68": {
+    "faulty_line": 36,
+    "entry_point": "pluck",
+    "task_id": "HumanEval/68"
+  },
+  "humaneval_69": {
+    "faulty_line": 13,
+    "entry_point": "search",
+    "task_id": "HumanEval/69"
+  },
+  "humaneval_74": {
+    "faulty_line": 24,
+    "entry_point": "total_match",
+    "task_id": "HumanEval/74"
+  },
+  "humaneval_75": {
+    "faulty_line": 12,
+    "entry_point": "is_multiply_prime",
+    "task_id": "HumanEval/75"
+  },
+  "humaneval_76": {
+    "faulty_line": 14,
+    "entry_point": "is_simple_power",
+    "task_id": "HumanEval/76"
+  },
+  "humaneval_82": {
+    "faulty_line": 12,
+    "entry_point": "prime_length",
+    "task_id": "HumanEval/82"
+  },
+  "humaneval_92": {
+    "faulty_line": 21,
+    "entry_point": "any_int",
+    "task_id": "HumanEval/92"
+  },
+  "humaneval_96": {
+    "faulty_line": 17,
+    "entry_point": "count_up_to",
+    "task_id": "HumanEval/96"
+  },
+  "humaneval_103": {
+    "faulty_line": 13,
+    "entry_point": "rounded_avg",
+    "task_id": "HumanEval/103"
+  },
+  "humaneval_114": {
+    "faulty_line": 16,
+    "entry_point": "minSubArraySum",
+    "task_id": "HumanEval/114"
+  },
+  "humaneval_118": {
+    "faulty_line": 17,
+    "entry_point": "get_closest_vowel",
+    "task_id": "HumanEval/118"
+  },
+  "humaneval_119": {
+    "faulty_line": 20,
+    "entry_point": "match_parens",
+    "task_id": "HumanEval/119"
+  },
+  "humaneval_120": {
+    "faulty_line": 27,
+    "entry_point": "maximum",
+    "task_id": "HumanEval/120"
+  },
+  "humaneval_124": {
+    "faulty_line": 26,
+    "entry_point": "valid_date",
+    "task_id": "HumanEval/124"
+  },
+  "humaneval_126": {
+    "faulty_line": 21,
+    "entry_point": "is_sorted",
+    "task_id": "HumanEval/126"
+  },
+  "humaneval_128": {
+    "faulty_line": 15,
+    "entry_point": "prod_signs",
+    "task_id": "HumanEval/128"
+  },
+  "humaneval_129": {
+    "faulty_line": 36,
+    "entry_point": "minPath",
+    "task_id": "HumanEval/129"
+  },
+  "humaneval_130": {
+    "faulty_line": 19,
+    "entry_point": "tri",
+    "task_id": "HumanEval/130"
+  },
+  "humaneval_132": {
+    "faulty_line": 18,
+    "entry_point": "is_nested",
+    "task_id": "HumanEval/132"
+  },
+  "humaneval_134": {
+    "faulty_line": 17,
+    "entry_point": "check_if_last_char_is_a_letter",
+    "task_id": "HumanEval/134"
+  },
+  "humaneval_136": {
+    "faulty_line": 14,
+    "entry_point": "largest_smallest_integers",
+    "task_id": "HumanEval/136"
+  },
+  "humaneval_141": {
+    "faulty_line": 18,
+    "entry_point": "file_name_check",
+    "task_id": "HumanEval/141"
+  },
+  "humaneval_142": {
+    "faulty_line": 17,
+    "entry_point": "sum_squares",
+    "task_id": "HumanEval/142"
+  },
+  "humaneval_144": {
+    "faulty_line": 16,
+    "entry_point": "simplify",
+    "task_id": "HumanEval/144"
+  },
+  "humaneval_150": {
+    "faulty_line": 11,
+    "entry_point": "x_or_y",
+    "task_id": "HumanEval/150"
+  }
+}

@@ -1,0 +1,98 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def count_up_to(n):
+ 2:     """Implement a function that takes an non-negative integer and returns an array of the first n
+ 3:     integers that are prime numbers and less than n.
+ 4:     for example:
+ 5:     count_up_to(5) => [2,3]
+ 6:     count_up_to(11) => [2,3,5,7]
+ 7:     count_up_to(0) => []
+ 8:     count_up_to(20) => [2,3,5,7,11,13,17,19]
+ 9:     count_up_to(1) => []
+10:     count_up_to(18) => [2,3,5,7,11,13,17]
+11:     """
+12:     primes = []
+13:     for i in range(2, n):
+14:         is_prime = True
+15:         for j in range(2, i):
+16:             if i * j == 0:
+17:                 is_prime = False
+18:                 break
+19:         if is_prime:
+20:             primes.append(i)
+21:     return primes```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_count_up_to_4
+- test_count_up_to_6
+
+Failing tests with their error messages:
+- test_count_up_to_0:
+E     
+E     Left contains one more item: 4
+E     Use -v to get more diff
+
+- test_count_up_to_1:
+E     At index 2 diff: 4 != 5
+E     Left contains one more item: 5
+E     Use -v to get more diff
+
+- test_count_up_to_2:
+E     At index 2 diff: 4 != 5
+E     Left contains 2 more items, first extra item: 5
+E     Use -v to get more diff
+
+- test_count_up_to_3:
+E     At index 2 diff: 4 != 5
+E     Left contains 4 more items, first extra item: 6
+E     Use -v to get more diff
+
+- test_count_up_to_5:
+E     At index 2 diff: 4 != 5
+E     Left contains 12 more items, first extra item: 10
+E     Use -v to get more diff
+
+- test_count_up_to_7:
+E     At index 2 diff: 4 != 5
+E     Left contains 9 more items, first extra item: 9
+E     Use -v to get more diff
+
+- test_count_up_to_8:
+E     At index 2 diff: 4 != 5
+E     Left contains 31 more items, first extra item: 16
+E     Use -v to get more diff
+
+- test_count_up_to_9:
+E     At index 2 diff: 4 != 5
+E     Left contains 74 more items, first extra item: 27
+E     Use -v to get more diff
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 1: 1.000
+- Line 14: 1.000
+- Line 15: 1.000
+- Line 16: 1.000
+- Line 19: 1.000
+- Line 20: 1.000
+- Line 12: 0.500
+- Line 13: 0.500
+- Line 21: 0.500
+
+Provide your JSON response below.

@@ -1,0 +1,18 @@
+{
+  "tarantula": {
+    "36": 0.8,
+    "35": 0.6666666666666666,
+    "1": 0.0,
+    "37": 0.0,
+    "38": 0.0,
+    "39": 0.0
+  },
+  "failing_tests": {
+    "test_pluck_1": "tests\\test_humaneval_68.py:7: in test_pluck_1\n    assert pluck([4, 2, 3]) == [2, 1], 'Error'\nE   AssertionError: Error\nE   assert [] == [2, 1]\nE     \nE     Right contains 2 more items, first extra item: 2\nE     Use -v to get more diff",
+    "test_pluck_2": "tests\\test_humaneval_68.py:9: in test_pluck_2\n    assert pluck([1, 2, 3]) == [2, 1], 'Error'\nE   AssertionError: Error\nE   assert [] == [2, 1]\nE     \nE     Right contains 2 more items, first extra item: 2\nE     Use -v to get more diff",
+    "test_pluck_4": "tests\\test_humaneval_68.py:13: in test_pluck_4\n    assert pluck([5, 0, 3, 0, 4, 2]) == [0, 1], 'Error'\nE   AssertionError: Error\nE   assert [] == [0, 1]\nE     \nE     Right contains 2 more items, first extra item: 0\nE     Use -v to get more diff",
+    "test_pluck_6": "tests\\test_humaneval_68.py:17: in test_pluck_6\n    assert pluck([1, 2, 3, 0, 5, 3]) == [0, 3], 'Error'\nE   AssertionError: Error\nE   assert [] == [0, 3]\nE     \nE     Right contains 2 more items, first extra item: 0\nE     Use -v to get more diff",
+    "test_pluck_7": "tests\\test_humaneval_68.py:19: in test_pluck_7\n    assert pluck([5, 4, 8, 4, 8]) == [4, 1], 'Error'\nE   AssertionError: Error\nE   assert [] == [4, 1]\nE     \nE     Right contains 2 more items, first extra item: 4\nE     Use -v to get more diff",
+    "test_pluck_8": "tests\\test_humaneval_68.py:21: in test_pluck_8\n    assert pluck([7, 6, 7, 1]) == [6, 1], 'Error'\nE   AssertionError: Error\nE   assert [] == [6, 1]\nE     \nE     Right contains 2 more items, first extra item: 6\nE     Use -v to get more diff"
+  }
+}

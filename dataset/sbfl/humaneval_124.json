@@ -1,0 +1,22 @@
+{
+  "tarantula": {
+    "26": 0.8333333333333334,
+    "24": 0.6000000000000001,
+    "25": 0.6000000000000001,
+    "21": 0.5,
+    "22": 0.5,
+    "23": 0.5,
+    "1": 0.0,
+    "27": 0.0,
+    "28": 0.0,
+    "29": 0.0,
+    "30": 0.0,
+    "31": 0.0,
+    "33": 0.0,
+    "34": 0.0,
+    "35": 0.0
+  },
+  "failing_tests": {
+    "test_valid_date_4": "tests\\test_humaneval_124.py:13: in test_valid_date_4\n    assert valid_date('01-01-2007') == True\nE   AssertionError: assert False == True\nE    +  where False = valid_date('01-01-2007')"
+  }
+}

@@ -1,0 +1,9 @@
+pytest
+pytest-cov
+mutmut
+requests
+python-dotenv
+openai
+matplotlib
+seaborn
+human-eval

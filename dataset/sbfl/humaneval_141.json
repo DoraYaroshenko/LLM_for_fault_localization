@@ -1,0 +1,27 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "21": 1.0,
+    "23": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "28": 1.0,
+    "19": 0.6538461538461537,
+    "15": 0.5,
+    "16": 0.5,
+    "17": 0.5,
+    "18": 0.46850393700787407,
+    "20": 0.0
+  },
+  "failing_tests": {
+    "test_file_name_check_0": "tests\\test_humaneval_141.py:5: in test_file_name_check_0\n    assert file_name_check('example.txt') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_3": "tests\\test_humaneval_141.py:11: in test_file_name_check_3\n    assert file_name_check('K.dll') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_4": "tests\\test_humaneval_141.py:13: in test_file_name_check_4\n    assert file_name_check('MY16FILE3.exe') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_10": "tests\\test_humaneval_141.py:25: in test_file_name_check_10\n    assert file_name_check('this_is_valid.txt') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_15": "tests\\test_humaneval_141.py:35: in test_file_name_check_15\n    assert file_name_check('all.exe.txt') == 'No'\nE   AssertionError: assert 'Yes' == 'No'\nE     \nE     - No\nE     + Yes",
+    "test_file_name_check_16": "tests\\test_humaneval_141.py:37: in test_file_name_check_16\n    assert file_name_check('I563_No.exe') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_17": "tests\\test_humaneval_141.py:39: in test_file_name_check_17\n    assert file_name_check('Is3youfault.txt') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_18": "tests\\test_humaneval_141.py:41: in test_file_name_check_18\n    assert file_name_check('no_one#knows.dll') == 'Yes'\nE   AssertionError: assert 'No' == 'Yes'\nE     \nE     - Yes\nE     + No",
+    "test_file_name_check_22": "tests\\test_humaneval_141.py:49: in test_file_name_check_22\n    assert file_name_check('final132') == 'No'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_141.py:19: in file_name_check\n    if not lst[1] in suf:\n           ^^^^^^\nE   IndexError: list index out of range"
+  }
+}

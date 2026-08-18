@@ -1,0 +1,23 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "12": 0.5,
+    "13": 0.5,
+    "21": 0.5
+  },
+  "failing_tests": {
+    "test_count_up_to_0": "tests\\test_humaneval_96.py:5: in test_count_up_to_0\n    assert count_up_to(5) == [2, 3]\nE   assert [2, 3, 4] == [2, 3]\nE     \nE     Left contains one more item: 4\nE     Use -v to get more diff",
+    "test_count_up_to_1": "tests\\test_humaneval_96.py:7: in test_count_up_to_1\n    assert count_up_to(6) == [2, 3, 5]\nE   assert [2, 3, 4, 5] == [2, 3, 5]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains one more item: 5\nE     Use -v to get more diff",
+    "test_count_up_to_2": "tests\\test_humaneval_96.py:9: in test_count_up_to_2\n    assert count_up_to(7) == [2, 3, 5]\nE   assert [2, 3, 4, 5, 6] == [2, 3, 5]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains 2 more items, first extra item: 5\nE     Use -v to get more diff",
+    "test_count_up_to_3": "tests\\test_humaneval_96.py:11: in test_count_up_to_3\n    assert count_up_to(10) == [2, 3, 5, 7]\nE   assert [2, 3, 4, 5, 6, 7, ...] == [2, 3, 5, 7]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains 4 more items, first extra item: 6\nE     Use -v to get more diff",
+    "test_count_up_to_5": "tests\\test_humaneval_96.py:15: in test_count_up_to_5\n    assert count_up_to(22) == [2, 3, 5, 7, 11, 13, 17, 19]\nE   assert [2, 3, 4, 5, 6, 7, ...] == [2, 3, 5, 7, 11, 13, ...]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains 12 more items, first extra item: 10\nE     Use -v to get more diff",
+    "test_count_up_to_7": "tests\\test_humaneval_96.py:19: in test_count_up_to_7\n    assert count_up_to(18) == [2, 3, 5, 7, 11, 13, 17]\nE   assert [2, 3, 4, 5, 6, 7, ...] == [2, 3, 5, 7, 11, 13, ...]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains 9 more items, first extra item: 9\nE     Use -v to get more diff",
+    "test_count_up_to_8": "tests\\test_humaneval_96.py:21: in test_count_up_to_8\n    assert count_up_to(47) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43]\nE   assert [2, 3, 4, 5, 6, 7, ...] == [2, 3, 5, 7, 11, 13, ...]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains 31 more items, first extra item: 16\nE     Use -v to get more diff",
+    "test_count_up_to_9": "tests\\test_humaneval_96.py:23: in test_count_up_to_9\n    assert count_up_to(101) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\nE   assert [2, 3, 4, 5, 6, 7, ...] == [2, 3, 5, 7, 11, 13, ...]\nE     \nE     At index 2 diff: 4 != 5\nE     Left contains 74 more items, first extra item: 27\nE     Use -v to get more diff"
+  }
+}

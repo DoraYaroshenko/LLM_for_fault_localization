@@ -1,0 +1,85 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def prod_signs(arr):
+ 2:     """
+ 3:     You are given an array arr of integers and you need to return
+ 4:     sum of magnitudes of integers multiplied by product of all signs
+ 5:     of each number in the array, represented by 1, -1 or 0.
+ 6:     Note: return None for empty arr.
+ 7: 
+ 8:     Example:
+ 9:     >>> prod_signs([1, 2, 2, -4]) == -9
+10:     >>> prod_signs([0, 1]) == 0
+11:     >>> prod_signs([]) == None
+12:     """
+13:     if not arr:
+14:         return None
+15:     prod = 0 if 0 not in arr else (-1) ** len(list(filter(lambda x: x < 0, arr)))
+16:     return prod * sum([abs(i) for i in arr])```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_prod_signs_0
+- test_prod_signs_4
+- test_prod_signs_9
+
+Failing tests with their error messages:
+- test_prod_signs_1:
+    assert prod_signs([1, 2, 2, -4]) == -9
+E   assert 0 == -9
+E    +  where 0 = prod_signs([1, 2, 2, -4])
+
+- test_prod_signs_2:
+    assert prod_signs([0, 1]) == 0
+E   assert 1 == 0
+E    +  where 1 = prod_signs([0, 1])
+
+- test_prod_signs_3:
+    assert prod_signs([1, 1, 1, 2, 3, -1, 1]) == -10
+E   assert 0 == -10
+E    +  where 0 = prod_signs([1, 1, 1, 2, 3, -1, ...])
+
+- test_prod_signs_5:
+    assert prod_signs([2, 4, 1, 2, -1, -1, 9]) == 20
+E   assert 0 == 20
+E    +  where 0 = prod_signs([2, 4, 1, 2, -1, -1, ...])
+
+- test_prod_signs_6:
+    assert prod_signs([-1, 1, -1, 1]) == 4
+E   assert 0 == 4
+E    +  where 0 = prod_signs([-1, 1, -1, 1])
+
+- test_prod_signs_7:
+    assert prod_signs([-1, 1, 1, 1]) == -4
+E   assert 0 == -4
+E    +  where 0 = prod_signs([-1, 1, 1, 1])
+
+- test_prod_signs_8:
+    assert prod_signs([-1, 1, 1, 0]) == 0
+E   assert -3 == 0
+E    +  where -3 = prod_signs([-1, 1, 1, 0])
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 16: 1.000
+- Line 15: 1.000
+- Line 13: 0.750
+- Line 1: 0.000
+- Line 14: 0.000
+
+Provide your JSON response below.

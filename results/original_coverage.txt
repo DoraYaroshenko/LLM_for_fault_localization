@@ -1,0 +1,51 @@
+﻿........................................................................ [ 16%]
+........................................................................ [ 32%]
+........................................................................ [ 48%]
+........................................................................ [ 64%]
+........................................................................ [ 80%]
+........................................................................ [ 97%]
+.............                                                            [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.13.14-final-0 _______________
+
+Name                   Stmts   Miss Branch BrPart  Cover
+--------------------------------------------------------
+src\humaneval_31.py        7      0      6      0   100%
+src\humaneval_39.py       16      0     10      0   100%
+src\humaneval_56.py        9      0      6      0   100%
+src\humaneval_61.py        9      0      6      0   100%
+src\humaneval_66.py        3      0      2      0   100%
+src\humaneval_68.py        5      0      4      0   100%
+src\humaneval_69.py        9      0      6      0   100%
+src\humaneval_70.py        7      0      2      0   100%
+src\humaneval_74.py       10      0      6      0   100%
+src\humaneval_75.py       14      0     18      0   100%
+src\humaneval_76.py        7      0      4      0   100%
+src\humaneval_82.py        8      0      6      0   100%
+src\humaneval_92.py        6      0      4      0   100%
+src\humaneval_96.py       11      0      8      0   100%
+src\humaneval_103.py       7      0      4      0   100%
+src\humaneval_114.py      12      0      6      0   100%
+src\humaneval_116.py       2      0      0      0   100%
+src\humaneval_118.py       9      0      8      0   100%
+src\humaneval_119.py      13      0      6      0   100%
+src\humaneval_120.py       6      0      2      0   100%
+src\humaneval_124.py      16      1      8      1    92%
+src\humaneval_126.py       9      0      6      0   100%
+src\humaneval_128.py       4      0      2      0   100%
+src\humaneval_129.py      22      0     18      0   100%
+src\humaneval_130.py       9      0      6      0   100%
+src\humaneval_132.py      16      0      8      0   100%
+src\humaneval_133.py       6      0      2      0   100%
+src\humaneval_134.py       3      0      0      0   100%
+src\humaneval_136.py       4      0      0      0   100%
+src\humaneval_141.py      15      0     10      0   100%
+src\humaneval_142.py       9      0      6      0   100%
+src\humaneval_144.py       8      0      2      0   100%
+src\humaneval_150.py       7      0      6      0   100%
+src\humaneval_156.py      13      0      4      0   100%
+src\humaneval_157.py       2      0      0      0   100%
+src\humaneval_158.py       2      0      0      0   100%
+--------------------------------------------------------
+TOTAL                    315      1    192      1    99%
+445 passed in 2.35s

@@ -1,0 +1,128 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def file_name_check(file_name):
+ 2:     """Create a function which takes a string representing a file's name, and returns
+ 3:     'Yes' if the the file's name is valid, and returns 'No' otherwise.
+ 4:     A file's name is considered to be valid if and only if all the following conditions 
+ 5:     are met:
+ 6:     - There should not be more than three digits ('0'-'9') in the file's name.
+ 7:     - The file's name contains exactly one dot '.'
+ 8:     - The substring before the dot should not be empty, and it starts with a letter from 
+ 9:     the latin alphapet ('a'-'z' and 'A'-'Z').
+10:     - The substring after the dot should be one of these: ['txt', 'exe', 'dll']
+11:     Examples:
+12:     file_name_check("example.txt") # => 'Yes'
+13:     file_name_check("1example.dll") # => 'No' (the name should start with a latin alphapet letter)
+14:     """
+15:     suf = ['txt', 'exe', 'dll']
+16:     lst = file_name.split(sep='.')
+17:     if len(lst) == 2:
+18:         return 'No'
+19:     if not lst[1] in suf:
+20:         return 'No'
+21:     if len(lst[0]) == 0:
+22:         return 'No'
+23:     if not lst[0][0].isalpha():
+24:         return 'No'
+25:     t = len([x for x in lst[0] if x.isdigit()])
+26:     if t > 3:
+27:         return 'No'
+28:     return 'Yes'```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_file_name_check_1
+- test_file_name_check_2
+- test_file_name_check_5
+- test_file_name_check_6
+- test_file_name_check_7
+- test_file_name_check_8
+- test_file_name_check_9
+- test_file_name_check_11
+- test_file_name_check_12
+- test_file_name_check_13
+- test_file_name_check_14
+- test_file_name_check_19
+- test_file_name_check_20
+- test_file_name_check_21
+- test_file_name_check_23
+- test_file_name_check_24
+- test_file_name_check_25
+
+Failing tests with their error messages:
+- test_file_name_check_0:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_3:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_4:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_10:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_15:
+E     
+E     - No
+E     + Yes
+
+- test_file_name_check_16:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_17:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_18:
+E     
+E     - Yes
+E     + No
+
+- test_file_name_check_22:
+    if not lst[1] in suf:
+           ^^^^^^
+E   IndexError: list index out of range
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 1: 1.000
+- Line 21: 1.000
+- Line 23: 1.000
+- Line 25: 1.000
+- Line 26: 1.000
+- Line 28: 1.000
+- Line 19: 0.654
+- Line 15: 0.500
+- Line 16: 0.500
+- Line 17: 0.500
+- Line 18: 0.469
+- Line 20: 0.000
+
+Provide your JSON response below.

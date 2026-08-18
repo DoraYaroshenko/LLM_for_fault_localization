@@ -1,0 +1,17 @@
+{
+  "tarantula": {
+    "24": 0.6666666666666666,
+    "17": 0.625,
+    "20": 0.625,
+    "15": 0.5555555555555556,
+    "16": 0.5555555555555556,
+    "18": 0.5555555555555556,
+    "19": 0.5555555555555556,
+    "21": 0.5555555555555556,
+    "1": 0.0,
+    "22": 0.0
+  },
+  "failing_tests": {
+    "test_total_match_7": "tests\\test_humaneval_74.py:19: in test_total_match_7\n    assert total_match(['hi', 'admin'], ['hI', 'hi', 'hii']) == ['hi', 'admin']\nE   AssertionError: assert ['hI', 'hi', 'hii'] == ['hi', 'admin']\nE     \nE     At index 0 diff: 'hI' != 'hi'\nE     Left contains one more item: 'hii'\nE     Use -v to get more diff"
+  }
+}

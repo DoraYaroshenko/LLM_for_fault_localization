@@ -1,0 +1,73 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def any_int(x, y, z):
+ 2:     """
+ 3:     Create a function that takes 3 numbers.
+ 4:     Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.
+ 5:     Returns false in any other cases.
+ 6:     
+ 7:     Examples
+ 8:     any_int(5, 2, 7) ➞ True
+ 9:     
+10:     any_int(3, 2, 2) ➞ False
+11: 
+12:     any_int(3, -2, 1) ➞ True
+13:     
+14:     any_int(3.6, -2.2, 2) ➞ False
+15:   
+16: 
+17:     
+18:     """
+19:     if isinstance(x, int) or isinstance(y, int) or isinstance(z, int):
+20:         if x + y == z or x + z == y or y + z == x:
+21:             return True
+22:         return False
+23:     return False```
+
+### Passing and Failing Tests
+The following tests were executed against the buggy method.
+
+Passing tests:
+- test_any_int_0
+- test_any_int_1
+- test_any_int_3
+- test_any_int_4
+- test_any_int_5
+- test_any_int_6
+- test_any_int_7
+- test_any_int_8
+
+Failing tests with their error messages:
+- test_any_int_2:
+E   AssertionError: This prints if this assert fails 3 (good for debugging!)
+E   assert True == False
+E    +  where True = any_int(1.5, 5, 3.5)
+
+- test_any_int_9:
+E   AssertionError: This prints if this assert fails 10 (also good for debugging!)
+E   assert True == False
+E    +  where True = any_int(3.0, 4, 7)
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 21: 0.615
+- Line 20: 0.533
+- Line 19: 0.500
+- Line 1: 0.000
+- Line 22: 0.000
+- Line 23: 0.000
+
+Provide your JSON response below.

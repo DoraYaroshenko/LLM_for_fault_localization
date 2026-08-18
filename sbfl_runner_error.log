@@ -1,0 +1,15 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\yar-d\AppData\Local\Temp\tmpcgi8t9y3\tests
+plugins: anyio-4.14.2, cov-7.1.0
+collected 3 items
+
+<Dir tests>
+  <Module test_test_method.py>
+    <Function test_add_1>
+    <Function test_add_2>
+    <Function test_add_3>
+
+========================= 3 tests collected in 0.04s ==========================
+
+STDERR:

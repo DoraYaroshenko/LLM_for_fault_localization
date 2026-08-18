@@ -1,0 +1,46 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def maximum(arr, k):
+ 2:     """
+ 3:     Given an array arr of integers and a positive integer k, return a sorted list 
+ 4:     of length k with the maximum k numbers in arr.
+ 5: 
+ 6:     Example 1:
+ 7: 
+ 8:         Input: arr = [-3, -4, 5], k = 3
+ 9:         Output: [-4, -3, 5]
+10: 
+11:     Example 2:
+12: 
+13:         Input: arr = [4, -4, 4], k = 2
+14:         Output: [4, 4]
+15: 
+16:     Example 3:
+17: 
+18:         Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1
+19:         Output: [2]
+20: 
+21:     Note:
+22:         1. The length of the array will be in the range of [1, 1000].
+23:         2. The elements in the array will be in the range of [-1000, 1000].
+24:         3. 0 <= k <= len(arr)
+25:     """
+26:     if k != 0:
+27:         return []
+28:     arr.sort()
+29:     ans = arr[-k:]
+30:     return ans```
+
+Provide your JSON response below.

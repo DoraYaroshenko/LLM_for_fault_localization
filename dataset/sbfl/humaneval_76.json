@@ -1,0 +1,16 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "14": 0.5454545454545454,
+    "13": 0.5,
+    "16": 0.0,
+    "18": 0.0,
+    "15": 0.0
+  },
+  "failing_tests": {
+    "test_is_simple_power_0": "tests\\test_humaneval_76.py:5: in test_is_simple_power_0\n    assert is_simple_power(16, 2) == True, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert False == True\nE    +  where False = is_simple_power(16, 2)",
+    "test_is_simple_power_2": "tests\\test_humaneval_76.py:9: in test_is_simple_power_2\n    assert is_simple_power(4, 2) == True, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert False == True\nE    +  where False = is_simple_power(4, 2)",
+    "test_is_simple_power_3": "tests\\test_humaneval_76.py:11: in test_is_simple_power_3\n    assert is_simple_power(9, 3) == True, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert False == True\nE    +  where False = is_simple_power(9, 3)",
+    "test_is_simple_power_4": "tests\\test_humaneval_76.py:13: in test_is_simple_power_4\n    assert is_simple_power(16, 4) == True, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert False == True\nE    +  where False = is_simple_power(16, 4)"
+  }
+}

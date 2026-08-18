@@ -1,0 +1,32 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "15": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0
+  },
+  "failing_tests": {
+    "test_prime_fib_0": "tests\\test_humaneval_39.py:5: in test_prime_fib_0\n    assert prime_fib(1) == 2\nE   assert 3 == 2\nE    +  where 3 = prime_fib(1)",
+    "test_prime_fib_1": "tests\\test_humaneval_39.py:7: in test_prime_fib_1\n    assert prime_fib(2) == 3\nE   assert 5 == 3\nE    +  where 5 = prime_fib(2)",
+    "test_prime_fib_2": "tests\\test_humaneval_39.py:9: in test_prime_fib_2\n    assert prime_fib(3) == 5\nE   assert 13 == 5\nE    +  where 13 = prime_fib(3)",
+    "test_prime_fib_3": "tests\\test_humaneval_39.py:11: in test_prime_fib_3\n    assert prime_fib(4) == 13\nE   assert 89 == 13\nE    +  where 89 = prime_fib(4)",
+    "test_prime_fib_4": "tests\\test_humaneval_39.py:13: in test_prime_fib_4\n    assert prime_fib(5) == 89\nE   assert 233 == 89\nE    +  where 233 = prime_fib(5)",
+    "test_prime_fib_5": "tests\\test_humaneval_39.py:15: in test_prime_fib_5\n    assert prime_fib(6) == 233\nE   assert 1597 == 233\nE    +  where 1597 = prime_fib(6)",
+    "test_prime_fib_6": "tests\\test_humaneval_39.py:17: in test_prime_fib_6\n    assert prime_fib(7) == 1597\nE   assert 28657 == 1597\nE    +  where 28657 = prime_fib(7)",
+    "test_prime_fib_7": "tests\\test_humaneval_39.py:19: in test_prime_fib_7\n    assert prime_fib(8) == 28657\nE   assert 514229 == 28657\nE    +  where 514229 = prime_fib(8)",
+    "test_prime_fib_8": "tests\\test_humaneval_39.py:21: in test_prime_fib_8\n    assert prime_fib(9) == 514229\nE   assert 433494437 == 514229\nE    +  where 433494437 = prime_fib(9)",
+    "test_prime_fib_9": "tests\\test_humaneval_39.py:23: in test_prime_fib_9\n    assert prime_fib(10) == 433494437\nE   assert 2971215073 == 433494437\nE    +  where 2971215073 = prime_fib(10)"
+  }
+}

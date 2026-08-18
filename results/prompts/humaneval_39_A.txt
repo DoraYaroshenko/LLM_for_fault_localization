@@ -1,0 +1,46 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def prime_fib(n: int):
+ 2:     """
+ 3:     prime_fib returns n-th number that is a Fibonacci number and it's also prime.
+ 4:     >>> prime_fib(1)
+ 5:     2
+ 6:     >>> prime_fib(2)
+ 7:     3
+ 8:     >>> prime_fib(3)
+ 9:     5
+10:     >>> prime_fib(4)
+11:     13
+12:     >>> prime_fib(5)
+13:     89
+14:     """
+15:     import math
+16: 
+17:     def is_prime(p):
+18:         if p <= 2:
+19:             return False
+20:         for k in range(2, min(int(math.sqrt(p)) + 1, p - 1)):
+21:             if p % k == 0:
+22:                 return False
+23:         return True
+24:     f = [0, 1]
+25:     while True:
+26:         f.append(f[-1] + f[-2])
+27:         if is_prime(f[-1]):
+28:             n -= 1
+29:         if n == 0:
+30:             return f[-1]```
+
+Provide your JSON response below.

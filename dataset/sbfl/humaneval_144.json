@@ -1,0 +1,19 @@
+{
+  "tarantula": {
+    "19": 0.6153846153846154,
+    "13": 0.5,
+    "14": 0.5,
+    "15": 0.5,
+    "16": 0.5,
+    "17": 0.5,
+    "18": 0.4444444444444444,
+    "1": 0.0
+  },
+  "failing_tests": {
+    "test_simplify_1": "tests\\test_humaneval_144.py:7: in test_simplify_1\n    assert simplify('1/6', '2/1') == False, 'test2'\nE   AssertionError: test2\nE   assert True == False\nE    +  where True = simplify('1/6', '2/1')",
+    "test_simplify_3": "tests\\test_humaneval_144.py:11: in test_simplify_3\n    assert simplify('7/10', '10/2') == False, 'test4'\nE   AssertionError: test4\nE   assert True == False\nE    +  where True = simplify('7/10', '10/2')",
+    "test_simplify_5": "tests\\test_humaneval_144.py:15: in test_simplify_5\n    assert simplify('7/2', '4/2') == True, 'test6'\nE   AssertionError: test6\nE   assert False == True\nE    +  where False = simplify('7/2', '4/2')",
+    "test_simplify_6": "tests\\test_humaneval_144.py:17: in test_simplify_6\n    assert simplify('11/6', '6/1') == True, 'test7'\nE   AssertionError: test7\nE   assert False == True\nE    +  where False = simplify('11/6', '6/1')",
+    "test_simplify_7": "tests\\test_humaneval_144.py:19: in test_simplify_7\n    assert simplify('2/3', '5/2') == False, 'test8'\nE   AssertionError: test8\nE   assert True == False\nE    +  where True = simplify('2/3', '5/2')"
+  }
+}

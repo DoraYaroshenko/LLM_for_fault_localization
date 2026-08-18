@@ -1,0 +1,17 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "17": 1.0,
+    "12": 1.0,
+    "10": 0.5,
+    "11": 0.45454545454545453
+  },
+  "failing_tests": {
+    "test_x_or_y_0": "tests\\test_humaneval_150.py:5: in test_x_or_y_0\n    assert x_or_y(7, 34, 12) == 34\nE   assert 12 == 34\nE    +  where 12 = x_or_y(7, 34, 12)",
+    "test_x_or_y_2": "tests\\test_humaneval_150.py:9: in test_x_or_y_2\n    assert x_or_y(3, 33, 5212) == 33\nE   assert 5212 == 33\nE    +  where 5212 = x_or_y(3, 33, 5212)",
+    "test_x_or_y_3": "tests\\test_humaneval_150.py:11: in test_x_or_y_3\n    assert x_or_y(1259, 3, 52) == 3\nE   assert 52 == 3\nE    +  where 52 = x_or_y(1259, 3, 52)",
+    "test_x_or_y_4": "tests\\test_humaneval_150.py:13: in test_x_or_y_4\n    assert x_or_y(7919, -1, 12) == -1\nE   assert 12 == -1\nE    +  where 12 = x_or_y(7919, -1, 12)",
+    "test_x_or_y_8": "tests\\test_humaneval_150.py:21: in test_x_or_y_8\n    assert x_or_y(1, 2, 0) == 0\nE   assert 2 == 0\nE    +  where 2 = x_or_y(1, 2, 0)",
+    "test_x_or_y_9": "tests\\test_humaneval_150.py:23: in test_x_or_y_9\n    assert x_or_y(2, 2, 0) == 2\nE   assert 0 == 2\nE    +  where 0 = x_or_y(2, 2, 0)"
+  }
+}

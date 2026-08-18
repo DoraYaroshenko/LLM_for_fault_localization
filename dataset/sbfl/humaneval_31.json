@@ -1,0 +1,19 @@
+{
+  "tarantula": {
+    "20": 0.5454545454545454,
+    "21": 0.5454545454545454,
+    "22": 0.5454545454545454,
+    "18": 0.5,
+    "1": 0.0,
+    "19": 0.0
+  },
+  "failing_tests": {
+    "test_is_prime_1": "tests\\test_humaneval_31.py:7: in test_is_prime_1\n    assert is_prime(101) == True\nE   assert False == True\nE    +  where False = is_prime(101)",
+    "test_is_prime_2": "tests\\test_humaneval_31.py:9: in test_is_prime_2\n    assert is_prime(11) == True\nE   assert False == True\nE    +  where False = is_prime(11)",
+    "test_is_prime_3": "tests\\test_humaneval_31.py:11: in test_is_prime_3\n    assert is_prime(13441) == True\nE   assert False == True\nE    +  where False = is_prime(13441)",
+    "test_is_prime_4": "tests\\test_humaneval_31.py:13: in test_is_prime_4\n    assert is_prime(61) == True\nE   assert False == True\nE    +  where False = is_prime(61)",
+    "test_is_prime_7": "tests\\test_humaneval_31.py:19: in test_is_prime_7\n    assert is_prime(5) == True\nE   assert False == True\nE    +  where False = is_prime(5)",
+    "test_is_prime_8": "tests\\test_humaneval_31.py:21: in test_is_prime_8\n    assert is_prime(11) == True\nE   assert False == True\nE    +  where False = is_prime(11)",
+    "test_is_prime_9": "tests\\test_humaneval_31.py:23: in test_is_prime_9\n    assert is_prime(17) == True\nE   assert False == True\nE    +  where False = is_prime(17)"
+  }
+}

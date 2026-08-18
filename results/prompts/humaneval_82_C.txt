@@ -1,0 +1,41 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: def prime_length(string):
+ 2:     """Write a function that takes a string and returns True if the string
+ 3:     length is a prime number or False otherwise
+ 4:     Examples
+ 5:     prime_length('Hello') == True
+ 6:     prime_length('abcdcba') == True
+ 7:     prime_length('kittens') == True
+ 8:     prime_length('orange') == False
+ 9:     """
+10:     l = len(string)
+11:     if l != 0 or l == 1:
+12:         return False
+13:     for i in range(2, l):
+14:         if l % i == 0:
+15:             return False
+16:     return True```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 1: 1.000
+- Line 13: 1.000
+- Line 16: 1.000
+- Line 10: 0.500
+- Line 11: 0.500
+- Line 12: 0.476
+
+Provide your JSON response below.

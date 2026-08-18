@@ -1,0 +1,18 @@
+{
+  "tarantula": {
+    "16": 1.0,
+    "15": 1.0,
+    "13": 0.75,
+    "1": 0.0,
+    "14": 0.0
+  },
+  "failing_tests": {
+    "test_prod_signs_1": "tests\\test_humaneval_128.py:7: in test_prod_signs_1\n    assert prod_signs([1, 2, 2, -4]) == -9\nE   assert 0 == -9\nE    +  where 0 = prod_signs([1, 2, 2, -4])",
+    "test_prod_signs_2": "tests\\test_humaneval_128.py:9: in test_prod_signs_2\n    assert prod_signs([0, 1]) == 0\nE   assert 1 == 0\nE    +  where 1 = prod_signs([0, 1])",
+    "test_prod_signs_3": "tests\\test_humaneval_128.py:11: in test_prod_signs_3\n    assert prod_signs([1, 1, 1, 2, 3, -1, 1]) == -10\nE   assert 0 == -10\nE    +  where 0 = prod_signs([1, 1, 1, 2, 3, -1, ...])",
+    "test_prod_signs_5": "tests\\test_humaneval_128.py:15: in test_prod_signs_5\n    assert prod_signs([2, 4, 1, 2, -1, -1, 9]) == 20\nE   assert 0 == 20\nE    +  where 0 = prod_signs([2, 4, 1, 2, -1, -1, ...])",
+    "test_prod_signs_6": "tests\\test_humaneval_128.py:17: in test_prod_signs_6\n    assert prod_signs([-1, 1, -1, 1]) == 4\nE   assert 0 == 4\nE    +  where 0 = prod_signs([-1, 1, -1, 1])",
+    "test_prod_signs_7": "tests\\test_humaneval_128.py:19: in test_prod_signs_7\n    assert prod_signs([-1, 1, 1, 1]) == -4\nE   assert 0 == -4\nE    +  where 0 = prod_signs([-1, 1, 1, 1])",
+    "test_prod_signs_8": "tests\\test_humaneval_128.py:21: in test_prod_signs_8\n    assert prod_signs([-1, 1, 1, 0]) == 0\nE   assert -3 == 0\nE    +  where -3 = prod_signs([-1, 1, 1, 0])"
+  }
+}
