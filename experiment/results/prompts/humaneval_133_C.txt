@@ -1,0 +1,48 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: 
+ 3: def sum_squares(lst):
+ 4:     """You are given a list of numbers.
+ 5:     You need to return the sum of squared numbers in the given list,
+ 6:     round each element in the list to the upper int(Ceiling) first.
+ 7:     Examples:
+ 8:     For lst = [1,2,3] the output should be 14
+ 9:     For lst = [1,4,9] the output should be 98
+10:     For lst = [1,3,5,7] the output should be 84
+11:     For lst = [1.4,4.2,0] the output should be 29
+12:     For lst = [-2.4,1,1] the output should be 6
+13:     
+14: 
+15:     """
+16:     import math
+17:     squared = 0
+18:     for i in lst:
+19:         squared += math.ceil(i)**3
+20:     return squared
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 3: 1.000
+- Line 16: 0.500
+- Line 17: 0.500
+- Line 18: 0.500
+- Line 19: 0.500
+- Line 20: 0.500
+
+Provide your JSON response below.

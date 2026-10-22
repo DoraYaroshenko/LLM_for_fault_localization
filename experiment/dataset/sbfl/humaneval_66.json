@@ -1,0 +1,10 @@
+{
+  "tarantula": {
+    "15": 0.5625,
+    "16": 0.0,
+    "2": 0.0
+  },
+  "failing_tests": {
+    "test_digitSum_1": "tests\\test_humaneval_66.py:7: in test_digitSum_1\n    assert digitSum('') == 0, 'Error'\nE   AssertionError: Error\nE   assert 1 == 0\nE    +  where 1 = digitSum('')"
+  }
+}

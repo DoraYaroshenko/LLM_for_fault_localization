@@ -1,0 +1,65 @@
+{
+  "model_id": "openai/gpt-oss-20b:free",
+  "execution_time": "2026-08-19T21:35:19.138564+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "prompt_format": "Condition B",
+  "prompt_text": "You are an expert software developer and tester.\nDo not repair the program. Your task is only to identify the most likely faulty line or small faulty region.\nYou must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).\nIMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\n\n{\n  \"top_1_line\": 12,\n  \"top_3_lines\": [12, 14, 9],\n  \"faulty_region\": \"loop condition\",\n  \"explanation\": \"The loop condition may terminate before the last candidate is checked.\"\n}\n\nHere is the buggy Python method. The docstring describes its intended behavior.\nLines are numbered for your reference.\n\n```python\n 1: \n 2: \n 3: def correct_bracketing(brackets: str):\n 4:     \"\"\" brackets is a string of \"<\" and \">\".\n 5:     return True if every opening bracket has a corresponding closing bracket.\n 6: \n 7:     >>> correct_bracketing(\"<\")\n 8:     False\n 9:     >>> correct_bracketing(\"<>\")\n10:     True\n11:     >>> correct_bracketing(\"<<><>>\")\n12:     True\n13:     >>> correct_bracketing(\"><<>\")\n14:     False\n15:     \"\"\"\n16:     depth = 0\n17:     for b in brackets:\n18:         if b != '<':\n19:             depth += 1\n20:         else:\n21:             depth -= 1\n22:         if depth < 0:\n23:             return False\n24:     return depth == 0\n```\n\n### Test Suite\nHere is the full test suite code executed against the buggy method.\n\n```python\nfrom src.humaneval_56 import correct_bracketing\n\nimport math\ndef test_correct_bracketing_0():\n    assert correct_bracketing('<>')\ndef test_correct_bracketing_1():\n    assert correct_bracketing('<<><>>')\ndef test_correct_bracketing_2():\n    assert correct_bracketing('<><><<><>><>')\ndef test_correct_bracketing_3():\n    assert correct_bracketing('<><><<<><><>><>><<><><<>>>')\ndef test_correct_bracketing_4():\n    assert not correct_bracketing('<<<><>>>>')\ndef test_correct_bracketing_5():\n    assert not correct_bracketing('><<>')\ndef test_correct_bracketing_6():\n    assert not correct_bracketing('<')\ndef test_correct_bracketing_7():\n    assert not correct_bracketing('<<<<')\ndef test_correct_bracketing_8():\n    assert not correct_bracketing('>')\ndef test_correct_bracketing_9():\n    assert not correct_bracketing('<<>')\ndef test_correct_bracketing_10():\n    assert not correct_bracketing('<><><<><>><>><<>')\ndef test_correct_bracketing_11():\n    assert not correct_bracketing('<><><<><>><>>><>')\n\n```\n\nThe following tests failed with these errors:\n- test_correct_bracketing_0:\n    assert correct_bracketing('<>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<>')\n\n- test_correct_bracketing_1:\n    assert correct_bracketing('<<><>>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<<><>>')\n\n- test_correct_bracketing_2:\n    assert correct_bracketing('<><><<><>><>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<><><<><>><>')\n\n- test_correct_bracketing_3:\n    assert correct_bracketing('<><><<<><><>><>><<><><<>>>')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('<><><<<><><>><>><<><><<>>>')\n\n\nProvide your JSON response below.\n",
+  "repetitions": 1,
+  "errors": [],
+  "raw_response": {
+    "id": "gen-1787175322-fmy1cZKKT8LKDf2ce7w6",
+    "object": "chat.completion",
+    "created": 1787175322,
+    "model": "openai/gpt-oss-20b:free",
+    "provider": "Darkbloom",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "{\"top_1_line\":18,\"top_3_lines\":[18,19,21],\"faulty_region\":\"bracket counting logic\",\"explanation\":\"The code increments depth when encountering a '>' and decrements when encountering a '<', which is the opposite of the intended behavior. This causes the function to incorrectly evaluate bracket sequences.\"}",
+          "refusal": null,
+          "reasoning": "We need to identify faulty line(s). Let's analyze code.\n\n```\n16: depth = 0\n17: for b in brackets:\n18:     if b != '<':\n19:         depth += 1\n20:     else:\n21:         depth -= 1\n22:     if depth < 0:\n23:         return False\n24: return depth == 0\n```\n\nThe logic is reversed: For '<' should increment depth, for '>' decrement. But code does opposite: if b != '<' (i.e., '>' ), depth +=1; else depth -=1. So depth increments on '>' and decrements on '<', causing wrong results. So faulty region: condition at line 18 or 19-21. The most suspicious line is 18 or 19. The bug is that the comparison is reversed. So top_1_line maybe 18. top_3_lines: 18, 19, 20? Or 18, 19, 21? Let's think.\n\nLine 18: if b != '<': This is suspicious because logic reversed. But also line 19: depth += 1. The bug is that the increment should be for '<', not '>'. So line 18 is the root. But line 19 is also suspicious because it's the increment. But the main bug is the condition. So top_1_line: 18. top_3_lines: [18, 19, 20] maybe. But 20 is else: depth -= 1. That is also suspicious. But we need 3 lines. So [18, 19, 20] or [18, 19, 21]. Which is more suspicious? 20 is else: depth -= 1. That is also wrong. But 21 is the line inside else. So 20 is just else. 21 is the decrement. So maybe [18, 19, 21]. But 20 is not a code line? It's a line number. 20 is else: depth -= 1. Actually line 20 is else: depth -= 1. Wait check numbering: 18: if b != '<': 19: depth += 1 20: else: 21: depth -= 1. So 20 is else: line. 21 is depth -= 1. So we can include 20 or 21. The bug is in the logic of increment/decrement. So 18, 19, 21. Let's choose that.\n\nFaulty region: \"bracket counting logic\" or \"incorrect increment/decrement\". Explanation: The code increments depth for '>' and decrements for '<', opposite of intended.\n\nReturn JSON.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to identify faulty line(s). Let's analyze code.\n\n```\n16: depth = 0\n17: for b in brackets:\n18:     if b != '<':\n19:         depth += 1\n20:     else:\n21:         depth -= 1\n22:     if depth < 0:\n23:         return False\n24: return depth == 0\n```\n\nThe logic is reversed: For '<' should increment depth, for '>' decrement. But code does opposite: if b != '<' (i.e., '>' ), depth +=1; else depth -=1. So depth increments on '>' and decrements on '<', causing wrong results. So faulty region: condition at line 18 or 19-21. The most suspicious line is 18 or 19. The bug is that the comparison is reversed. So top_1_line maybe 18. top_3_lines: 18, 19, 20? Or 18, 19, 21? Let's think.\n\nLine 18: if b != '<': This is suspicious because logic reversed. But also line 19: depth += 1. The bug is that the increment should be for '<', not '>'. So line 18 is the root. But line 19 is also suspicious because it's the increment. But the main bug is the condition. So top_1_line: 18. top_3_lines: [18, 19, 20] maybe. But 20 is else: depth -= 1. That is also suspicious. But we need 3 lines. So [18, 19, 20] or [18, 19, 21]. Which is more suspicious? 20 is else: depth -= 1. That is also wrong. But 21 is the line inside else. So 20 is just else. 21 is the decrement. So maybe [18, 19, 21]. But 20 is not a code line? It's a line number. 20 is else: depth -= 1. Actually line 20 is else: depth -= 1. Wait check numbering: 18: if b != '<': 19: depth += 1 20: else: 21: depth -= 1. So 20 is else: line. 21 is depth -= 1. So we can include 20 or 21. The bug is in the logic of increment/decrement. So 18, 19, 21. Let's choose that.\n\nFaulty region: \"bracket counting logic\" or \"incorrect increment/decrement\". Explanation: The code increments depth for '>' and decrements for '<', opposite of intended.\n\nReturn JSON.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 953,
+      "completion_tokens": 638,
+      "total_tokens": 1591,
+      "cost": 0,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 5.84785e-05,
+        "upstream_inference_prompt_cost": 1.38185e-05,
+        "upstream_inference_completions_cost": 4.466e-05
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 560,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  }
+}

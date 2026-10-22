@@ -1,0 +1,16 @@
+{
+  "tarantula": {
+    "22": 0.8571428571428571,
+    "20": 0.5217391304347826,
+    "18": 0.5,
+    "19": 0.5,
+    "21": 0.5,
+    "2": 0.0,
+    "23": 0.0,
+    "24": 0.0,
+    "26": 0.0
+  },
+  "failing_tests": {
+    "test_is_sorted_11": "tests\\test_humaneval_126.py:27: in test_is_sorted_11\n    assert is_sorted([1, 2, 2, 3, 3, 4]) == True, 'This prints if this assert fails 7 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 7 (good for debugging!)\nE   assert False == True\nE    +  where False = is_sorted([1, 2, 2, 3, 3, 4])"
+  }
+}

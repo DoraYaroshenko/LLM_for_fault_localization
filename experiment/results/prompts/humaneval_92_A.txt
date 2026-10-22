@@ -1,0 +1,44 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def any_int(x, y, z):
+ 3:     '''
+ 4:     Create a function that takes 3 numbers.
+ 5:     Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.
+ 6:     Returns false in any other cases.
+ 7:     
+ 8:     Examples
+ 9:     any_int(5, 2, 7) ➞ True
+10:     
+11:     any_int(3, 2, 2) ➞ False
+12: 
+13:     any_int(3, -2, 1) ➞ True
+14:     
+15:     any_int(3.6, -2.2, 2) ➞ False
+16:   
+17: 
+18:     
+19:     '''
+20:     
+21:     if isinstance(x,int) and isinstance(y,int) and isinstance(z,int):
+22:         if (x+y==z) or (x - z==y) or (y+z==x):
+23:             return True
+24:         return False
+25:     return False
+```
+
+Provide your JSON response below.

@@ -1,0 +1,20 @@
+{
+  "tarantula": {
+    "13": 0.5,
+    "14": 0.5,
+    "15": 0.5,
+    "17": 0.5,
+    "18": 0.5,
+    "19": 0.5,
+    "22": 0.5,
+    "2": 0.0,
+    "20": 0.0
+  },
+  "failing_tests": {
+    "test_search_2": "tests\\test_humaneval_69.py:9: in test_search_2\n    assert search([3, 3]) == -1\nE   assert -2 == -1\nE    +  where -2 = search([3, 3])",
+    "test_search_8": "tests\\test_humaneval_69.py:21: in test_search_8\n    assert search([8, 8, 3, 6, 5, 6, 4]) == -1\nE   assert -2 == -1\nE    +  where -2 = search([8, 8, 3, 6, 5, 6, ...])",
+    "test_search_19": "tests\\test_humaneval_69.py:43: in test_search_19\n    assert search([5, 5, 3, 9, 5, 6, 3, 2, 8, 5, 6, 10, 10, 6, 8, 4, 10, 7, 7, 10, 8]) == -1\nE   assert -2 == -1\nE    +  where -2 = search([5, 5, 3, 9, 5, 6, ...])",
+    "test_search_20": "tests\\test_humaneval_69.py:45: in test_search_20\n    assert search([10]) == -1\nE   assert -2 == -1\nE    +  where -2 = search([10])",
+    "test_search_24": "tests\\test_humaneval_69.py:53: in test_search_24\n    assert search([3, 10, 10, 9, 2]) == -1\nE   assert -2 == -1\nE    +  where -2 = search([3, 10, 10, 9, 2])"
+  }
+}

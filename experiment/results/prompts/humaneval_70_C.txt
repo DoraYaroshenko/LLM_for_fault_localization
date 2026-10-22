@@ -1,0 +1,46 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def strange_sort_list(lst):
+ 3:     '''
+ 4:     Given list of integers, return list in strange order.
+ 5:     Strange sorting, is when you start with the minimum value,
+ 6:     then maximum of the remaining integers, then minimum and so on.
+ 7: 
+ 8:     Examples:
+ 9:     strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]
+10:     strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]
+11:     strange_sort_list([]) == []
+12:     '''
+13:     res, switch = [], True
+14:     while lst:
+15:         res.append(min(lst) if switch else max(lst))
+16:         lst.remove(res[-2])
+17:         switch = not switch
+18:     return res
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 2: 1.000
+- Line 15: 1.000
+- Line 16: 1.000
+- Line 13: 0.667
+- Line 14: 0.667
+- Line 18: 0.000
+
+Provide your JSON response below.

@@ -1,0 +1,10 @@
+{
+  "tarantula": {
+    "16": 0.5263157894736842,
+    "17": 0.5263157894736842,
+    "2": 0.0
+  },
+  "failing_tests": {
+    "test_check_if_last_char_is_a_letter_3": "tests\\test_humaneval_134.py:11: in test_check_if_last_char_is_a_letter_3\n    assert check_if_last_char_is_a_letter('A') == True\nE   AssertionError: assert False == True\nE    +  where False = check_if_last_char_is_a_letter('A')"
+  }
+}

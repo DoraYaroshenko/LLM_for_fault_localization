@@ -1,0 +1,24 @@
+{
+  "tarantula": {
+    "2": 1.0,
+    "28": 0.631578947368421,
+    "29": 0.631578947368421,
+    "19": 0.5454545454545454,
+    "21": 0.5454545454545454,
+    "27": 0.5454545454545454,
+    "18": 0.5217391304347826,
+    "15": 0.5,
+    "16": 0.5,
+    "17": 0.5,
+    "22": 0.5,
+    "23": 0.5,
+    "24": 0.5,
+    "25": 0.5,
+    "26": 0.5,
+    "30": 0.5
+  },
+  "failing_tests": {
+    "test_is_nested_0": "tests\\test_humaneval_132.py:5: in test_is_nested_0\n    assert is_nested('[[]]') == True, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert False == True\nE    +  where False = is_nested('[[]]')",
+    "test_is_nested_9": "tests\\test_humaneval_132.py:23: in test_is_nested_9\n    assert is_nested('[[]][[') == True\nE   AssertionError: assert False == True\nE    +  where False = is_nested('[[]][[')"
+  }
+}

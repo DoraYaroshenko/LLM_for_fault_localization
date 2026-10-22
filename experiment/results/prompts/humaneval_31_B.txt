@@ -1,0 +1,87 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: 
+ 3: def is_prime(n):
+ 4:     """Return true if a given number is prime, and false otherwise.
+ 5:     >>> is_prime(6)
+ 6:     False
+ 7:     >>> is_prime(101)
+ 8:     True
+ 9:     >>> is_prime(11)
+10:     True
+11:     >>> is_prime(13441)
+12:     True
+13:     >>> is_prime(61)
+14:     True
+15:     >>> is_prime(4)
+16:     False
+17:     >>> is_prime(1)
+18:     False
+19:     """
+20:     if n < 2:
+21:         return False
+22:     for k in range(3, n - 1):
+23:         if n % k == 0:
+24:             return False
+25:     return True
+```
+
+### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+from src.humaneval_31 import is_prime
+
+import math
+def test_is_prime_0():
+    assert is_prime(6) == False
+def test_is_prime_1():
+    assert is_prime(101) == True
+def test_is_prime_2():
+    assert is_prime(11) == True
+def test_is_prime_3():
+    assert is_prime(13441) == True
+def test_is_prime_4():
+    assert is_prime(61) == True
+def test_is_prime_5():
+    assert is_prime(4) == False
+def test_is_prime_6():
+    assert is_prime(1) == False
+def test_is_prime_7():
+    assert is_prime(5) == True
+def test_is_prime_8():
+    assert is_prime(11) == True
+def test_is_prime_9():
+    assert is_prime(17) == True
+def test_is_prime_10():
+    assert is_prime(5 * 17) == False
+def test_is_prime_11():
+    assert is_prime(11 * 7) == False
+def test_is_prime_12():
+    assert is_prime(13441 * 19) == False
+
+```
+
+The following tests failed with these errors:
+- test_is_prime_5:
+    assert is_prime(4) == False
+E   assert True == False
+E    +  where True = is_prime(4)
+
+
+Provide your JSON response below.

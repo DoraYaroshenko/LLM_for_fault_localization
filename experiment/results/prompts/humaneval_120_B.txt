@@ -1,0 +1,99 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def maximum(arr, k):
+ 3:     """
+ 4:     Given an array arr of integers and a positive integer k, return a sorted list 
+ 5:     of length k with the maximum k numbers in arr.
+ 6: 
+ 7:     Example 1:
+ 8: 
+ 9:         Input: arr = [-3, -4, 5], k = 3
+10:         Output: [-4, -3, 5]
+11: 
+12:     Example 2:
+13: 
+14:         Input: arr = [4, -4, 4], k = 2
+15:         Output: [4, 4]
+16: 
+17:     Example 3:
+18: 
+19:         Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1
+20:         Output: [2]
+21: 
+22:     Note:
+23:         1. The length of the array will be in the range of [1, 1000].
+24:         2. The elements in the array will be in the range of [-1000, 1000].
+25:         3. 0 <= k <= len(arr)
+26:     """
+27:     if k == 1:
+28:         return []
+29:     arr.sort()
+30:     ans = arr[-k:]
+31:     return ans
+```
+
+### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+from src.humaneval_120 import maximum
+
+import math
+def test_maximum_0():
+    assert maximum([-3, -4, 5], 3) == [-4, -3, 5]
+def test_maximum_1():
+    assert maximum([4, -4, 4], 2) == [4, 4]
+def test_maximum_2():
+    assert maximum([-3, 2, 1, 2, -1, -2, 1], 1) == [2]
+def test_maximum_3():
+    assert maximum([123, -123, 20, 0, 1, 2, -3], 3) == [2, 20, 123]
+def test_maximum_4():
+    assert maximum([-123, 20, 0, 1, 2, -3], 4) == [0, 1, 2, 20]
+def test_maximum_5():
+    assert maximum([5, 15, 0, 3, -13, -8, 0], 7) == [-13, -8, 0, 0, 3, 5, 15]
+def test_maximum_6():
+    assert maximum([-1, 0, 2, 5, 3, -10], 2) == [3, 5]
+def test_maximum_7():
+    assert maximum([1, 0, 5, -7], 1) == [5]
+def test_maximum_8():
+    assert maximum([4, -4], 2) == [-4, 4]
+def test_maximum_9():
+    assert maximum([-10, 10], 2) == [-10, 10]
+def test_maximum_10():
+    assert maximum([1, 2, 3, -23, 243, -400, 0], 0) == []
+
+```
+
+The following tests failed with these errors:
+- test_maximum_2:
+E     
+E     Right contains one more item: 2
+E     Use -v to get more diff
+
+- test_maximum_7:
+E     
+E     Right contains one more item: 5
+E     Use -v to get more diff
+
+- test_maximum_10:
+E     
+E     Left contains 7 more items, first extra item: -400
+E     Use -v to get more diff
+
+
+Provide your JSON response below.

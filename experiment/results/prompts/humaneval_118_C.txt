@@ -1,0 +1,56 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def get_closest_vowel(word):
+ 3:     """You are given a word. Your task is to find the closest vowel that stands between 
+ 4:     two consonants from the right side of the word (case sensitive).
+ 5:     
+ 6:     Vowels in the beginning and ending doesn't count. Return empty string if you didn't
+ 7:     find any vowel met the above condition. 
+ 8: 
+ 9:     You may assume that the given string contains English letter only.
+10: 
+11:     Example:
+12:     get_closest_vowel("yogurt") ==> "u"
+13:     get_closest_vowel("FULL") ==> "U"
+14:     get_closest_vowel("quick") ==> ""
+15:     get_closest_vowel("ab") ==> ""
+16:     """
+17:     if len(word) < 4:
+18:         return ""
+19: 
+20:     vowels = {"a", "e", "i", "o", "u", "A", "E", 'O', 'U', 'I'}
+21:     for i in range(len(word)-2, 0, -1):
+22:         if word[i] in vowels:
+23:             if (word[i+1] not in vowels) and (word[i-1] not in vowels):
+24:                 return word[i]
+25:     return ""
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 18: 0.812
+- Line 17: 0.520
+- Line 2: 0.000
+- Line 20: 0.000
+- Line 21: 0.000
+- Line 22: 0.000
+- Line 23: 0.000
+- Line 24: 0.000
+- Line 25: 0.000
+
+Provide your JSON response below.

@@ -1,0 +1,65 @@
+{
+  "model_id": "openai/gpt-oss-20b:free",
+  "execution_time": "2026-08-19T22:30:33.226800+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "prompt_format": "Condition D",
+  "prompt_text": "You are an expert software developer and tester.\nDo not repair the program. Your task is only to identify the most likely faulty line or small faulty region.\nYou must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).\nIMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\n\n{\n  \"top_1_line\": 12,\n  \"top_3_lines\": [12, 14, 9],\n  \"faulty_region\": \"loop condition\",\n  \"explanation\": \"The loop condition may terminate before the last candidate is checked.\"\n}\n\nHere is the buggy Python method. The docstring describes its intended behavior.\nLines are numbered for your reference.\n\n```python\n 1: \n 2: def any_int(x, y, z):\n 3:     '''\n 4:     Create a function that takes 3 numbers.\n 5:     Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.\n 6:     Returns false in any other cases.\n 7:     \n 8:     Examples\n 9:     any_int(5, 2, 7) \u279e True\n10:     \n11:     any_int(3, 2, 2) \u279e False\n12: \n13:     any_int(3, -2, 1) \u279e True\n14:     \n15:     any_int(3.6, -2.2, 2) \u279e False\n16:   \n17: \n18:     \n19:     '''\n20:     \n21:     if isinstance(x,int) and isinstance(y,int) and isinstance(z,int):\n22:         if (x+y==z) or (x - z==y) or (y+z==x):\n23:             return True\n24:         return False\n25:     return False\n```\n\n### Test Suite\nHere is the full test suite code executed against the buggy method.\n\n```python\nfrom src.humaneval_92 import any_int\n\nimport math\ndef test_any_int_0():\n    assert any_int(2, 3, 1) == True, 'This prints if this assert fails 1 (good for debugging!)'\ndef test_any_int_1():\n    assert any_int(2.5, 2, 3) == False, 'This prints if this assert fails 2 (good for debugging!)'\ndef test_any_int_2():\n    assert any_int(1.5, 5, 3.5) == False, 'This prints if this assert fails 3 (good for debugging!)'\ndef test_any_int_3():\n    assert any_int(2, 6, 2) == False, 'This prints if this assert fails 4 (good for debugging!)'\ndef test_any_int_4():\n    assert any_int(4, 2, 2) == True, 'This prints if this assert fails 5 (good for debugging!)'\ndef test_any_int_5():\n    assert any_int(2.2, 2.2, 2.2) == False, 'This prints if this assert fails 6 (good for debugging!)'\ndef test_any_int_6():\n    assert any_int(-4, 6, 2) == True, 'This prints if this assert fails 7 (good for debugging!)'\ndef test_any_int_7():\n    assert any_int(2, 1, 1) == True, 'This prints if this assert fails 8 (also good for debugging!)'\ndef test_any_int_8():\n    assert any_int(3, 4, 7) == True, 'This prints if this assert fails 9 (also good for debugging!)'\ndef test_any_int_9():\n    assert any_int(3.0, 4, 7) == False, 'This prints if this assert fails 10 (also good for debugging!)'\n\n```\n\nThe following tests failed with these errors:\n- test_any_int_0:\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert False == True\nE    +  where False = any_int(2, 3, 1)\n\n\n### Tarantula Suspiciousness Ranking\nThe following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.\n- Line 2: 1.000\n- Line 24: 0.900\n- Line 22: 0.643\n- Line 21: 0.500\n- Line 23: 0.000\n- Line 25: 0.000\n\nProvide your JSON response below.\n",
+  "repetitions": 1,
+  "errors": [],
+  "raw_response": {
+    "id": "gen-1787178636-bF5QlBDHQ37mnkrnGl6e",
+    "object": "chat.completion",
+    "created": 1787178636,
+    "model": "openai/gpt-oss-20b:free",
+    "provider": "Darkbloom",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"top_1_line\": 22,\n  \"top_3_lines\": [24, 22, 21],\n  \"faulty_region\": \"sum comparison logic\",\n  \"explanation\": \"The condition uses (x - z == y) instead of (x + z == y), so the function never detects when one number equals the sum of the other two. This causes failures such as any_int(2, 3, 1) returning False.\"\n}",
+          "refusal": null,
+          "reasoning": "We need to identify most likely faulty line or region. The function any_int should return True if one number equals sum of other two, and all numbers are integers. The code:\n\n21: if isinstance(x,int) and isinstance(y,int) and isinstance(z,int):\n22:     if (x+y==z) or (x - z==y) or (y+z==x):\n23:         return True\n24:     return False\n25: return False\n\nBug: condition (x - z==y) is wrong; should be (x+z==y). Also maybe need to check integer type: int only, but floats like 3.0 should be considered integer? Test 9: any_int(3.0,4,7) expected False. 3.0 is float but equal to 3 integer; but they expect False because not all integers. So isinstance check is fine.\n\nAlso test 0: any_int(2,3,1) should be True because 2+1=3? Wait 2+1=3 yes. Code: (x+y==z) -> 2+3==1 false; (x - z==y) -> 2-1==3? 1==3 false; (y+z==x) -> 3+1==2? 4==2 false. So fails. So bug is wrong operator. Should be (x+z==y). So line 22 is faulty. Also line 24 returns False if condition fails; but that's fine.\n\nThus top suspicious line is 22. Tarantula ranking shows line 22 suspiciousness 0.643. line 24 0.9 suspiciousness but that's due to failing test. But actual bug is line 22.\n\nWe need JSON with top_1_line, top_3_lines, faulty_region, explanation.\n\ntop_1_line: 22\ntop_3_lines: [22, 24, 21] maybe? But ranking: 24 0.9, 22 0.643, 21 0.5. So order: 24, 22, 21. But we need most suspicious first. So top_3_lines: [24, 22, 21]. But we might also include 22 first. But the instruction: \"top_3_lines list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\" So we should order by suspiciousness: 24 (0.9), 22 (0.643), 21 (0.5). So [24,22,21].\n\nfaulty_region: \"condition logic\" or \"sum comparison\". Provide explanation.\n\nLet's craft JSON.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to identify most likely faulty line or region. The function any_int should return True if one number equals sum of other two, and all numbers are integers. The code:\n\n21: if isinstance(x,int) and isinstance(y,int) and isinstance(z,int):\n22:     if (x+y==z) or (x - z==y) or (y+z==x):\n23:         return True\n24:     return False\n25: return False\n\nBug: condition (x - z==y) is wrong; should be (x+z==y). Also maybe need to check integer type: int only, but floats like 3.0 should be considered integer? Test 9: any_int(3.0,4,7) expected False. 3.0 is float but equal to 3 integer; but they expect False because not all integers. So isinstance check is fine.\n\nAlso test 0: any_int(2,3,1) should be True because 2+1=3? Wait 2+1=3 yes. Code: (x+y==z) -> 2+3==1 false; (x - z==y) -> 2-1==3? 1==3 false; (y+z==x) -> 3+1==2? 4==2 false. So fails. So bug is wrong operator. Should be (x+z==y). So line 22 is faulty. Also line 24 returns False if condition fails; but that's fine.\n\nThus top suspicious line is 22. Tarantula ranking shows line 22 suspiciousness 0.643. line 24 0.9 suspiciousness but that's due to failing test. But actual bug is line 22.\n\nWe need JSON with top_1_line, top_3_lines, faulty_region, explanation.\n\ntop_1_line: 22\ntop_3_lines: [22, 24, 21] maybe? But ranking: 24 0.9, 22 0.643, 21 0.5. So order: 24, 22, 21. But we need most suspicious first. So top_3_lines: [24, 22, 21]. But we might also include 22 first. But the instruction: \"top_3_lines list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\" So we should order by suspiciousness: 24 (0.9), 22 (0.643), 21 (0.5). So [24,22,21].\n\nfaulty_region: \"condition logic\" or \"sum comparison\". Provide explanation.\n\nLet's craft JSON.\n\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1081,
+      "completion_tokens": 673,
+      "total_tokens": 1754,
+      "cost": 0,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 6.27845e-05,
+        "upstream_inference_prompt_cost": 1.56745e-05,
+        "upstream_inference_completions_cost": 4.711e-05
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 564,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  }
+}

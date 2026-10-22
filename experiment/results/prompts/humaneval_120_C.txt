@@ -1,0 +1,59 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def maximum(arr, k):
+ 3:     """
+ 4:     Given an array arr of integers and a positive integer k, return a sorted list 
+ 5:     of length k with the maximum k numbers in arr.
+ 6: 
+ 7:     Example 1:
+ 8: 
+ 9:         Input: arr = [-3, -4, 5], k = 3
+10:         Output: [-4, -3, 5]
+11: 
+12:     Example 2:
+13: 
+14:         Input: arr = [4, -4, 4], k = 2
+15:         Output: [4, 4]
+16: 
+17:     Example 3:
+18: 
+19:         Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1
+20:         Output: [2]
+21: 
+22:     Note:
+23:         1. The length of the array will be in the range of [1, 1000].
+24:         2. The elements in the array will be in the range of [-1000, 1000].
+25:         3. 0 <= k <= len(arr)
+26:     """
+27:     if k == 1:
+28:         return []
+29:     arr.sort()
+30:     ans = arr[-k:]
+31:     return ans
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 28: 1.000
+- Line 27: 0.500
+- Line 29: 0.250
+- Line 30: 0.250
+- Line 31: 0.250
+- Line 2: 0.000
+
+Provide your JSON response below.

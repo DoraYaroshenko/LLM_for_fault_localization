@@ -1,0 +1,12 @@
+{
+  "nvidia/nemotron-3.5-lightning:free": {
+    "valid": 0,
+    "invalid": 0,
+    "errors": 0
+  },
+  "openai/gpt-oss-20b:free": {
+    "valid": 18,
+    "invalid": 5,
+    "errors": 5
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "tarantula": {
+    "25": 0.631578947368421,
+    "22": 0.5217391304347826,
+    "20": 0.5,
+    "3": 0.0,
+    "21": 0.0,
+    "23": 0.0,
+    "24": 0.0
+  },
+  "failing_tests": {
+    "test_is_prime_5": "tests\\test_humaneval_31.py:15: in test_is_prime_5\n    assert is_prime(4) == False\nE   assert True == False\nE    +  where True = is_prime(4)"
+  }
+}

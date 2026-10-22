@@ -1,0 +1,15 @@
+{
+  "tarantula": {
+    "28": 1.0,
+    "27": 0.5,
+    "29": 0.25,
+    "30": 0.25,
+    "31": 0.25,
+    "2": 0.0
+  },
+  "failing_tests": {
+    "test_maximum_2": "tests\\test_humaneval_120.py:9: in test_maximum_2\n    assert maximum([-3, 2, 1, 2, -1, -2, 1], 1) == [2]\nE   assert [] == [2]\nE     \nE     Right contains one more item: 2\nE     Use -v to get more diff",
+    "test_maximum_7": "tests\\test_humaneval_120.py:19: in test_maximum_7\n    assert maximum([1, 0, 5, -7], 1) == [5]\nE   assert [] == [5]\nE     \nE     Right contains one more item: 5\nE     Use -v to get more diff",
+    "test_maximum_10": "tests\\test_humaneval_120.py:25: in test_maximum_10\n    assert maximum([1, 2, 3, -23, 243, -400, 0], 0) == []\nE   assert [-400, -23, 0, 1, 2, 3, ...] == []\nE     \nE     Left contains 7 more items, first extra item: -400\nE     Use -v to get more diff"
+  }
+}

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMs for Fault Localization - Presentation</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+
+    <!-- Modern dark theme (dracula-like) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css" id="theme">
+
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
+
+    <style>
+        /* Custom Modern Aesthetics */
+        .reveal .slides {
+            text-align: left;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3,
+        .reveal h4 {
+            color: #4db8ff;
+            text-transform: none;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-weight: 700;
+        }
+
+        .reveal p,
+        .reveal li {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.5;
+            color: #ddd;
+        }
+
+        .reveal section img {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .highlight-text {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        /* Mock window for code/terminals to act as "screenshots" */
+        .mock-window {
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .mock-titlebar {
+            background: #2d2d2d;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #111;
+        }
+
+        .mock-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .mock-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .mock-dot.red {
+            background: #ff5f56;
+        }
+
+        .mock-dot.yellow {
+            background: #ffbd2e;
+        }
+
+        .mock-dot.green {
+            background: #27c93f;
+        }
+
+        .mock-title {
+            color: #888;
+            font-size: 0.5em;
+            margin-left: 15px;
+            font-family: monospace;
+        }
+
+        .mock-content {
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.45em;
+            color: #d4d4d4;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+
+        .mock-content.code {
+            font-size: 0.5em;
+        }
+
+        /* Two-column layout */
+        .col-container {
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        /* Result Tables */
+        .reveal table {
+            font-size: 0.6em;
+            width: 100%;
+        }
+
+        .reveal table th {
+            background-color: rgba(77, 184, 255, 0.2);
+            color: #fff;
+        }
+
+        /* Screenshot placeholders */
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
+            border: 2px dashed #555;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+            color: #888;
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+            flex-direction: column;
+            margin-top: 30px;
+        }
+
+        .screenshot-placeholder i {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .screenshot-placeholder p {
+            font-size: 0.6em;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="center" style="text-align: center;">
+                <h1 style="font-size: 2.2em; text-transform: uppercase; letter-spacing: 2px;">LLMs for Fault
+                    Localization</h1>
+                <h3 style="color: #aaa; margin-top: 20px;">Empirical Software Engineering Study</h3>
+                <div
+                    style="margin-top: 60px; font-size: 0.6em; display: flex; justify-content: center; gap: 40px; color: #555;">
+                    <p>Dora Yaroshenko</p>
+                    <p>Lilac Gil-Ad</p>
+                </div>
+            </section>
+
+            <!-- 1. INTRODUCTION -->
+            <section>
+                <h2>1. Introduction</h2>
+                <h3 style="font-size: 1.2em; color: #fff;">Project Goals & Overview</h3>
+                <ul style="font-size: 0.8em; margin-top: 30px;">
+                    <li class="fragment"><strong>Primary Goal:</strong> Evaluate the effectiveness of Large Language
+                        Models (LLMs) in localizing faults within Python methods.</li>
+                    <li class="fragment"><strong>Contextual Impact:</strong> Examine how different levels of context
+                        affect LLM accuracy:
+                        <ul>
+                            <li>Condition A: Source code & intent</li>
+                            <li>Condition B: Source code & intent + Tests</li>
+                            <li>Condition C: Source code & intent + Spectrum-Based Fault Localization (SBFL)</li>
+                            <li>Condition D: Source code & intent + Tests + SBFL</li>
+                        </ul>
+                    </li>
+                    <li class="fragment"><strong>Target Application:</strong> 30 curated methods from the OpenAI
+                        HumanEval benchmark.</li>
+                </ul>
+            </section>
+
+            <!-- REPO STRUCTURE -->
+            <section>
+                <h3>Repository Structure</h3>
+                <img src="assets/image.png" style="height: 650px;">
+            </section>
+
+            <!-- 2. DATA COLLECTION & SETUP -->
+            <section>
+                <h2>2. Evaluation Setup</h2>
+                <h3 style="font-size: 1.2em; color: #fff;">Methods, Mutations & Tests</h3>
+                <div class="col-container" style="font-size: 0.7em; margin-top: 30px;">
+                    <div class="col">
+                        <h4 style="font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 10px;">The Benchmark
+                        </h4>
+                        <ul>
+                            <li>30 functions from <strong>HumanEval</strong>.</li>
+                            <li>Each with a Natural Language docstring.</li>
+                            <li>At least 10 tests per method.</li>
+                        </ul>
+
+                        <h4
+                            style="font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 10px; margin-top: 20px;">
+                            The Tests</h4>
+                        <ul>
+                            <li>Extracted from single <code>check()</code> block into standalone <code>pytest</code>
+                                functions.</li>
+                            <li>Ensures accurate counting of passing/failing tests for SBFL (execution doesn't stop on
+                                first fail).</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4 style="font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 10px;">The Mutations
+                        </h4>
+                        <ul>
+                            <li><strong>AST-Based Mutator:</strong> Automatically injects bugs.</li>
+                            <li><strong>Constraint 1:</strong> Exactly 1 localizable bug.</li>
+                            <li><strong>Constraint 2:</strong> Original must pass all tests.</li>
+                            <li><strong>Constraint 3:</strong> Mutant must fail at least one test.</li>
+                            <li><strong>Target:</strong> "Partial Failures" preferred for optimal SBFL signal.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h3>HumanEval method and test example</h3>
+                <div style="display: flex;">
+                    <img src="assets/image copy 4.png" style="height: 500px;">
+                    <img src="assets/image copy 7.png" style="height: 500px;">
+                    <img src="assets/Screenshot 2026-08-20 152510.png" style="height: 500px;">
+                </div>
+            </section>
+            <section>
+                <h3>Data Collection & LLMs Used</h3>
+                <ul style="font-size: 0.8em; margin-bottom: 30px;">
+                    <li><strong>API:</strong> OpenRouter API</li>
+                    <li><strong>Models:</strong>
+                        <ul>
+                            <li class="highlight-text">nvidia/nemotron-3.5-lightning-free</li>
+                            <li class="highlight-text">openai/gpt-oss-20b-free</li>
+                        </ul>
+                    </li>
+                    <li><strong>Query Parameters:</strong> Temperature = 0.0 (for maximum determinism).</li>
+                    <li><strong>Prompt Constraints:</strong> Requesting strictly formatted JSON output
+                        (<code>top_1_line</code>, <code>top_3_lines</code>, <code>faulty_region</code>,
+                        <code>explanation</code>).
+                    </li>
+                    <li><strong>Critical Instruction:</strong> "Do not repair the program."</li>
+                </ul>
+            </section>
+
+            <!-- METRICS & CALCULATION SECTION -->
+            <section>
+                <h3>Metrics & Evaluation Challenges</h3>
+                <div class="col-container" style="font-size: 0.7em; margin-top: 30px;">
+                    <div class="col">
+                        <h4
+                            style="font-size: 1.1em; color: #4db8ff; border-bottom: 1px solid #444; padding-bottom: 10px;">
+                            MRR Calculation</h4>
+                        <ul>
+                            <li><strong>Mean Reciprocal Rank (MRR)</strong> evaluates the ranking quality of
+                                <code>top_3_lines</code>.
+                            </li>
+                            <li>If the exact ground truth line is at position 1, score = 1.0.</li>
+                            <li>If at position 2, score = 0.5.</li>
+                            <li>If at position 3, score = 0.33.</li>
+                            <li>If not in top 3, score = 0.0.</li>
+                            <li>The final MRR is the average of these scores across all 30 methods.</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4
+                            style="font-size: 1.1em; color: #4db8ff; border-bottom: 1px solid #444; padding-bottom: 10px;">
+                            Region Accuracy & NL Limits</h4>
+                        <ul>
+                            <li>The model provides a natural language <code>faulty_region</code> description.</li>
+                            <li><strong>Limitation:</strong> Evaluating open-ended natural language programmatically is
+                                highly subjective and difficult to automate at scale.</li>
+                            <li><strong>Solution (Region Accuracy):</strong> We approximate it programmatically by
+                                checking if <code>top_1_line</code> falls within a relaxed <strong>±2 line
+                                    radius</strong> of the exact ground truth line.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h3>Code example: compute_metrics.py and test_metrics_and_parsing.py</h3>
+                <div style="display: flex;">
+                    <img src="assets/Screenshot 2026-08-20 152626.png" style="height: 500px;">
+                    <img src="assets/Screenshot 2026-08-20 152645.png" style="height: 500px;">
+                </div>
+            </section>
+
+            <!-- SCREENSHOTS: SBFL & COVERAGE -->
+            <section>
+                <h3>SBFL Tarantula Report</h3>
+                <img src="assets/image copy.png" style="height: 350px;">
+            </section>
+
+            <section>
+                <h3>Test Coverage (Our Infrastructure)</h3>
+                <img src="assets/image copy 6.png" style="height: 650px;">
+            </section>
+
+            <!-- 3. RESULTS -->
+            <section>
+                <h2>3. Results</h2>
+                <h3 style="font-size: 1.2em; color: #fff;">Performance Across Conditions</h3>
+
+                <p style="font-size: 0.7em; margin-bottom: 20px;">
+                    <strong>Cond A:</strong> Code Only | <strong>Cond B:</strong> Code+Tests |
+                    <strong>Cond C:</strong> Code+SBFL | <strong>Cond D:</strong> Code+Tests+SBFL
+                </p>
+
+                <table style="margin-bottom: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Cond</th>
+                            <th>Top-1 Acc</th>
+                            <th>Top-3 Acc</th>
+                            <th>MRR</th>
+                            <th>Invalid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4"><strong>nemotron-3.5</strong></td>
+                            <td>A</td>
+                            <td>80%</td>
+                            <td>87%</td>
+                            <td>0.83</td>
+                            <td>3.3%</td>
+                        </tr>
+                        <tr style="background: rgba(39, 201, 63, 0.2);">
+                            <td>B</td>
+                            <td><strong>80%</strong></td>
+                            <td><strong>93%</strong></td>
+                            <td><strong>0.86</strong></td>
+                            <td>0.0%</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>27%</td>
+                            <td>63%</td>
+                            <td>0.43</td>
+                            <td>3.3%</td>
+                        </tr>
+                        <tr style="border-bottom: 2px solid #555;">
+                            <td>D</td>
+                            <td>27%</td>
+                            <td>60%</td>
+                            <td>0.42</td>
+                            <td>0.0%</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="4"><strong>gpt-oss-20b</strong></td>
+                            <td>A</td>
+                            <td>73%</td>
+                            <td>90%</td>
+                            <td>0.82</td>
+                            <td>6.7%</td>
+                        </tr>
+                        <tr style="background: rgba(39, 201, 63, 0.2);">
+                            <td>B</td>
+                            <td><strong>83%</strong></td>
+                            <td><strong>97%</strong></td>
+                            <td><strong>0.89</strong></td>
+                            <td>3.3%</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>63%</td>
+                            <td>87%</td>
+                            <td>0.74</td>
+                            <td>3.3%</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>77%</td>
+                            <td>87%</td>
+                            <td>0.81</td>
+                            <td>3.3%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 0.6em; text-align: center;"><em>Condition B (Code+Tests) universally performed
+                        best.</em></p>
+            </section>
+
+            <section>
+                <h3>Visualizing the Results</h3>
+                <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 10px;">
+                    <img src="assets/overall_models.png" alt="Overall Models Chart"
+                        style="width: 80%; max-height: 70vh; object-fit: contain;">
+                </div>
+            </section>
+
+            <section>
+                <h3>Accuracy by Condition (Nemotron-3.5)</h3>
+                <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 10px;">
+                    <img src="assets/nvidia_nemotron-3.5-lightning_free_conditions.png" alt="Nemotron Chart"
+                        style="width: 80%; max-height: 70vh; object-fit: contain;">
+                </div>
+            </section>
+
+            <section>
+                <h3>Accuracy by Condition (GPT-OSS-20b)</h3>
+                <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 10px;">
+                    <img src="assets/openai_gpt-oss-20b_free_conditions.png" alt="GPT-OSS-20b Chart"
+                        style="width: 80%; max-height: 70vh; object-fit: contain;">
+                </div>
+            </section>
+
+            <section>
+                <h3>HTML Website Artifact</h3>
+                <img src="assets/image copy 3.png" style="height: 650px;">
+            </section>
+
+            <section>
+                <h3>Answering the Research Questions</h3>
+                <ul style="font-size: 0.7em; margin-top: 30px; gap: 15px; display: flex; flex-direction: column;">
+                    <li><strong>RQ1 (Baseline):</strong> Strong baseline ability (73-80% Top-1 Acc) with code only.</li>
+                    <li><strong class="highlight-text">RQ2 (Tests Effect):</strong> Providing tests (Cond B) is the most
+                        effective context, improving MRR for both models.</li>
+                    <li><strong>RQ3 (SBFL Effect):</strong> Providing SBFL (Cond C) degraded performance significantly,
+                        acting as a distractor rather than an aid.</li>
+                    <li><strong>RQ4 (Combined):</strong> Cond D (Tests + SBFL) performed worse than tests alone. The
+                        models blindly trusted high Tarantula scores over logic analysis.</li>
+                    <li><strong>RQ5 (Model Comparison):</strong> <code>gpt-oss-20b</code> was more resilient to the SBFL
+                        distractor than <code>nemotron-3.5</code>.</li>
+                </ul>
+            </section>
+
+            <!-- 4. CONCLUSIONS -->
+            <section>
+                <h2>4. Conclusions</h2>
+                <h3 style="font-size: 1.2em; color: #fff;">Key Findings & Lessons</h3>
+                <div class="col-container" style="font-size: 0.7em; margin-top: 30px;">
+                    <div class="col">
+                        <h4 style="font-size: 1.1em; color: #4db8ff;">Key Findings</h4>
+                        <ul>
+                            <li>LLMs excel at fault localization when provided failing test cases (AssertionErrors).
+                            </li>
+                            <li>Current mid-tier open-weight models struggle to interpret purely numerical
+                                suspiciousness scores (Tarantula).</li>
+                            <li>Models often hallucinate explanations even when they correctly identify the faulty line.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4 style="font-size: 1.1em; color: #4db8ff;">Lessons Learned</h4>
+                        <ul>
+                            <li><strong>Prompt Engineering:</strong> Preventing models from outputting repaired code is
+                                difficult (Instruction Ignoring).</li>
+                            <li><strong>Automated Evaluation:</strong> Validating natural language "Faulty Regions"
+                                requires qualitative review, limiting scalability.</li>
+                            <li><strong>Data Prep is King:</strong> Ensuring valid AST mutations and decoupled tests
+                                took significant effort.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Limitations & Future Improvements</h3>
+                <ul style="font-size: 0.8em; margin-top: 30px; gap: 20px; display: flex; flex-direction: column;">
+                    <li>
+                        <strong class="highlight-text">Limitation: Benchmark Size & Nature</strong><br>
+                        HumanEval is mostly short, algorithmic tasks. Results may not scale to enterprise, multi-file
+                        codebases.
+                    </li>
+                    <li>
+                        <strong class="highlight-text">Limitation: Mutant Realism</strong><br>
+                        Single-operator mutations might not reflect complex, real-world logic bugs made by human
+                        developers.
+                    </li>
+                    <li>
+                        <strong class="highlight-text">Future Improvement: Chain-of-Thought (CoT)</strong><br>
+                        Explicitly asking the LLM to write down its reasoning steps <em>before</em> outputting the JSON
+                        might improve its handling of SBFL data.
+                    </li>
+                    <li>
+                        <strong class="highlight-text">Future Improvement: Advanced Models</strong><br>
+                        Testing state-of-the-art models (e.g., GPT-4o, Claude 3.5 Sonnet) might show better utilization
+                        of Tarantula scores.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="center" style="text-align: center;">
+                <h2 style="font-size: 3em;">Thank You</h2>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+            plugins: [RevealHighlight],
+            width: 1024,
+            height: 768,
+            margin: 0.08
+        });
+    </script>
+</body>
+
+</html>

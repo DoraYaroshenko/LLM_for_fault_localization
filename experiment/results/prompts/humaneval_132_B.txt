@@ -1,0 +1,101 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def is_nested(string):
+ 3:     '''
+ 4:     Create a function that takes a string as input which contains only square brackets.
+ 5:     The function should return True if and only if there is a valid subsequence of brackets 
+ 6:     where at least one bracket in the subsequence is nested.
+ 7: 
+ 8:     is_nested('[[]]') ➞ True
+ 9:     is_nested('[]]]]]]][[[[[]') ➞ False
+10:     is_nested('[][]') ➞ False
+11:     is_nested('[]') ➞ False
+12:     is_nested('[[][]]') ➞ True
+13:     is_nested('[[]][[') ➞ True
+14:     '''
+15:     opening_bracket_index = []
+16:     closing_bracket_index = []
+17:     for i in range(len(string)):
+18:         if string[i] == '[':
+19:             opening_bracket_index.append(i)
+20:         else:
+21:             closing_bracket_index.append(i)
+22:     closing_bracket_index.reverse()
+23:     cnt = 0
+24:     i = 1
+25:     l = len(closing_bracket_index)
+26:     for idx in opening_bracket_index:
+27:         if i < l and idx < closing_bracket_index[i]:
+28:             cnt += 1
+29:             i += 1
+30:     return cnt >= 2
+31: 
+32:     
+```
+
+### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+from src.humaneval_132 import is_nested
+
+import math
+def test_is_nested_0():
+    assert is_nested('[[]]') == True, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_nested_1():
+    assert is_nested('[]]]]]]][[[[[]') == False
+def test_is_nested_2():
+    assert is_nested('[][]') == False
+def test_is_nested_3():
+    assert is_nested('[]') == False
+def test_is_nested_4():
+    assert is_nested('[[[[]]]]') == True
+def test_is_nested_5():
+    assert is_nested('[]]]]]]]]]]') == False
+def test_is_nested_6():
+    assert is_nested('[][][[]]') == True
+def test_is_nested_7():
+    assert is_nested('[[]') == False
+def test_is_nested_8():
+    assert is_nested('[]]') == False
+def test_is_nested_9():
+    assert is_nested('[[]][[') == True
+def test_is_nested_10():
+    assert is_nested('[[][]]') == True
+def test_is_nested_11():
+    assert is_nested('') == False, 'This prints if this assert fails 2 (also good for debugging!)'
+def test_is_nested_12():
+    assert is_nested('[[[[[[[[') == False
+def test_is_nested_13():
+    assert is_nested(']]]]]]]]') == False
+
+```
+
+The following tests failed with these errors:
+- test_is_nested_0:
+E   AssertionError: This prints if this assert fails 1 (good for debugging!)
+E   assert False == True
+E    +  where False = is_nested('[[]]')
+
+- test_is_nested_9:
+    assert is_nested('[[]][[') == True
+E   AssertionError: assert False == True
+E    +  where False = is_nested('[[]][[')
+
+
+Provide your JSON response below.

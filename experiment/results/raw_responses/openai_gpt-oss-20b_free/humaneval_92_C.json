@@ -1,0 +1,65 @@
+{
+  "model_id": "openai/gpt-oss-20b:free",
+  "execution_time": "2026-08-19T22:30:21.436015+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "prompt_format": "Condition C",
+  "prompt_text": "You are an expert software developer and tester.\nDo not repair the program. Your task is only to identify the most likely faulty line or small faulty region.\nYou must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).\nIMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\n\n{\n  \"top_1_line\": 12,\n  \"top_3_lines\": [12, 14, 9],\n  \"faulty_region\": \"loop condition\",\n  \"explanation\": \"The loop condition may terminate before the last candidate is checked.\"\n}\n\nHere is the buggy Python method. The docstring describes its intended behavior.\nLines are numbered for your reference.\n\n```python\n 1: \n 2: def any_int(x, y, z):\n 3:     '''\n 4:     Create a function that takes 3 numbers.\n 5:     Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.\n 6:     Returns false in any other cases.\n 7:     \n 8:     Examples\n 9:     any_int(5, 2, 7) \u279e True\n10:     \n11:     any_int(3, 2, 2) \u279e False\n12: \n13:     any_int(3, -2, 1) \u279e True\n14:     \n15:     any_int(3.6, -2.2, 2) \u279e False\n16:   \n17: \n18:     \n19:     '''\n20:     \n21:     if isinstance(x,int) and isinstance(y,int) and isinstance(z,int):\n22:         if (x+y==z) or (x - z==y) or (y+z==x):\n23:             return True\n24:         return False\n25:     return False\n```\n\n### Tarantula Suspiciousness Ranking\nThe following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.\n- Line 2: 1.000\n- Line 24: 0.900\n- Line 22: 0.643\n- Line 21: 0.500\n- Line 23: 0.000\n- Line 25: 0.000\n\nProvide your JSON response below.\n",
+  "repetitions": 1,
+  "errors": [],
+  "raw_response": {
+    "id": "gen-1787178625-OpSu0sknjMhVvGoQB4Aq",
+    "object": "chat.completion",
+    "created": 1787178625,
+    "model": "openai/gpt-oss-20b:free",
+    "provider": "Darkbloom",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"top_1_line\": 22,\n  \"top_3_lines\": [22, 21, 24],\n  \"faulty_region\": \"conditional logic for sum check\",\n  \"explanation\": \"The second condition uses subtraction (x - z == y) instead of addition (x + z == y), causing incorrect results when the sum involves the third variable.\"\n}",
+          "refusal": null,
+          "reasoning": "We need to identify most likely faulty line or region. The function should return true if one number equals sum of other two, and all numbers are integers. The code checks isinstance for ints, then checks (x+y==z) or (x - z==y) or (y+z==x). The second condition is wrong: should be (x+z==y) not (x - z==y). So line 22 is faulty. Also line 21 maybe suspicious but less. Tarantula ranking shows line 2 highest suspicious, but line 2 is function definition. But actual bug is line 22. So top_1_line 22. top_3_lines: 22, 21, 24 maybe. Faulty region: \"conditional logic for sum check\". Explanation: second part uses subtraction instead of addition. Provide JSON.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to identify most likely faulty line or region. The function should return true if one number equals sum of other two, and all numbers are integers. The code checks isinstance for ints, then checks (x+y==z) or (x - z==y) or (y+z==x). The second condition is wrong: should be (x+z==y) not (x - z==y). So line 22 is faulty. Also line 21 maybe suspicious but less. Tarantula ranking shows line 2 highest suspicious, but line 2 is function definition. But actual bug is line 22. So top_1_line 22. top_3_lines: 22, 21, 24 maybe. Faulty region: \"conditional logic for sum check\". Explanation: second part uses subtraction instead of addition. Provide JSON.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 589,
+      "completion_tokens": 265,
+      "total_tokens": 854,
+      "cost": 0,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 2.70905e-05,
+        "upstream_inference_prompt_cost": 8.5405e-06,
+        "upstream_inference_completions_cost": 1.855e-05
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 175,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  }
+}

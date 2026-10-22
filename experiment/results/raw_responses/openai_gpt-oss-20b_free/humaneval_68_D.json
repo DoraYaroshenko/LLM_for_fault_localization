@@ -1,0 +1,67 @@
+{
+  "model_id": "openai/gpt-oss-20b:free",
+  "execution_time": "2026-08-19T21:42:07.958084+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "prompt_format": "Condition D",
+  "prompt_text": "You are an expert software developer and tester.\nDo not repair the program. Your task is only to identify the most likely faulty line or small faulty region.\nYou must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).\nIMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\n\n{\n  \"top_1_line\": 12,\n  \"top_3_lines\": [12, 14, 9],\n  \"faulty_region\": \"loop condition\",\n  \"explanation\": \"The loop condition may terminate before the last candidate is checked.\"\n}\n\nHere is the buggy Python method. The docstring describes its intended behavior.\nLines are numbered for your reference.\n\n```python\n 1: \n 2: def pluck(arr):\n 3:     \"\"\"\n 4:     \"Given an array representing a branch of a tree that has non-negative integer nodes\n 5:     your task is to pluck one of the nodes and return it.\n 6:     The plucked node should be the node with the smallest even value.\n 7:     If multiple nodes with the same smallest even value are found return the node that has smallest index.\n 8: \n 9:     The plucked node should be returned in a list, [ smalest_value, its index ],\n10:     If there are no even values or the given array is empty, return [].\n11: \n12:     Example 1:\n13:         Input: [4,2,3]\n14:         Output: [2, 1]\n15:         Explanation: 2 has the smallest even value, and 2 has the smallest index.\n16: \n17:     Example 2:\n18:         Input: [1,2,3]\n19:         Output: [2, 1]\n20:         Explanation: 2 has the smallest even value, and 2 has the smallest index. \n21: \n22:     Example 3:\n23:         Input: []\n24:         Output: []\n25:     \n26:     Example 4:\n27:         Input: [5, 0, 3, 0, 4, 2]\n28:         Output: [0, 1]\n29:         Explanation: 0 is the smallest value, but  there are two zeros,\n30:                      so we will choose the first zero, which has the smallest index.\n31: \n32:     Constraints:\n33:         * 1 <= nodes.length <= 10000\n34:         * 0 <= node.value\n35:     \"\"\"\n36:     if(len(arr) == 0): return []\n37:     evens = list(filter(lambda x: x%3 == 0, arr))\n38:     if(evens == []): return []\n39:     return [min(evens), arr.index(min(evens))]\n```\n\n### Test Suite\nHere is the full test suite code executed against the buggy method.\n\n```python\nfrom src.humaneval_68 import pluck\n\nimport math\ndef test_pluck_0():\n    assert True, 'This prints if this assert fails 1 (good for debugging!)'\ndef test_pluck_1():\n    assert pluck([4, 2, 3]) == [2, 1], 'Error'\ndef test_pluck_2():\n    assert pluck([1, 2, 3]) == [2, 1], 'Error'\ndef test_pluck_3():\n    assert pluck([]) == [], 'Error'\ndef test_pluck_4():\n    assert pluck([5, 0, 3, 0, 4, 2]) == [0, 1], 'Error'\ndef test_pluck_5():\n    assert True, 'This prints if this assert fails 2 (also good for debugging!)'\ndef test_pluck_6():\n    assert pluck([1, 2, 3, 0, 5, 3]) == [0, 3], 'Error'\ndef test_pluck_7():\n    assert pluck([5, 4, 8, 4, 8]) == [4, 1], 'Error'\ndef test_pluck_8():\n    assert pluck([7, 6, 7, 1]) == [6, 1], 'Error'\ndef test_pluck_9():\n    assert pluck([7, 9, 7, 1]) == [], 'Error'\n\n```\n\nThe following tests failed with these errors:\n- test_pluck_1:\nE     \nE     At index 0 diff: 3 != 2\nE     Use -v to get more diff\n\n- test_pluck_2:\nE     \nE     At index 0 diff: 3 != 2\nE     Use -v to get more diff\n\n- test_pluck_7:\nE     \nE     Right contains 2 more items, first extra item: 4\nE     Use -v to get more diff\n\n- test_pluck_9:\nE     \nE     Left contains 2 more items, first extra item: 9\nE     Use -v to get more diff\n\n\n### Tarantula Suspiciousness Ranking\nThe following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.\n- Line 37: 0.667\n- Line 38: 0.667\n- Line 36: 0.600\n- Line 39: 0.600\n- Line 2: 0.000\n\nProvide your JSON response below.\n",
+  "repetitions": 1,
+  "errors": [
+    "429 Too Many Requests (First occurrence)"
+  ],
+  "raw_response": {
+    "id": "gen-1787175792-rzWDzFmQKYJK4VF5eCo5",
+    "object": "chat.completion",
+    "created": 1787175792,
+    "model": "openai/gpt-oss-20b:free",
+    "provider": "Darkbloom",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"top_1_line\": 37,\n  \"top_3_lines\": [37, 38, 36],\n  \"faulty_region\": \"filter condition\",\n  \"explanation\": \"The lambda incorrectly checks for divisibility by 3 instead of 2, so even numbers are not selected.\"\n}",
+          "refusal": null,
+          "reasoning": "We need to identify most likely faulty line or region. The code:\n\n36: if(len(arr) == 0): return []\n37: evens = list(filter(lambda x: x%3 == 0, arr))\n38: if(evens == []): return []\n39: return [min(evens), arr.index(min(evens))]\n\nBug: filter uses x%3 == 0 instead of x%2 == 0. So line 37 is faulty. Also line 38 maybe redundant but not faulty. So top_1_line 37. top_3_lines: 37, 38, 36 maybe. Explanation: filter condition wrong. Provide JSON.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to identify most likely faulty line or region. The code:\n\n36: if(len(arr) == 0): return []\n37: evens = list(filter(lambda x: x%3 == 0, arr))\n38: if(evens == []): return []\n39: return [min(evens), arr.index(min(evens))]\n\nBug: filter uses x%3 == 0 instead of x%2 == 0. So line 37 is faulty. Also line 38 maybe redundant but not faulty. So top_1_line 37. top_3_lines: 37, 38, 36 maybe. Explanation: filter condition wrong. Provide JSON.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1270,
+      "completion_tokens": 214,
+      "total_tokens": 1484,
+      "cost": 0,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 3.3395e-05,
+        "upstream_inference_prompt_cost": 1.8415e-05,
+        "upstream_inference_completions_cost": 1.498e-05
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 138,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  }
+}

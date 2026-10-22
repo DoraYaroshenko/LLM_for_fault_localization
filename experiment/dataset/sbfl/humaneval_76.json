@@ -1,0 +1,14 @@
+{
+  "tarantula": {
+    "15": 1.0,
+    "14": 0.5,
+    "16": 0.0,
+    "17": 0.0,
+    "2": 0.0,
+    "18": 0.0,
+    "19": 0.0
+  },
+  "failing_tests": {
+    "test_is_simple_power_8": "tests\\test_humaneval_76.py:21: in test_is_simple_power_8\n    assert is_simple_power(1, 1) == True, 'This prints if this assert fails 2 (also good for debugging!)'\nE   AssertionError: This prints if this assert fails 2 (also good for debugging!)\nE   assert False == True\nE    +  where False = is_simple_power(1, 1)"
+  }
+}

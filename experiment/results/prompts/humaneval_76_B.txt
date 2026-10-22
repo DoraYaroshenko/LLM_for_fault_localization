@@ -1,0 +1,75 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def is_simple_power(x, n):
+ 3:     """Your task is to write a function that returns true if a number x is a simple
+ 4:     power of n and false in other cases.
+ 5:     x is a simple power of n if n**int=x
+ 6:     For example:
+ 7:     is_simple_power(1, 4) => true
+ 8:     is_simple_power(2, 2) => true
+ 9:     is_simple_power(8, 2) => true
+10:     is_simple_power(3, 2) => false
+11:     is_simple_power(3, 1) => false
+12:     is_simple_power(5, 3) => false
+13:     """
+14:     if (n == 1): 
+15:         return (x == 2) 
+16:     power = 1
+17:     while (power < x): 
+18:         power = power * n 
+19:     return (power == x) 
+```
+
+### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+from src.humaneval_76 import is_simple_power
+
+import math
+def test_is_simple_power_0():
+    assert is_simple_power(16, 2) == True, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_1():
+    assert is_simple_power(143214, 16) == False, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_2():
+    assert is_simple_power(4, 2) == True, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_3():
+    assert is_simple_power(9, 3) == True, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_4():
+    assert is_simple_power(16, 4) == True, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_5():
+    assert is_simple_power(24, 2) == False, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_6():
+    assert is_simple_power(128, 4) == False, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_7():
+    assert is_simple_power(12, 6) == False, 'This prints if this assert fails 1 (good for debugging!)'
+def test_is_simple_power_8():
+    assert is_simple_power(1, 1) == True, 'This prints if this assert fails 2 (also good for debugging!)'
+def test_is_simple_power_9():
+    assert is_simple_power(1, 12) == True, 'This prints if this assert fails 2 (also good for debugging!)'
+
+```
+
+The following tests failed with these errors:
+- test_is_simple_power_8:
+E   AssertionError: This prints if this assert fails 2 (also good for debugging!)
+E   assert False == True
+E    +  where False = is_simple_power(1, 1)
+
+
+Provide your JSON response below.

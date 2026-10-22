@@ -1,0 +1,15 @@
+{
+  "tarantula": {
+    "17": 0.6000000000000001,
+    "14": 0.5357142857142857,
+    "11": 0.5,
+    "12": 0.5,
+    "2": 0.0,
+    "13": 0.0,
+    "15": 0.0,
+    "16": 0.0
+  },
+  "failing_tests": {
+    "test_prime_length_8": "tests\\test_humaneval_82.py:21: in test_prime_length_8\n    assert prime_length('') == False\nE   AssertionError: assert True == False\nE    +  where True = prime_length('')"
+  }
+}

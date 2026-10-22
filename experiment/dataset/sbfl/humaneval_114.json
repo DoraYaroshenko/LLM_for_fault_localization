@@ -1,0 +1,21 @@
+{
+  "tarantula": {
+    "1": 1.0,
+    "14": 0.6428571428571428,
+    "9": 0.5,
+    "10": 0.5,
+    "11": 0.5,
+    "12": 0.5,
+    "13": 0.5,
+    "15": 0.5,
+    "16": 0.5,
+    "18": 0.5,
+    "19": 0.5,
+    "17": 0.0
+  },
+  "failing_tests": {
+    "test_minSubArraySum_0": "tests\\test_humaneval_114.py:5: in test_minSubArraySum_0\n    assert minSubArraySum([2, 3, 4, 1, 2, 4]) == 1, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 0 == 1\nE    +  where 0 = minSubArraySum([2, 3, 4, 1, 2, 4])",
+    "test_minSubArraySum_7": "tests\\test_humaneval_114.py:19: in test_minSubArraySum_7\n    assert minSubArraySum([10, 11, 13, 8, 3, 4]) == 3\nE   assert 0 == 3\nE    +  where 0 = minSubArraySum([10, 11, 13, 8, 3, 4])",
+    "test_minSubArraySum_10": "tests\\test_humaneval_114.py:25: in test_minSubArraySum_10\n    assert minSubArraySum([7]) == 7\nE   assert 0 == 7\nE    +  where 0 = minSubArraySum([7])"
+  }
+}

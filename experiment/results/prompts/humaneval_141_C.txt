@@ -1,0 +1,65 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def file_name_check(file_name):
+ 3:     """Create a function which takes a string representing a file's name, and returns
+ 4:     'Yes' if the the file's name is valid, and returns 'No' otherwise.
+ 5:     A file's name is considered to be valid if and only if all the following conditions 
+ 6:     are met:
+ 7:     - There should not be more than three digits ('0'-'9') in the file's name.
+ 8:     - The file's name contains exactly one dot '.'
+ 9:     - The substring before the dot should not be empty, and it starts with a letter from 
+10:     the latin alphapet ('a'-'z' and 'A'-'Z').
+11:     - The substring after the dot should be one of these: ['txt', 'exe', 'dll']
+12:     Examples:
+13:     file_name_check("example.txt") # => 'Yes'
+14:     file_name_check("1example.dll") # => 'No' (the name should start with a latin alphapet letter)
+15:     """
+16:     suf = ['txt', 'exe', 'dll']
+17:     lst = file_name.split(sep='.')
+18:     if len(lst) != 2:
+19:         return 'No'
+20:     if not lst[1] in suf:
+21:         return 'No'
+22:     if len(lst[1]) == 0:
+23:         return 'No'
+24:     if not lst[0][0].isalpha():
+25:         return 'No'
+26:     t = len([x for x in lst[0] if x.isdigit()])
+27:     if t > 3:
+28:         return 'No'
+29:     return 'Yes'
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 22: 0.641
+- Line 24: 0.641
+- Line 20: 0.543
+- Line 16: 0.500
+- Line 17: 0.500
+- Line 18: 0.500
+- Line 2: 0.000
+- Line 19: 0.000
+- Line 21: 0.000
+- Line 25: 0.000
+- Line 26: 0.000
+- Line 27: 0.000
+- Line 28: 0.000
+- Line 29: 0.000
+
+Provide your JSON response below.

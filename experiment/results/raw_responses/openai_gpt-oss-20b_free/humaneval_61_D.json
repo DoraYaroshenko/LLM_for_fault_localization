@@ -1,0 +1,65 @@
+{
+  "model_id": "openai/gpt-oss-20b:free",
+  "execution_time": "2026-08-19T21:37:37.514781+00:00Z",
+  "decoding_parameters": {
+    "temperature": 0.0
+  },
+  "prompt_format": "Condition D",
+  "prompt_text": "You are an expert software developer and tester.\nDo not repair the program. Your task is only to identify the most likely faulty line or small faulty region.\nYou must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).\nIMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).\n\n{\n  \"top_1_line\": 12,\n  \"top_3_lines\": [12, 14, 9],\n  \"faulty_region\": \"loop condition\",\n  \"explanation\": \"The loop condition may terminate before the last candidate is checked.\"\n}\n\nHere is the buggy Python method. The docstring describes its intended behavior.\nLines are numbered for your reference.\n\n```python\n 1: \n 2: \n 3: def correct_bracketing(brackets: str):\n 4:     \"\"\" brackets is a string of \"(\" and \")\".\n 5:     return True if every opening bracket has a corresponding closing bracket.\n 6: \n 7:     >>> correct_bracketing(\"(\")\n 8:     False\n 9:     >>> correct_bracketing(\"()\")\n10:     True\n11:     >>> correct_bracketing(\"(()())\")\n12:     True\n13:     >>> correct_bracketing(\")(()\")\n14:     False\n15:     \"\"\"\n16:     depth = 0\n17:     for b in brackets:\n18:         if b != '(':\n19:             depth += 1\n20:         else:\n21:             depth -= 1\n22:         if depth < 0:\n23:             return False\n24:     return depth == 0\n```\n\n### Test Suite\nHere is the full test suite code executed against the buggy method.\n\n```python\nfrom src.humaneval_61 import correct_bracketing\n\nimport math\ndef test_correct_bracketing_0():\n    assert correct_bracketing('()')\ndef test_correct_bracketing_1():\n    assert correct_bracketing('(()())')\ndef test_correct_bracketing_2():\n    assert correct_bracketing('()()(()())()')\ndef test_correct_bracketing_3():\n    assert correct_bracketing('()()((()()())())(()()(()))')\ndef test_correct_bracketing_4():\n    assert not correct_bracketing('((()())))')\ndef test_correct_bracketing_5():\n    assert not correct_bracketing(')(()')\ndef test_correct_bracketing_6():\n    assert not correct_bracketing('(')\ndef test_correct_bracketing_7():\n    assert not correct_bracketing('((((')\ndef test_correct_bracketing_8():\n    assert not correct_bracketing(')')\ndef test_correct_bracketing_9():\n    assert not correct_bracketing('(()')\ndef test_correct_bracketing_10():\n    assert not correct_bracketing('()()(()())())(()')\ndef test_correct_bracketing_11():\n    assert not correct_bracketing('()()(()())()))()')\n\n```\n\nThe following tests failed with these errors:\n- test_correct_bracketing_0:\n    assert correct_bracketing('()')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('()')\n\n- test_correct_bracketing_1:\n    assert correct_bracketing('(()())')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('(()())')\n\n- test_correct_bracketing_2:\n    assert correct_bracketing('()()(()())()')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('()()(()())()')\n\n- test_correct_bracketing_3:\n    assert correct_bracketing('()()((()()())())(()()(()))')\nE   AssertionError: assert False\nE    +  where False = correct_bracketing('()()((()()())())(()()(()))')\n\n\n### Tarantula Suspiciousness Ranking\nThe following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.\n- Line 3: 1.000\n- Line 21: 0.533\n- Line 23: 0.533\n- Line 16: 0.500\n- Line 17: 0.500\n- Line 18: 0.500\n- Line 22: 0.500\n- Line 19: 0.000\n- Line 24: 0.000\n\nProvide your JSON response below.\n",
+  "repetitions": 1,
+  "errors": [],
+  "raw_response": {
+    "id": "gen-1787175461-vVCjLsQMUqiaVxYEbkIO",
+    "object": "chat.completion",
+    "created": 1787175461,
+    "model": "openai/gpt-oss-20b:free",
+    "provider": "Darkbloom",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"top_1_line\": 18,\n  \"top_3_lines\": [18, 21, 16],\n  \"faulty_region\": \"bracket handling logic\",\n  \"explanation\": \"The condition that updates depth is inverted: it increments depth for non-'(' characters and decrements for '(' characters, which is the opposite of the intended behavior.\"\n}",
+          "refusal": null,
+          "reasoning": "We need to identify most likely faulty line or region. The function logic: depth starts 0. For each b: if b != '(' then depth +=1 else depth -=1. That is reversed: '(' should increment depth, ')' should decrement. So bug is at line 18-21. The condition is wrong. The faulty region is \"bracket handling logic\". The most suspicious line per Tarantula is line 3 (function definition) but that's not bug. The actual bug is line 18 or 21. Which line is most suspicious? Tarantula shows line 21: 0.533, line 23: 0.533, line 16: 0.5, etc. But the bug is at line 18 or 21. The condition is reversed. So line 18 is suspicious. But Tarantula didn't rank it high. But we need to provide top_1_line: 18. top_3_lines: [18, 21, 16] maybe. Faulty region: \"bracket handling logic\". Explanation: The condition for '(' and ')' is inverted, causing depth to be updated incorrectly. Let's produce JSON.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to identify most likely faulty line or region. The function logic: depth starts 0. For each b: if b != '(' then depth +=1 else depth -=1. That is reversed: '(' should increment depth, ')' should decrement. So bug is at line 18-21. The condition is wrong. The faulty region is \"bracket handling logic\". The most suspicious line per Tarantula is line 3 (function definition) but that's not bug. The actual bug is line 18 or 21. Which line is most suspicious? Tarantula shows line 21: 0.533, line 23: 0.533, line 16: 0.5, etc. But the bug is at line 18 or 21. The condition is reversed. So line 18 is suspicious. But Tarantula didn't rank it high. But we need to provide top_1_line: 18. top_3_lines: [18, 21, 16] maybe. Faulty region: \"bracket handling logic\". Explanation: The condition for '(' and ')' is inverted, causing depth to be updated incorrectly. Let's produce JSON.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1058,
+      "completion_tokens": 328,
+      "total_tokens": 1386,
+      "cost": 0,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 3.8301e-05,
+        "upstream_inference_prompt_cost": 1.5341e-05,
+        "upstream_inference_completions_cost": 2.296e-05
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 240,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  }
+}

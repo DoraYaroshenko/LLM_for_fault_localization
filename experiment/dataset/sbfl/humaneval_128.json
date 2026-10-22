@@ -1,0 +1,12 @@
+{
+  "tarantula": {
+    "16": 0.6153846153846154,
+    "15": 0.6153846153846154,
+    "14": 0.5714285714285714,
+    "2": 0.0
+  },
+  "failing_tests": {
+    "test_prod_signs_2": "tests\\test_humaneval_128.py:9: in test_prod_signs_2\n    assert prod_signs([0, 1]) == 0\nE   assert 1 == 0\nE    +  where 1 = prod_signs([0, 1])",
+    "test_prod_signs_8": "tests\\test_humaneval_128.py:21: in test_prod_signs_8\n    assert prod_signs([-1, 1, 1, 0]) == 0\nE   assert 3 == 0\nE    +  where 3 = prod_signs([-1, 1, 1, 0])"
+  }
+}

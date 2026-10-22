@@ -1,0 +1,74 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def valid_date(date):
+ 3:     """You have to write a function which validates a given date string and
+ 4:     returns True if the date is valid otherwise False.
+ 5:     The date is valid if all of the following rules are satisfied:
+ 6:     1. The date string is not empty.
+ 7:     2. The number of days is not less than 1 or higher than 31 days for months 1,3,5,7,8,10,12. And the number of days is not less than 1 or higher than 30 days for months 4,6,9,11. And, the number of days is not less than 1 or higher than 29 for the month 2.
+ 8:     3. The months should not be less than 1 or higher than 12.
+ 9:     4. The date should be in the format: mm-dd-yyyy
+10: 
+11:     for example: 
+12:     valid_date('03-11-2000') => True
+13: 
+14:     valid_date('15-01-2012') => False
+15: 
+16:     valid_date('04-0-2040') => False
+17: 
+18:     valid_date('06-04-2020') => True
+19: 
+20:     valid_date('06/04/2020') => False
+21:     """
+22:     try:
+23:         date = date.strip()
+24:         month, day, year = date.split('-')
+25:         month, day, year = int(month), int(day), int(year)
+26:         if month < 2 or month > 12:
+27:             return False
+28:         if month in [1,3,5,7,8,10,12] and day < 1 or day > 31:
+29:             return False
+30:         if month in [4,6,9,11] and day < 1 or day > 30:
+31:             return False
+32:         if month == 2 and day < 1 or day > 29:
+33:             return False
+34:     except:
+35:         return False
+36: 
+37:     return True
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 27: 0.833
+- Line 25: 0.600
+- Line 26: 0.600
+- Line 22: 0.500
+- Line 23: 0.500
+- Line 24: 0.500
+- Line 2: 0.000
+- Line 28: 0.000
+- Line 29: 0.000
+- Line 30: 0.000
+- Line 31: 0.000
+- Line 32: 0.000
+- Line 34: 0.000
+- Line 35: 0.000
+- Line 37: 0.000
+
+Provide your JSON response below.

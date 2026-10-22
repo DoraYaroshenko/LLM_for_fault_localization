@@ -1,0 +1,128 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def count_up_to(n):
+ 3:     """Implement a function that takes an non-negative integer and returns an array of the first n
+ 4:     integers that are prime numbers and less than n.
+ 5:     for example:
+ 6:     count_up_to(5) => [2,3]
+ 7:     count_up_to(11) => [2,3,5,7]
+ 8:     count_up_to(0) => []
+ 9:     count_up_to(20) => [2,3,5,7,11,13,17,19]
+10:     count_up_to(1) => []
+11:     count_up_to(18) => [2,3,5,7,11,13,17]
+12:     """
+13:     primes = []
+14:     for i in range(3, n):
+15:         is_prime = True
+16:         for j in range(2, i):
+17:             if i % j == 0:
+18:                 is_prime = False
+19:                 break
+20:         if is_prime:
+21:             primes.append(i)
+22:     return primes
+23: 
+```
+
+### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+from src.humaneval_96 import count_up_to
+
+import math
+def test_count_up_to_0():
+    assert count_up_to(5) == [2, 3]
+def test_count_up_to_1():
+    assert count_up_to(6) == [2, 3, 5]
+def test_count_up_to_2():
+    assert count_up_to(7) == [2, 3, 5]
+def test_count_up_to_3():
+    assert count_up_to(10) == [2, 3, 5, 7]
+def test_count_up_to_4():
+    assert count_up_to(0) == []
+def test_count_up_to_5():
+    assert count_up_to(22) == [2, 3, 5, 7, 11, 13, 17, 19]
+def test_count_up_to_6():
+    assert count_up_to(1) == []
+def test_count_up_to_7():
+    assert count_up_to(18) == [2, 3, 5, 7, 11, 13, 17]
+def test_count_up_to_8():
+    assert count_up_to(47) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43]
+def test_count_up_to_9():
+    assert count_up_to(101) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+
+```
+
+The following tests failed with these errors:
+- test_count_up_to_0:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 3
+E     Use -v to get more diff
+
+- test_count_up_to_1:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 5
+E     Use -v to get more diff
+
+- test_count_up_to_2:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 5
+E     Use -v to get more diff
+
+- test_count_up_to_3:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 7
+E     Use -v to get more diff
+
+- test_count_up_to_5:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 19
+E     Use -v to get more diff
+
+- test_count_up_to_7:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 17
+E     Use -v to get more diff
+
+- test_count_up_to_8:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 43
+E     Use -v to get more diff
+
+- test_count_up_to_9:
+E     At index 0 diff: 3 != 2
+E     Right contains one more item: 97
+E     Use -v to get more diff
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 2: 1.000
+- Line 15: 1.000
+- Line 16: 1.000
+- Line 17: 1.000
+- Line 18: 1.000
+- Line 19: 1.000
+- Line 20: 1.000
+- Line 21: 1.000
+- Line 13: 0.500
+- Line 14: 0.500
+- Line 22: 0.500
+
+Provide your JSON response below.

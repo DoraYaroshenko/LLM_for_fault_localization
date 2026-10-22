@@ -1,0 +1,88 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def rounded_avg(n, m):
+ 3:     """You are given two positive integers n and m, and your task is to compute the
+ 4:     average of the integers from n through m (including n and m). 
+ 5:     Round the answer to the nearest integer and convert that to binary.
+ 6:     If n is greater than m, return -1.
+ 7:     Example:
+ 8:     rounded_avg(1, 5) => "0b11"
+ 9:     rounded_avg(7, 5) => -1
+10:     rounded_avg(10, 20) => "0b1111"
+11:     rounded_avg(20, 33) => "0b11010"
+12:     """
+13:     if m <= n:
+14:         return -1
+15:     summation = 0
+16:     for i in range(n, m+1):
+17:         summation += i
+18:     return bin(round(summation/(m - n + 1)))
+```
+
+### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+from src.humaneval_103 import rounded_avg
+
+import math
+def test_rounded_avg_0():
+    assert rounded_avg(1, 5) == '0b11'
+def test_rounded_avg_1():
+    assert rounded_avg(7, 13) == '0b1010'
+def test_rounded_avg_2():
+    assert rounded_avg(964, 977) == '0b1111001010'
+def test_rounded_avg_3():
+    assert rounded_avg(996, 997) == '0b1111100100'
+def test_rounded_avg_4():
+    assert rounded_avg(560, 851) == '0b1011000010'
+def test_rounded_avg_5():
+    assert rounded_avg(185, 546) == '0b101101110'
+def test_rounded_avg_6():
+    assert rounded_avg(362, 496) == '0b110101101'
+def test_rounded_avg_7():
+    assert rounded_avg(350, 902) == '0b1001110010'
+def test_rounded_avg_8():
+    assert rounded_avg(197, 233) == '0b11010111'
+def test_rounded_avg_9():
+    assert rounded_avg(7, 5) == -1
+def test_rounded_avg_10():
+    assert rounded_avg(5, 1) == -1
+def test_rounded_avg_11():
+    assert rounded_avg(5, 5) == '0b101'
+
+```
+
+The following tests failed with these errors:
+- test_rounded_avg_11:
+    assert rounded_avg(5, 5) == '0b101'
+E   AssertionError: assert -1 == '0b101'
+E    +  where -1 = rounded_avg(5, 5)
+
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 14: 0.846
+- Line 13: 0.500
+- Line 2: 0.000
+- Line 15: 0.000
+- Line 16: 0.000
+- Line 17: 0.000
+- Line 18: 0.000
+
+Provide your JSON response below.

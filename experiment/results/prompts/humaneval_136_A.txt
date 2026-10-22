@@ -1,0 +1,35 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: def largest_smallest_integers(lst):
+ 3:     '''
+ 4:     Create a function that returns a tuple (a, b), where 'a' is
+ 5:     the largest of negative integers, and 'b' is the smallest
+ 6:     of positive integers in a list.
+ 7:     If there is no negative or positive integers, return them as None.
+ 8: 
+ 9:     Examples:
+10:     largest_smallest_integers([2, 4, 1, 3, 5, 7]) == (None, 1)
+11:     largest_smallest_integers([]) == (None, None)
+12:     largest_smallest_integers([0]) == (None, None)
+13:     '''
+14:     smallest = list(filter(lambda x: x < 1, lst))
+15:     largest = list(filter(lambda x: x > 0, lst))
+16:     return (max(smallest) if smallest else None, min(largest) if largest else None)
+```
+
+Provide your JSON response below.

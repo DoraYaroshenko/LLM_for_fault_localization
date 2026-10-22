@@ -1,0 +1,55 @@
+You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+ 1: 
+ 2: 
+ 3: def correct_bracketing(brackets: str):
+ 4:     """ brackets is a string of "<" and ">".
+ 5:     return True if every opening bracket has a corresponding closing bracket.
+ 6: 
+ 7:     >>> correct_bracketing("<")
+ 8:     False
+ 9:     >>> correct_bracketing("<>")
+10:     True
+11:     >>> correct_bracketing("<<><>>")
+12:     True
+13:     >>> correct_bracketing("><<>")
+14:     False
+15:     """
+16:     depth = 0
+17:     for b in brackets:
+18:         if b != '<':
+19:             depth += 1
+20:         else:
+21:             depth -= 1
+22:         if depth < 0:
+23:             return False
+24:     return depth == 0
+```
+
+### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 3: 1.000
+- Line 21: 0.533
+- Line 23: 0.533
+- Line 16: 0.500
+- Line 17: 0.500
+- Line 18: 0.500
+- Line 22: 0.500
+- Line 19: 0.000
+- Line 24: 0.000
+
+Provide your JSON response below.

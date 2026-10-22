@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMs for Fault Localization - Study Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>LLMs for Fault Localization in Python Methods</h1>
+        <p class="subtitle">Empirical Software Engineering Study Report by Dora Yaroshenko and Lilac Gil-Ad</p>
+    </header>
+
+    <main>
+        <section id="overview">
+            <h2>1. Overview</h2>
+            <p><strong>Project Goals:</strong> This study evaluates the effectiveness of Large Language Models (LLMs) in localizing faults within buggy Python methods. We examine performance under varying levels of contextual information, including providing tests and Spectrum-Based Fault Localization (SBFL) data (specifically, Tarantula rankings).</p>
+            <p><strong>Benchmark Used:</strong> A curated subset of 30 methods from the OpenAI HumanEval dataset (chosen to ensure each has a natural-language specification and at least 10 tests), each mutated to contain exactly one testable, localizable bug.</p>
+            <p><strong>Summary of Findings:</strong> Providing SBFL rankings (Tarantula) alongside the source code actually degraded performance for the models tested in this experiment. Providing tests alone (Condition B) yielded the highest accuracy. The models struggled to correctly utilize the numerical SBFL rankings, often performing worse than when given just the code or code with tests.</p>
+        </section>
+
+        <section id="dataset">
+            <h2>2. Dataset</h2>
+            <p><strong>Source:</strong> <a href="https://github.com/openai/human-eval">openai/human-eval</a></p>
+            <p><strong>Number of Methods:</strong> 30</p>
+            <p><strong>Total Tests:</strong> 376</p>
+            <p><strong>Original Test Coverage:</strong> 99% overall line coverage across the 30 benchmark methods.</p>
+            <p><strong>Test Extraction Strategy:</strong> The tests for each method come directly from the official OpenAI HumanEval dataset. In the raw dataset, tests are provided as a single <code>check()</code> function containing multiple assertions. We used Python's <code>ast</code> module to parse this block and extract each <code>assert</code> statement into its own standalone <code>pytest</code> function. This separation is critical for Spectrum-Based Fault Localization (Tarantula), as it requires an accurate count of both passing and failing tests; if all assertions were left in a single block, execution would halt at the first failure, masking the results of subsequent assertions.</p>
+            <p><strong>Mutation Strategy:</strong> We utilized a custom AST-based mutation generator (<code>ast.NodeTransformer</code>) to automatically generate mutants. The script parses the original Python method into an Abstract Syntax Tree (AST), traverses it to locate targeted operators (binary, comparison, boolean) and integer constants. For each method, it systematically applies <em>exactly one</em> modification (e.g., swapping a single operator for its logical opposite, OR incrementing a single integer constant by 1), ensuring that each mutant contains exactly one localizable fault. For each generated mutant candidate, the AST is unparsed back into source code, and a rigorous automated testing validation process is applied. Crucially, the generator preferentially selects a mutant that causes <em>partial test failure</em> (some passing tests, some failing tests) to provide the optimal signal-to-noise ratio for Spectrum-Based Fault Localization, falling back to fully failing mutants only if no partial failure exists.</p>
+            <p><strong>Example of a Bug:</strong> Swapping a single arithmetic operator (e.g., modifying <code>n - 1</code> to <code>n + 1</code>) in a prime-checking function, OR changing a single integer constant like <code>0</code> to <code>1</code>.</p>
+            <h3>Dataset Table</h3>
+            <table>
+<tr><th>Task ID</th><th>Entry Point</th><th>Total Tests</th><th>Original Passed</th><th>Buggy Passed</th><th>Buggy Failed</th></tr>
+<tr><td>HumanEval/31</td><td><code>is_prime</code></td><td>13</td><td>13</td><td>12</td><td>1</td></tr>
+<tr><td>HumanEval/39</td><td><code>prime_fib</code></td><td>10</td><td>10</td><td>3</td><td>7</td></tr>
+<tr><td>HumanEval/56</td><td><code>correct_bracketing</code></td><td>12</td><td>12</td><td>8</td><td>4</td></tr>
+<tr><td>HumanEval/61</td><td><code>correct_bracketing</code></td><td>12</td><td>12</td><td>8</td><td>4</td></tr>
+<tr><td>HumanEval/66</td><td><code>digitSum</code></td><td>10</td><td>10</td><td>9</td><td>1</td></tr>
+<tr><td>HumanEval/68</td><td><code>pluck</code></td><td>10</td><td>10</td><td>6</td><td>4</td></tr>
+<tr><td>HumanEval/69</td><td><code>search</code></td><td>25</td><td>25</td><td>20</td><td>5</td></tr>
+<tr><td>HumanEval/70</td><td><code>strange_sort_list</code></td><td>10</td><td>10</td><td>2</td><td>8</td></tr>
+<tr><td>HumanEval/74</td><td><code>total_match</code></td><td>11</td><td>11</td><td>10</td><td>1</td></tr>
+<tr><td>HumanEval/75</td><td><code>is_multiply_prime</code></td><td>10</td><td>10</td><td>9</td><td>1</td></tr>
+<tr><td>HumanEval/76</td><td><code>is_simple_power</code></td><td>10</td><td>10</td><td>9</td><td>1</td></tr>
+<tr><td>HumanEval/82</td><td><code>prime_length</code></td><td>16</td><td>16</td><td>15</td><td>1</td></tr>
+<tr><td>HumanEval/92</td><td><code>any_int</code></td><td>10</td><td>10</td><td>9</td><td>1</td></tr>
+<tr><td>HumanEval/96</td><td><code>count_up_to</code></td><td>10</td><td>10</td><td>2</td><td>8</td></tr>
+<tr><td>HumanEval/103</td><td><code>rounded_avg</code></td><td>12</td><td>12</td><td>11</td><td>1</td></tr>
+<tr><td>HumanEval/114</td><td><code>minSubArraySum</code></td><td>12</td><td>12</td><td>9</td><td>3</td></tr>
+<tr><td>HumanEval/118</td><td><code>get_closest_vowel</code></td><td>14</td><td>14</td><td>13</td><td>1</td></tr>
+<tr><td>HumanEval/119</td><td><code>match_parens</code></td><td>12</td><td>12</td><td>9</td><td>3</td></tr>
+<tr><td>HumanEval/120</td><td><code>maximum</code></td><td>11</td><td>11</td><td>8</td><td>3</td></tr>
+<tr><td>HumanEval/124</td><td><code>valid_date</code></td><td>16</td><td>16</td><td>15</td><td>1</td></tr>
+<tr><td>HumanEval/126</td><td><code>is_sorted</code></td><td>13</td><td>13</td><td>12</td><td>1</td></tr>
+<tr><td>HumanEval/128</td><td><code>prod_signs</code></td><td>10</td><td>10</td><td>8</td><td>2</td></tr>
+<tr><td>HumanEval/129</td><td><code>minPath</code></td><td>11</td><td>11</td><td>10</td><td>1</td></tr>
+<tr><td>HumanEval/130</td><td><code>tri</code></td><td>10</td><td>10</td><td>9</td><td>1</td></tr>
+<tr><td>HumanEval/132</td><td><code>is_nested</code></td><td>14</td><td>14</td><td>12</td><td>2</td></tr>
+<tr><td>HumanEval/133</td><td><code>sum_squares</code></td><td>12</td><td>12</td><td>1</td><td>11</td></tr>
+<tr><td>HumanEval/134</td><td><code>check_if_last_char_is_a_letter</code></td><td>11</td><td>11</td><td>10</td><td>1</td></tr>
+<tr><td>HumanEval/136</td><td><code>largest_smallest_integers</code></td><td>12</td><td>12</td><td>9</td><td>3</td></tr>
+<tr><td>HumanEval/141</td><td><code>file_name_check</code></td><td>26</td><td>26</td><td>25</td><td>1</td></tr>
+<tr><td>HumanEval/142</td><td><code>sum_squares</code></td><td>11</td><td>11</td><td>7</td><td>4</td></tr>
+</table>
+        </section>
+
+        <section id="experimental-design">
+            <h2>3. Experimental Design</h2>
+            <p><strong>Models Evaluated:</strong></p>
+            <ul>
+                <li><code>nvidia_nemotron-3.5-lightning_free</code></li><li><code>openai_gpt-oss-20b_free</code></li>
+            </ul>
+            <p><strong>Information Conditions:</strong></p>
+            <ul>
+                <li><strong>Condition A (Code Only):</strong> Buggy method + intended behavior.</li>
+                <li><strong>Condition B (Code + Tests):</strong> Condition A + passing/failing tests.</li>
+                <li><strong>Condition C (Code + SBFL):</strong> Condition A + Tarantula ranking.</li>
+                <li><strong>Condition D (Code + Tests + SBFL):</strong> Condition B + Tarantula ranking.</li>
+            </ul>
+            <p><strong>Prompt Templates:</strong></p>
+            <p>The base prompt template used for all models under Condition A is shown below.</p>
+            <pre><code>You are an expert software developer and tester.
+Do not repair the program. Your task is only to identify the most likely faulty line or small faulty region.
+You must return ONLY a valid JSON object exactly matching this structure, with no other conversational text or markdown formatting (do not wrap in ```json).
+IMPORTANT: The `top_3_lines` list MUST be ordered by suspiciousness, from most suspicious (1st) to least suspicious (3rd).
+
+{
+  "top_1_line": 12,
+  "top_3_lines": [12, 14, 9],
+  "faulty_region": "loop condition",
+  "explanation": "The loop condition may terminate before the last candidate is checked."
+}
+
+Here is the buggy Python method. The docstring describes its intended behavior.
+Lines are numbered for your reference.
+
+```python
+{BUGGY_CODE}
+```
+
+Provide your JSON response below.
+</code></pre>
+            <p>For Condition B, the following tests section (dynamically populated) was appended before the JSON format request:</p>
+            <pre><code>### Test Suite
+Here is the full test suite code executed against the buggy method.
+
+```python
+{TEST_SUITE_CODE}
+```
+
+The following tests failed with these errors:
+- test_example_3:
+    assert is_prime(4) == False
+E   assert True == False
+E    +  where True = is_prime(4)
+
+Provide your JSON response below.
+</code></pre>
+            <p>For Condition C, the following SBFL ranking section was appended before the JSON format request:</p>
+            <pre><code>### Tarantula Suspiciousness Ranking
+The following lines have been ranked by the Tarantula spectrum-based fault localization formula. A higher score means the line is more suspicious.
+- Line 25: 0.632
+- Line 22: 0.522
+- Line 20: 0.500
+- Line 3: 0.000
+- Line 21: 0.000
+- Line 23: 0.000
+- Line 24: 0.000
+
+Provide your JSON response below.
+</code></pre>
+            <p>For Condition D, both the tests and SBFL sections were appended.</p>
+            <p><strong>Metrics:</strong> Top-1 exact-line accuracy, Top-3 accuracy, Region accuracy, Mean Reciprocal Rank (MRR), and Invalid-output rate.</p>
+            <p><strong>Region Accuracy Details:</strong> Because evaluating the natural language <code>faulty_region</code> description programmatically is difficult, "Region Accuracy" in this study is calculated by checking if the model's <code>top_1_line</code> prediction falls within a +/- 2 line radius of the exact ground truth line.</p>
+            <p><strong>MRR Calculation Details:</strong> For each evaluated method, the ground truth line is matched against the LLM's predictions. If it exactly matches the Top-1 prediction, the rank is 1. If it appears in the Top-3 list, the rank is its index plus 1 (e.g., 2 or 3). If it is not in the Top-3, the rank is 0. The reciprocal rank is calculated as <code>1.0 / rank</code> (or 0.0 if the rank is 0). The MRR for a condition is the average of these reciprocal ranks across all methods.</p>
+            <p><strong>Procedure:</strong> For each of the 30 methods, the 4 conditions were queried 1 time (1 repetition) per model at a temperature of 0.0, to ensure maximum determinism. Outputs were then parsed and evaluated against ground truth lines.</p>
+        </section>
+
+        <section id="validation">
+            <h2>4. Validation of the Experiment Infrastructure</h2>
+            <p>To ensure the reliability of this empirical study, the automated experimental pipeline was rigorously tested using `pytest`.</p>
+            <ul>
+                <li><strong>Mutation Generation</strong> (<code>test_mutant_generator.py</code>): Tests confirm that exactly one valid mutant is selected, the original passes, the mutant fails at least one test, and equivalent mutants are discarded.</li>
+                <li><strong>SBFL & Coverage</strong> (<code>test_sbfl_computation.py</code>, <code>test_coverage_aggregation.py</code>): Unit tests validate the Tarantula formula against known mock pass/fail execution matrices, and ensure coverage logs are parsed correctly.</li>
+                <li><strong>Metrics, Results & Parsing</strong> (<code>test_metrics_and_parsing.py</code>): Tests confirm that both well-formed and slightly malformed JSON outputs are parsed correctly from the LLM, and that metrics calculations (Top-1, MRR) are exact.</li>
+                <li><strong>HTML Generation</strong> (<code>test_html_generation.py</code>): Verifies that the final report structure is built properly from the generated data.</li>
+                <li><strong>Number of Infrastructure Tests:</strong> 33 infrastructure tests were executed.</li>
+                <li><strong>Coverage:</strong> The test suite achieved an overall coverage of 83% across all scripts, with over 85% average line coverage on the core experimental logic including mutation generation, SBFL computation, metrics calculation, prompt generation, plot generation, and report generation.</li>
+            </ul>
+            <p><strong>Examples of Bugs Found During Validation:</strong> Initially, the SBFL script failed to correctly map coverage lines to the source file offsets. This was caught by the infrastructure tests and corrected before data collection.</p>
+            <p><strong>Remaining Limitations:</strong> Test coverage for the LLM evaluation orchestration script (`run_llm_evaluation.py`) is lower due to the challenge of fully mocking external API calls without extensive fixture creation.</p>
+        </section>
+
+        <section id="results">
+            <h2>5. Results</h2>
+            <p><strong>Interpretation of Findings:</strong> Providing Tests alone (Cond B) resulted in the best performance for both models tested. Interestingly, providing Tarantula rankings (Cond C, D) led to a significant decrease in accuracy, particularly for <code>nvidia/nemotron-3.5-lightning-free</code>, whose Top-1 accuracy dropped from 80% to 26%. This suggests that these specific models struggle to interpret the numerical suspiciousness scores and are distracted by them rather than aided by them. Unlike some other models that fail due to schema breakage, these models maintained a low invalid-output rate, meaning they successfully produced JSON but localized the wrong line.</p>
+            <h3>Answers to Research Questions</h3>
+            <ul>
+                <li><strong>RQ1 — Baseline Fault Localization:</strong> When given only the buggy method and intended behavior (Cond A), both models showed a strong baseline ability to localize faults, with Top-1 accuracy around 73-80%.</li>
+                <li><strong>RQ2 — Effect of Test Information:</strong> Providing passing and failing tests (Cond B) improved Top-1 accuracy and MRR for both models, establishing it as the most effective context condition in this experiment.</li>
+                <li><strong>RQ3 — Effect of SBFL Information:</strong> Providing a spectrum-based fault-localization ranking like Tarantula (Cond C) degraded Top-1 accuracy and Mean Reciprocal Rank (MRR) for both models compared to the baseline (Cond A).</li>
+                <li><strong>RQ4 — Combining Tests and SBFL:</strong> Combining test information with an SBFL ranking (Cond D) performed worse than providing tests alone (Cond B), confirming that the SBFL data acted as a negative distractor for these models.</li>
+                <li><strong>RQ5 — Model Comparison:</strong> Both models exhibited similar trends, though <code>nvidia/nemotron-3.5-lightning-free</code> was far more negatively impacted by the SBFL data than <code>openai/gpt-oss-20b-free</code>. Both maintained good JSON formatting adherence across all conditions.</li>
+            </ul>
+            <p><em>Per-Bug-Type Metrics:</em> Our AST mutator categorizes bugs into specific mutation operators. The table below breaks down the overall performance of each model across these different bug categories.</p>
+            <h3>Performance by Bug Type (Overall)</h3>
+<table>
+<tr><th>Bug Type</th><th>Model</th><th>N (queries)</th><th>Top-1 Acc</th><th>Top-3 Acc</th><th>MRR</th></tr>
+<tr><td><code>boundary_condition_change</code></td><td>nvidia_nemotron-3.5-lightning_free</td><td>4</td><td>0.50</td><td>1.00</td><td>0.75</td></tr>
+<tr><td><code>boundary_condition_change</code></td><td>openai_gpt-oss-20b_free</td><td>4</td><td>0.75</td><td>1.00</td><td>0.88</td></tr>
+<tr><td><code>constant_change</code></td><td>nvidia_nemotron-3.5-lightning_free</td><td>96</td><td>0.54</td><td>0.77</td><td>0.65</td></tr>
+<tr><td><code>constant_change</code></td><td>openai_gpt-oss-20b_free</td><td>96</td><td>0.71</td><td>0.89</td><td>0.79</td></tr>
+<tr><td><code>comparison_operator_change</code></td><td>nvidia_nemotron-3.5-lightning_free</td><td>12</td><td>0.50</td><td>0.58</td><td>0.54</td></tr>
+<tr><td><code>comparison_operator_change</code></td><td>openai_gpt-oss-20b_free</td><td>12</td><td>0.83</td><td>0.92</td><td>0.88</td></tr>
+<tr><td><code>arithmetic_operator_change</code></td><td>nvidia_nemotron-3.5-lightning_free</td><td>8</td><td>0.50</td><td>0.75</td><td>0.58</td></tr>
+<tr><td><code>arithmetic_operator_change</code></td><td>openai_gpt-oss-20b_free</td><td>8</td><td>1.00</td><td>1.00</td><td>1.00</td></tr>
+</table>
+<br>
+
+            <h3>Model: nvidia_nemotron-3.5-lightning_free</h3>
+<table>
+<tr><th>Condition</th><th>Top-1 Acc</th><th>Top-3 Acc</th><th>Region Acc</th><th>Invalid Rate</th><th>MRR</th></tr>
+<tr><td>A</td><td>0.80</td><td>0.87</td><td>0.93</td><td>0.03</td><td>0.83</td></tr>
+<tr><td>B</td><td>0.80</td><td>0.93</td><td>0.93</td><td>0.00</td><td>0.86</td></tr>
+<tr><td>C</td><td>0.27</td><td>0.63</td><td>0.57</td><td>0.03</td><td>0.43</td></tr>
+<tr><td>D</td><td>0.27</td><td>0.60</td><td>0.57</td><td>0.00</td><td>0.42</td></tr>
+<tr style='background-color: #eee; font-weight: bold;'><td>Overall</td><td>0.53</td><td>0.76</td><td>0.75</td><td>0.02</td><td>0.63</td></tr>
+</table>
+<br>
+<h3>Model: openai_gpt-oss-20b_free</h3>
+<table>
+<tr><th>Condition</th><th>Top-1 Acc</th><th>Top-3 Acc</th><th>Region Acc</th><th>Invalid Rate</th><th>MRR</th></tr>
+<tr><td>A</td><td>0.73</td><td>0.90</td><td>0.83</td><td>0.07</td><td>0.82</td></tr>
+<tr><td>B</td><td>0.83</td><td>0.97</td><td>0.90</td><td>0.03</td><td>0.89</td></tr>
+<tr><td>C</td><td>0.63</td><td>0.87</td><td>0.90</td><td>0.03</td><td>0.74</td></tr>
+<tr><td>D</td><td>0.77</td><td>0.87</td><td>0.83</td><td>0.03</td><td>0.81</td></tr>
+<tr style='background-color: #eee; font-weight: bold;'><td>Overall</td><td>0.74</td><td>0.90</td><td>0.87</td><td>0.04</td><td>0.82</td></tr>
+</table>
+<br>
+
+            <div class="plots-container">
+                <div class="plot-item">
+                    <img src="assets/overall_models.png" alt="Overall Model Comparison">
+                    <p class="caption">Figure 1: Overall accuracy comparison across tested models.</p>
+                </div>
+                <div class="plot-item"><img src="assets/nvidia_nemotron-3.5-lightning_free_conditions.png" alt="Accuracy by Condition - nvidia_nemotron-3.5-lightning_free"><p class="caption">Figure 2: Accuracy by Condition for nvidia_nemotron-3.5-lightning_free.</p></div><div class="plot-item"><img src="assets/openai_gpt-oss-20b_free_conditions.png" alt="Accuracy by Condition - openai_gpt-oss-20b_free"><p class="caption">Figure 3: Accuracy by Condition for openai_gpt-oss-20b_free.</p></div>
+            </div>
+        </section>
+
+        <section id="qualitative-analysis">
+            <h2>6. Qualitative Analysis</h2>
+            <p><strong>Challenge of Analyzing Faulty Regions:</strong> The <code>faulty_region</code> field in the LLM's JSON output posed a unique challenge. Because it is written in open-ended Natural Language (NL), it is difficult to automatically evaluate for correctness using a purely programmatic script. While <code>top_1_line</code> allows for strict integer matching against ground truth, assessing whether a natural language description (e.g., "the loop bounds" or "conditional check") accurately describes the faulty region requires manual, qualitative review. This highlights a limitation in scaling automated evaluations for qualitative LLM outputs.</p>
+            <p><strong>Examples where tests helped:</strong> Providing the specific failing test cases allowed the models to deduce exactly which sub-condition or edge case was flawed. For example, in <code>is_prime</code>, a mutant with a boundary condition bug failed on specific composite numbers, and seeing the exact `AssertionError` for those numbers in Condition B helped the LLM instantly pinpoint the loop bounds.</p>
+            <p><strong>Examples where Tarantula misled the model:</strong> Unlike more advanced models that might leverage Tarantula effectively, the models in this experiment were severely misled by the numerical rankings. For example, in <code>is_prime</code>, Tarantula assigned high suspiciousness to a <code>return True</code> statement simply because it was executed by failing tests, while the actual faulty loop condition was ranked lower. The models blindly chose the highly-ranked <code>return True</code> line, completely failing to analyze the logic. This caused a massive drop in accuracy for the Nemotron model in Conditions C and D.</p>
+            <p><strong>Examples where Tarantula helped:</strong> Although SBFL data degraded performance on average, there were isolated instances where it provided the crucial signal needed. For example, on <code>humaneval_130</code> (<code>tri</code>) and <code>humaneval_141</code> (<code>file_name_check</code>), providing Tarantula rankings alongside tests (Condition D) allowed the models to correctly pinpoint the exact faulty line when they had previously failed to do so with tests alone (Condition B). In these specific cases, the true faulty line likely had a uniquely high Tarantula score that successfully guided the model's attention.</p>
+            <p><strong>Examples of plausible but wrong explanations:</strong> In several instances, the models correctly identified the exact faulty line (achieving a Top-1 hit), but provided an entirely incorrect or nonsensical reasoning in the <code>explanation</code> field, often hallucinating bugs in other correct parts of the code. For example, in <code>humaneval_124</code> (<code>valid_date</code>), the Nemotron model correctly pinpointed that <code>month &lt; 2</code> was the injected fault. However, its explanation then rambled on to confidently assert that the original, correct code on subsequent lines contained "operator precedence bugs" that caused day-threshold checks to fail, which was completely false.</p>
+            <p><strong>Causes of Invalid Responses (Instruction Ignoring):</strong> The invalid-output rates observed in this study were heavily driven by instruction-following failures. The models frequently struggled with the negative constraint <em>"Do not repair the program,"</em> showing a stubborn tendency to output repaired code snippets instead of simply explaining the fault. These unprompted code blocks often broke the requested JSON schema, rendering the output unparseable and invalid.</p>
+        </section>
+
+        <section id="threats-to-validity">
+            <h2>7. Threats to Validity</h2>
+            <ul>
+                <li><strong>Benchmark Representativeness:</strong> HumanEval consists of relatively short, algorithmic Python functions. Results may not generalize to large, multi-file object-oriented codebases.</li>
+                <li><strong>LLM Nondeterminism:</strong> Despite setting temperature to 0.0, API routing, floating point variances in GPUs, and silent model updates can introduce slight variations in output.</li>
+                <li><strong>Mutant Realism:</strong> While our generator explicitly targets <em>partial failures</em> (mutants that pass some tests and fail others) to maximize SBFL signal, these automatically generated faults (e.g., swapping a single operator) may not fully capture the complexity and subtlety of real-world logic bugs introduced by human developers.</li>
+                <li><strong>Oracle Limitations:</strong> The test suites from HumanEval are robust but not entirely comprehensive; they may lack edge cases that real-world test suites would cover.</li>
+                <li><strong>Prompt Sensitivity:</strong> The chosen JSON formatting prompt template might disproportionately affect certain models (e.g., poolside laguna), causing higher invalid rates.</li>
+                <li><strong>API Failures and Rate Limits:</strong> Free OpenRouter models have strict rate limits, and network instability or 429 errors may have caused dropped queries or required multiple retries, potentially affecting timing and consistency.</li>
+                <li><strong>Measurement Bias:</strong> Top-1 and Top-3 accuracy measure exact line matches. Some bugs can theoretically be fixed on adjacent lines, meaning these metrics might strictly underestimate the model's true fault localization capability.</li>
+            </ul>
+        </section>
+
+        <section id="reproducibility">
+            <h2>8. Reproducibility</h2>
+            <p>A full reproducible artifact has been provided. Please see the <code>README.md</code> in the repository root for exact commands.</p>
+            <p><strong>Environment Setup:</strong> Install Python 3.12+, create a virtual environment, and install dependencies via <code>pip install -r requirements.txt</code>.</p>
+            <p><strong>Dependency Setup:</strong> Core dependencies include <code>pytest</code>, <code>pytest-cov</code>, and <code>matplotlib</code>.</p>
+            <p><strong>OpenRouter Setup:</strong> To reproduce Phase 3, you must supply valid OpenRouter API keys in an <code>openrouter_keys.json</code> file at the project root.</p>
+            <p><strong>Exact Commands:</strong></p>
+            <pre><code>python experiment/scripts/generate_mutants.py
+python -m pytest experiment/tests/infrastructure
+python -m pytest experiment/tests/ --ignore=experiment/tests/infrastructure
+python experiment/scripts/generate_test_results_report.py
+python experiment/scripts/run_sbfl.py
+python experiment/scripts/generate_prompts.py
+python experiment/scripts/run_llm_evaluation.py
+python experiment/scripts/compute_metrics.py
+python experiment/scripts/generate_plots.py
+python experiment/scripts/generate_report.py</code></pre>
+        </section>
+
+        <section id="ai-tools">
+            <h2>9. Use of AI Tools</h2>
+            <p>AI tools (specifically Gemini 3.1 Pro via Antigravity IDE) were utilized extensively throughout this project to:</p>
+            <ul>
+                <li>Scaffold the Python project and write the custom AST-based mutation and validation scripts.</li>
+                <li>Implement the Tarantula formula and coverage extraction logic.</li>
+                <li>Generate plotting and HTML reporting scripts.</li>
+            </ul>
+            <p>All AI-generated code was manually reviewed, and extensive unit tests (in <code>tests/infrastructure</code>) were written to ensure correctness. Bugs in the generated infrastructure (e.g., coverage mapping discrepancies) were discovered by these tests and subsequently corrected by prompting the AI tool to fix the identified logic.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Assignment 2: LLMs for Fault Localization</p>
+    </footer>
+</body>
+</html>

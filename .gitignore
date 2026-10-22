@@ -1,0 +1,17 @@
+# Secrets
+.env
+openrouter_keys.json
+ 
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+coverage.json
+htmlcov/
+ 
+# Large or generated files
+*.zip
+*.mp4
+*.log

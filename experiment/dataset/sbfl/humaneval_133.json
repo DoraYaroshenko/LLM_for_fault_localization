@@ -1,0 +1,23 @@
+{
+  "tarantula": {
+    "3": 1.0,
+    "16": 0.5,
+    "17": 0.5,
+    "18": 0.5,
+    "19": 0.5,
+    "20": 0.5
+  },
+  "failing_tests": {
+    "test_sum_squares_0": "tests\\test_humaneval_133.py:5: in test_sum_squares_0\n    assert sum_squares([1, 2, 3]) == 14, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 36 == 14\nE    +  where 36 = sum_squares([1, 2, 3])",
+    "test_sum_squares_1": "tests\\test_humaneval_133.py:7: in test_sum_squares_1\n    assert sum_squares([1.0, 2, 3]) == 14, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 36 == 14\nE    +  where 36 = sum_squares([1.0, 2, 3])",
+    "test_sum_squares_2": "tests\\test_humaneval_133.py:9: in test_sum_squares_2\n    assert sum_squares([1, 3, 5, 7]) == 84, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 496 == 84\nE    +  where 496 = sum_squares([1, 3, 5, 7])",
+    "test_sum_squares_3": "tests\\test_humaneval_133.py:11: in test_sum_squares_3\n    assert sum_squares([1.4, 4.2, 0]) == 29, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 133 == 29\nE    +  where 133 = sum_squares([1.4, 4.2, 0])",
+    "test_sum_squares_4": "tests\\test_humaneval_133.py:13: in test_sum_squares_4\n    assert sum_squares([-2.4, 1, 1]) == 6, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert -6 == 6\nE    +  where -6 = sum_squares([-2.4, 1, 1])",
+    "test_sum_squares_5": "tests\\test_humaneval_133.py:15: in test_sum_squares_5\n    assert sum_squares([100, 1, 15, 2]) == 10230, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 1003384 == 10230\nE    +  where 1003384 = sum_squares([100, 1, 15, 2])",
+    "test_sum_squares_6": "tests\\test_humaneval_133.py:17: in test_sum_squares_6\n    assert sum_squares([10000, 10000]) == 200000000, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 2000000000000 == 200000000\nE    +  where 2000000000000 = sum_squares([10000, 10000])",
+    "test_sum_squares_7": "tests\\test_humaneval_133.py:19: in test_sum_squares_7\n    assert sum_squares([-1.4, 4.6, 6.3]) == 75, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 467 == 75\nE    +  where 467 = sum_squares([-1.4, 4.6, 6.3])",
+    "test_sum_squares_8": "tests\\test_humaneval_133.py:21: in test_sum_squares_8\n    assert sum_squares([-1.4, 17.9, 18.9, 19.9]) == 1086, 'This prints if this assert fails 1 (good for debugging!)'\nE   AssertionError: This prints if this assert fails 1 (good for debugging!)\nE   assert 20690 == 1086\nE    +  where 20690 = sum_squares([-1.4, 17.9, 18.9, 19.9])",
+    "test_sum_squares_10": "tests\\test_humaneval_133.py:25: in test_sum_squares_10\n    assert sum_squares([-1]) == 1, 'This prints if this assert fails 2 (also good for debugging!)'\nE   AssertionError: This prints if this assert fails 2 (also good for debugging!)\nE   assert -1 == 1\nE    +  where -1 = sum_squares([-1])",
+    "test_sum_squares_11": "tests\\test_humaneval_133.py:27: in test_sum_squares_11\n    assert sum_squares([-1, 1, 0]) == 2, 'This prints if this assert fails 2 (also good for debugging!)'\nE   AssertionError: This prints if this assert fails 2 (also good for debugging!)\nE   assert 0 == 2\nE    +  where 0 = sum_squares([-1, 1, 0])"
+  }
+}

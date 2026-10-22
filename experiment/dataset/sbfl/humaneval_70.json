@@ -1,0 +1,20 @@
+{
+  "tarantula": {
+    "2": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "13": 0.6666666666666666,
+    "14": 0.6666666666666666,
+    "18": 0.0
+  },
+  "failing_tests": {
+    "test_strange_sort_list_0": "tests\\test_humaneval_70.py:5: in test_strange_sort_list_0\n    assert strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_1": "tests\\test_humaneval_70.py:7: in test_strange_sort_list_1\n    assert strange_sort_list([5, 6, 7, 8, 9]) == [5, 9, 6, 8, 7]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_2": "tests\\test_humaneval_70.py:9: in test_strange_sort_list_2\n    assert strange_sort_list([1, 2, 3, 4, 5]) == [1, 5, 2, 4, 3]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_3": "tests\\test_humaneval_70.py:11: in test_strange_sort_list_3\n    assert strange_sort_list([5, 6, 7, 8, 9, 1]) == [1, 9, 5, 8, 6, 7]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_4": "tests\\test_humaneval_70.py:13: in test_strange_sort_list_4\n    assert strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_6": "tests\\test_humaneval_70.py:17: in test_strange_sort_list_6\n    assert strange_sort_list([1, 2, 3, 4, 5, 6, 7, 8]) == [1, 8, 2, 7, 3, 6, 4, 5]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_7": "tests\\test_humaneval_70.py:19: in test_strange_sort_list_7\n    assert strange_sort_list([0, 2, 2, 2, 5, 5, -5, -5]) == [-5, 5, -5, 5, 0, 2, 2, 2]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range",
+    "test_strange_sort_list_8": "tests\\test_humaneval_70.py:21: in test_strange_sort_list_8\n    assert strange_sort_list([111111]) == [111111]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\humaneval_70.py:16: in strange_sort_list\n    lst.remove(res[-2])\n               ^^^^^^^\nE   IndexError: list index out of range"
+  }
+}
